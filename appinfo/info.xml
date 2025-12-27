@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2024 TablesPro - Fork of Nextcloud Tables
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-	<id>tables</id>
-	<name>Tables</name>
-	<summary>Manage data the way you need it.</summary>
-	<description><![CDATA[Manage data the way you need it.
+	<id>tablespro</id>
+	<name>TablesPro</name>
+	<summary>Advanced table management with groups, summaries and colored statuses.</summary>
+	<description><![CDATA[TablesPro - Enhanced Tables for Nextcloud
 
-With this app you are able to create your own tables with individual columns. You can start with a template or from scratch and add your wanted columns.
-You can choose from the following column types:
+An advanced fork of Nextcloud Tables with Monday.com-like features:
+- Row Groups (collapsible sections)
+- Summary rows (SUM, COUNT, percentage statistics)
+- Colored status/selection columns
+- Progress bar visualization
+
+Original columns supported:
 - Text line or rich text
 - Link to urls or other nextcloud resources
 - Numbers
@@ -18,25 +23,23 @@ You can choose from the following column types:
 - Stars rating
 - Yes/No tick
 - Date and/or time
-- (Multi) selection
+- (Multi) selection with colors
 - Users, groups and teams
 
 Share your tables and views with users and groups within your cloud.
 
-Have a good time and manage whatever you want.
-
 ]]></description>
-	<version>2.0.0-alpha.1</version>
+	<version>1.0.0</version>
 	<licence>agpl</licence>
-	<author mail="florian.steffens@nextcloud.com">Florian Steffens</author>
-	<namespace>Tables</namespace>
+	<author>Dzo4e2250</author>
+	<namespace>TablesPro</namespace>
 	<documentation>
-		<user>https://github.com/nextcloud/tables/wiki</user>
-		<admin>https://github.com/nextcloud/tables/wiki/Administration</admin>
+		<user>https://github.com/Dzo4e2250/TablesPro/wiki</user>
+		<admin>https://github.com/Dzo4e2250/TablesPro/wiki</admin>
 	</documentation>
 	<category>office</category>
-	<website>https://github.com/nextcloud/tables</website>
-	<bugs>https://github.com/nextcloud/tables/issues</bugs>
+	<website>https://github.com/Dzo4e2250/TablesPro</website>
+	<bugs>https://github.com/Dzo4e2250/TablesPro/issues</bugs>
 	<screenshot small-thumbnail="https://raw.githubusercontent.com/nextcloud/tables/main/screenshots/sh-tables-1-small.png">https://raw.githubusercontent.com/nextcloud/tables/main/screenshots/sh-tables-1.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/tables/main/screenshots/sh-tables-2.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/tables/main/screenshots/sh-tables-3.png</screenshot>
@@ -52,40 +55,40 @@ Have a good time and manage whatever you want.
 	</dependencies>
 	<repair-steps>
 		<pre-migration>
-			<step>OCA\Tables\Migration\FixContextsDefaults</step>
+			<step>OCA\TablesPro\Migration\FixContextsDefaults</step>
 		</pre-migration>
 		<post-migration>
-			<step>OCA\Tables\Migration\NewDbStructureRepairStep</step>
-			<step>OCA\Tables\Migration\DbRowSleeveSequence</step>
+			<step>OCA\TablesPro\Migration\NewDbStructureRepairStep</step>
+			<step>OCA\TablesPro\Migration\DbRowSleeveSequence</step>
 		</post-migration>
 	</repair-steps>
 	<commands>
-		<command>OCA\Tables\Command\ListTables</command>
-		<command>OCA\Tables\Command\AddTable</command>
-		<command>OCA\Tables\Command\RemoveTable</command>
-		<command>OCA\Tables\Command\RenameTable</command>
-		<command>OCA\Tables\Command\ChangeOwnershipTable</command>
-		<command>OCA\Tables\Command\ListContexts</command>
-		<command>OCA\Tables\Command\ShowContext</command>
-		<command>OCA\Tables\Command\Clean</command>
-		<command>OCA\Tables\Command\CleanLegacy</command>
-		<command>OCA\Tables\Command\TransferLegacyRows</command>
+		<command>OCA\TablesPro\Command\ListTables</command>
+		<command>OCA\TablesPro\Command\AddTable</command>
+		<command>OCA\TablesPro\Command\RemoveTable</command>
+		<command>OCA\TablesPro\Command\RenameTable</command>
+		<command>OCA\TablesPro\Command\ChangeOwnershipTable</command>
+		<command>OCA\TablesPro\Command\ListContexts</command>
+		<command>OCA\TablesPro\Command\ShowContext</command>
+		<command>OCA\TablesPro\Command\Clean</command>
+		<command>OCA\TablesPro\Command\CleanLegacy</command>
+		<command>OCA\TablesPro\Command\TransferLegacyRows</command>
 	</commands>
 	<activity>
 		<settings>
-			<setting>OCA\Tables\Activity\SettingChanges</setting>
+			<setting>OCA\TablesPro\Activity\SettingChanges</setting>
 		</settings>
 		<filters>
-			<filter>OCA\Tables\Activity\Filter</filter>
+			<filter>OCA\TablesPro\Activity\Filter</filter>
 		</filters>
 		<providers>
-			<provider>OCA\Tables\Activity\TablesProvider</provider>
+			<provider>OCA\TablesPro\Activity\TablesProvider</provider>
 		</providers>
 	</activity>
 	<navigations>
 		<navigation>
-			<name>Tables</name>
-			<route>tables.page.index</route>
+			<name>TablesPro</name>
+			<route>tablespro.page.index</route>
 		</navigation>
 	</navigations>
 </info>

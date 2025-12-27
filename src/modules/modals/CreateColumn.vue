@@ -4,7 +4,7 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Create column')"
+		:name="t('tablespro', 'Create column')"
 		size="large"
 		@closing="actionCancel">
 		<div class="modal__content create-column">
@@ -21,7 +21,7 @@
 				<div class="fix-col-2" style="display: block">
 					<div class="row no-padding-on-mobile space-L">
 						<div class="col-4 mandatory space-T" :class="{error: typeMissingError}">
-							{{ t('tables', 'Type') }}
+							{{ t('tablespro', 'Type') }}
 						</div>
 						<div class="col-4">
 							<ColumnTypeSelection :column-id.sync="combinedType" />
@@ -33,13 +33,13 @@
 					<div v-if="column.type === 'text' && column.subtype !== 'link'" class="row no-padding-on-mobile space-L">
 						<div class="col-4 typeSelections space-B space-T space-L">
 							<NcCheckboxRadioSwitch :checked.sync="column.subtype" value="line" name="textTypeSelection" type="radio">
-								{{ t('tables', 'Text line') }}
+								{{ t('tablespro', 'Text line') }}
 							</NcCheckboxRadioSwitch>
 							<NcCheckboxRadioSwitch v-if="!textAppAvailable" :checked.sync="column.subtype" value="long" name="textTypeSelection" type="radio">
-								{{ t('tables', 'Simple text') }}
+								{{ t('tablespro', 'Simple text') }}
 							</NcCheckboxRadioSwitch>
 							<NcCheckboxRadioSwitch v-if="textAppAvailable" :checked.sync="column.subtype" value="rich" name="textTypeSelection" type="radio">
-								{{ t('tables', 'Rich text') }}
+								{{ t('tablespro', 'Rich text') }}
 							</NcCheckboxRadioSwitch>
 						</div>
 					</div>
@@ -47,13 +47,13 @@
 					<div v-if="column.type === 'selection'" class="row no-padding-on-mobile space-L">
 						<div class="col-4 typeSelections space-B space-T space-L">
 							<NcCheckboxRadioSwitch :checked.sync="combinedType" value="selection" name="selectionTypeSelection" type="radio">
-								{{ t('tables', 'Single selection') }}
+								{{ t('tablespro', 'Single selection') }}
 							</NcCheckboxRadioSwitch>
 							<NcCheckboxRadioSwitch :checked.sync="combinedType" value="selection-multi" name="selectionTypeSelection" type="radio" data-cy="createColumnMultipleSelectionSwitch">
-								{{ t('tables', 'Multiple selection') }}
+								{{ t('tablespro', 'Multiple selection') }}
 							</NcCheckboxRadioSwitch>
 							<NcCheckboxRadioSwitch :checked.sync="combinedType" value="selection-check" name="selectionTypeSelection" type="radio" data-cy="createColumnYesNoSwitch">
-								{{ t('tables', 'Yes/No') }}
+								{{ t('tablespro', 'Yes/No') }}
 							</NcCheckboxRadioSwitch>
 						</div>
 					</div>
@@ -61,13 +61,13 @@
 					<div v-if="column.type === 'datetime'" class="row no-padding-on-mobile space-L">
 						<div class="col-4 typeSelections space-B space-T space-L">
 							<NcCheckboxRadioSwitch :checked.sync="combinedType" value="datetime-date" name="datetimeTypeSelection" type="radio" data-cy="createColumnDateSwitch">
-								{{ t('tables', 'Date') }}
+								{{ t('tablespro', 'Date') }}
 							</NcCheckboxRadioSwitch>
 							<NcCheckboxRadioSwitch :checked.sync="combinedType" value="datetime-time" name="datetimeTypeSelection" type="radio" data-cy="createColumnTimeSwitch">
-								{{ t('tables', 'Time') }}
+								{{ t('tablespro', 'Time') }}
 							</NcCheckboxRadioSwitch>
 							<NcCheckboxRadioSwitch :checked.sync="combinedType" value="datetime" name="datetimeTypeSelection" type="radio" data-cy="createColumnDateAndTimeSwitch">
-								{{ t('tables', 'Date and time') }}
+								{{ t('tablespro', 'Date and time') }}
 							</NcCheckboxRadioSwitch>
 						</div>
 					</div>
@@ -80,11 +80,11 @@
 				<div class="fix-col-4 end">
 					<div class="padding-right">
 						<NcCheckboxRadioSwitch :checked.sync="addNewAfterSave" type="switch">
-							{{ t('tables', 'Add more') }}
+							{{ t('tablespro', 'Add more') }}
 						</NcCheckboxRadioSwitch>
 					</div>
 					<button class="primary" data-cy="createColumnSaveBtn" @click="actionConfirm()">
-						{{ t('tables', 'Save') }}
+						{{ t('tablespro', 'Save') }}
 					</button>
 				</div>
 			</div>
@@ -198,17 +198,17 @@ export default {
 			widthInvalidError: false,
 			titleMissingError: false,
 			typeOptions: [
-				{ id: 'text', label: t('tables', 'Text') },
-				{ id: 'text-link', label: t('tables', 'Link') },
+				{ id: 'text', label: t('tablespro', 'Text') },
+				{ id: 'text-link', label: t('tablespro', 'Link') },
 
-				{ id: 'number', label: t('tables', 'Number') },
-				{ id: 'number-stars', label: t('tables', 'Stars rating') },
-				{ id: 'number-progress', label: t('tables', 'Progress bar') },
+				{ id: 'number', label: t('tablespro', 'Number') },
+				{ id: 'number-stars', label: t('tablespro', 'Stars rating') },
+				{ id: 'number-progress', label: t('tablespro', 'Progress bar') },
 
-				{ id: 'selection', label: t('tables', 'Selection') },
+				{ id: 'selection', label: t('tablespro', 'Selection') },
 
-				{ id: 'datetime', label: t('tables', 'Date and time') },
-				{ id: 'usergroup', label: t('tables', 'Users and groups') },
+				{ id: 'datetime', label: t('tablespro', 'Date and time') },
+				{ id: 'usergroup', label: t('tablespro', 'Users and groups') },
 			],
 		}
 	},
@@ -290,15 +290,15 @@ export default {
 		},
 		async actionConfirm() {
 			if (!this.column.title) {
-				showInfo(t('tables', 'Please insert a title for the new column.'))
+				showInfo(t('tablespro', 'Please insert a title for the new column.'))
 				this.titleMissingError = true
 			} else if (this.column.customSettings?.width
 				&& (this.column.customSettings?.width < COLUMN_WIDTH_MIN || this.column.customSettings?.width > COLUMN_WIDTH_MAX)) {
-				showError(t('tables', 'Cannot save column. Column width must be between {min} and {max}.', { min: COLUMN_WIDTH_MIN, max: COLUMN_WIDTH_MAX }))
+				showError(t('tablespro', 'Cannot save column. Column width must be between {min} and {max}.', { min: COLUMN_WIDTH_MIN, max: COLUMN_WIDTH_MAX }))
 				this.widthInvalidError = true
 			} else if (this.column.type === null) {
 				this.titleMissingError = false
-				showInfo(t('tables', 'You need to select a type for the new column.'))
+				showInfo(t('tablespro', 'You need to select a type for the new column.'))
 				this.typeMissingError = true
 			} else {
 				this.$emit('save', this.prepareSubmitData())
@@ -379,9 +379,9 @@ export default {
 				})
 
 				if (res) {
-					showSuccess(t('tables', 'The column "{column}" was created.', { column: this.column.title }))
+					showSuccess(t('tablespro', 'The column "{column}" was created.', { column: this.column.title }))
 				} else {
-					showWarning(t('tables', 'Sorry, something went wrong.'))
+					showWarning(t('tablespro', 'Sorry, something went wrong.'))
 					console.debug('axios error', res)
 				}
 
@@ -390,7 +390,7 @@ export default {
 				})
 			} catch (e) {
 				console.error(e)
-				showError(t('tables', 'Could not create new column.'))
+				showError(t('tablespro', 'Could not create new column.'))
 			}
 		},
 		reset(mainForm = true, type = true, selectedViews = true) {

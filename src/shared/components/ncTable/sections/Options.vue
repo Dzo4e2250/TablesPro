@@ -8,19 +8,19 @@
 			<div :class="{'add-padding-left': isSmallMobile }"
 				class="actionButtonsLeft">
 				<NcButton v-if="!isSmallMobile && config.canCreateRows"
-					:aria-label="t('tables', 'Create row')"
+					:aria-label="t('tablespro', 'Create row')"
 					:close-after-click="true"
 					type="tertiary"
 					data-cy="createRowBtn"
 					@click="$emit('create-row')">
-					{{ t('tables', 'Create row') }}
+					{{ t('tablespro', 'Create row') }}
 					<template #icon>
 						<Plus :size="25" />
 					</template>
 				</NcButton>
 				<NcButton v-if="isSmallMobile && config.canCreateRows"
 					:close-after-click="true"
-					:aria-label="t('tables', 'Create Row')"
+					:aria-label="t('tablespro', 'Create Row')"
 					type="tertiary"
 					data-cy="createRowBtn"
 					@click="$emit('create-row')">
@@ -38,7 +38,7 @@
 
 			<div v-if="selectedRows.length > 0" class="selected-rows-option">
 				<div style="padding: 10px; color: var(--color-text-maxcontrast);">
-					{{ n('tables', '%n selected row', '%n selected rows', selectedRows.length, {}) }}
+					{{ n('tablespro', '%n selected row', '%n selected rows', selectedRows.length, {}) }}
 				</div>
 				<NcActions type="secondary" :force-name="true" :inline="showFullOptions ? 2 : 0">
 					<NcActionButton
@@ -46,20 +46,20 @@
 						<template #icon>
 							<Export :size="20" />
 						</template>
-						{{ t('tables', 'Export CSV') }}
+						{{ t('tablespro', 'Export CSV') }}
 					</NcActionButton>
 					<NcActionButton v-if="config.canDeleteRows"
 						@click="deleteSelectedRows">
 						<template #icon>
 							<Delete :size="20" />
 						</template>
-						{{ t('tables', 'Delete') }}
+						{{ t('tablespro', 'Delete') }}
 					</NcActionButton>
 					<NcActionButton v-if="!showFullOptions" @click="deselectAllRows">
 						<template #icon>
 							<Check :size="20" />
 						</template>
-						{{ t('tables', 'Uncheck all') }}
+						{{ t('tablespro', 'Uncheck all') }}
 					</NcActionButton>
 				</NcActions>
 			</div>

@@ -24,46 +24,46 @@
 				:can-delete-table="canManageTable(view)">
 				<template #actions>
 					<NcActions :force-menu="true" :type="isViewSettingSet ? 'secondary' : 'tertiary'">
-						<NcActionCaption v-if="canManageElement(view)" :name="t('tables', 'Manage view')" />
+						<NcActionCaption v-if="canManageElement(view)" :name="t('tablespro', 'Manage view')" />
 						<NcActionButton v-if="canManageElement(view) "
 							:close-after-click="true"
 							@click="editView">
 							<template #icon>
 								<PlaylistEdit :size="20" decorative />
 							</template>
-							{{ t('tables', 'Edit view') }}
+							{{ t('tablespro', 'Edit view') }}
 						</NcActionButton>
 						<NcActionButton v-if="canManageTable(view)" :close-after-click="true" @click="$emit('create-column')">
 							<template #icon>
 								<TableColumnPlusAfter :size="20" decorative title="" />
 							</template>
-							{{ t('tables', 'Create column') }}
+							{{ t('tablespro', 'Create column') }}
 						</NcActionButton>
 
-						<NcActionCaption :name="t('tables', 'Integration')" />
+						<NcActionCaption :name="t('tablespro', 'Integration')" />
 						<NcActionButton v-if="canCreateRowInElement(view)"
 							:close-after-click="true"
 							@click="$emit('import', view)">
 							<template #icon>
 								<IconImport :size="20" decorative title="Import" />
 							</template>
-							{{ t('tables', 'Import') }}
+							{{ t('tablespro', 'Import') }}
 						</NcActionButton>
 						<NcActionButton v-if="canReadData(view)" :close-after-click="true"
 							icon="icon-download"
 							@click="$emit('download-csv')">
-							{{ t('tables', 'Export as CSV') }}
+							{{ t('tablespro', 'Export as CSV') }}
 						</NcActionButton>
 						<NcActionButton v-if="canShareElement(view)"
 							:close-after-click="true"
 							icon="icon-share"
 							@click="$emit('toggle-share')">
-							{{ t('tables', 'Share') }}
+							{{ t('tablespro', 'Share') }}
 						</NcActionButton>
 						<NcActionButton
 							:close-after-click="true"
 							@click="$emit('show-integration')">
-							{{ t('tables', 'Integration') }}
+							{{ t('tablespro', 'Integration') }}
 							<template #icon>
 								<Connection :size="20" />
 							</template>

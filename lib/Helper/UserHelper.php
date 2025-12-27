@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Helper;
+namespace OCA\TablesPro\Helper;
 
-use OCA\Tables\Errors\InternalError;
+use OCA\TablesPro\Errors\InternalError;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;

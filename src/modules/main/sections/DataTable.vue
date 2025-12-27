@@ -7,12 +7,12 @@
 		<div v-if="hasViews" class="row space-T">
 			<div v-if="showOptions" class="col-4 space-L">
 				<h2>
-					{{ t('tables', 'Data') }}&nbsp;&nbsp;
+					{{ t('tablespro', 'Data') }}&nbsp;&nbsp;
 					<NcActions :force-menu="true" type="secondary">
 						<template #icon>
 							<IconTool :size="20" />
 						</template>
-						<NcActionCaption v-if="canManageElement(table)" :name="t('tables', 'Manage table')" />
+						<NcActionCaption v-if="canManageElement(table)" :name="t('tablespro', 'Manage table')" />
 						<NcActionButton v-if="canManageElement(table)"
 							data-cy="dataTableEditTableBtn"
 							:close-after-click="true"
@@ -20,46 +20,46 @@
 							<template #icon>
 								<IconRename :size="20" decorative />
 							</template>
-							{{ t('tables', 'Edit table') }}
+							{{ t('tablespro', 'Edit table') }}
 						</NcActionButton>
 						<NcActionButton v-if="canManageElement(table)"
 							:close-after-click="true" @click="$emit('create-view')">
 							<template #icon>
 								<PlaylistPlus :size="20" decorative />
 							</template>
-							{{ t('tables', 'Create view') + (isViewSettingSet ? '*' : '') }}
+							{{ t('tablespro', 'Create view') + (isViewSettingSet ? '*' : '') }}
 						</NcActionButton>
 						<NcActionButton v-if="canManageTable(table)" :close-after-click="true" @click="$emit('create-column')">
 							<template #icon>
 								<TableColumnPlusAfter :size="20" decorative title="" />
 							</template>
-							{{ t('tables', 'Create column') }}
+							{{ t('tablespro', 'Create column') }}
 						</NcActionButton>
 
-						<NcActionCaption :name="t('tables', 'Integration')" />
+						<NcActionCaption :name="t('tablespro', 'Integration')" />
 						<NcActionButton v-if="canCreateRowInElement(table)"
 							:close-after-click="true"
 							@click="$emit('import', table)">
 							<template #icon>
 								<Import :size="20" decorative title="Import" />
 							</template>
-							{{ t('tables', 'Import') }}
+							{{ t('tablespro', 'Import') }}
 						</NcActionButton>
 						<NcActionButton v-if="canReadData(table)" :close-after-click="true"
 							icon="icon-download"
 							@click="$emit('download-csv')">
-							{{ t('tables', 'Export as CSV') }}
+							{{ t('tablespro', 'Export as CSV') }}
 						</NcActionButton>
 						<NcActionButton v-if="canShareElement(table)"
 							:close-after-click="true"
 							icon="icon-share"
 							@click="$emit('toggle-share')">
-							{{ t('tables', 'Share') }}
+							{{ t('tablespro', 'Share') }}
 						</NcActionButton>
 						<NcActionButton
 							:close-after-click="true"
 							@click="$emit('show-integration')">
-							{{ t('tables', 'Integration') }}
+							{{ t('tablespro', 'Integration') }}
 							<template #icon>
 								<Connection :size="20" />
 							</template>
@@ -87,7 +87,7 @@
 				:can-delete-table="canManageTable(table)">
 				<template #actions>
 					<NcActions :force-menu="true" :type="isViewSettingSet ? 'secondary' : 'tertiary'">
-						<NcActionCaption v-if="canManageElement(table)" :name="t('tables', 'Manage table')" />
+						<NcActionCaption v-if="canManageElement(table)" :name="t('tablespro', 'Manage table')" />
 						<NcActionButton v-if="canManageElement(table)"
 							data-cy="dataTableEditTableBtn"
 							:close-after-click="true"
@@ -95,7 +95,7 @@
 							<template #icon>
 								<IconRename :size="20" decorative />
 							</template>
-							{{ t('tables', 'Edit table') }}
+							{{ t('tablespro', 'Edit table') }}
 						</NcActionButton>
 						<NcActionButton v-if="canManageElement(table) "
 							:close-after-click="true"
@@ -103,40 +103,40 @@
 							<template #icon>
 								<PlaylistPlus :size="20" decorative />
 							</template>
-							{{ t('tables', 'Create view') + (isViewSettingSet ? '*' : '') }}
+							{{ t('tablespro', 'Create view') + (isViewSettingSet ? '*' : '') }}
 						</NcActionButton>
 						<NcActionButton v-if="canManageTable(table)" :close-after-click="true" data-cy="dataTableCreateColumnBtn" @click="$emit('create-column')">
 							<template #icon>
 								<TableColumnPlusAfter :size="20" decorative title="" />
 							</template>
-							{{ t('tables', 'Create column') }}
+							{{ t('tablespro', 'Create column') }}
 						</NcActionButton>
 
-						<NcActionCaption :name="t('tables', 'Integration')" />
+						<NcActionCaption :name="t('tablespro', 'Integration')" />
 						<NcActionButton v-if="canCreateRowInElement(table)"
 							:close-after-click="true"
 							data-cy="dataTableExportBtn" @click="$emit('import', table)">
 							<template #icon>
 								<Import :size="20" decorative title="Import" />
 							</template>
-							{{ t('tables', 'Import') }}
+							{{ t('tablespro', 'Import') }}
 						</NcActionButton>
 						<NcActionButton v-if="canReadData(table)" :close-after-click="true"
 							icon="icon-download"
 							data-cy="dataTableExportBtn" @click="$emit('download-csv')">
-							{{ t('tables', 'Export as CSV') }}
+							{{ t('tablespro', 'Export as CSV') }}
 						</NcActionButton>
 						<NcActionButton v-if="canShareElement(table)"
 							data-cy="dataTableShareBtn"
 							:close-after-click="true"
 							icon="icon-share"
 							@click="$emit('toggle-share')">
-							{{ t('tables', 'Share') }}
+							{{ t('tablespro', 'Share') }}
 						</NcActionButton>
 						<NcActionButton
 							:close-after-click="true"
 							@click="$emit('show-integration')">
-							{{ t('tables', 'Integration') }}
+							{{ t('tablespro', 'Integration') }}
 							<template #icon>
 								<Connection :size="20" />
 							</template>

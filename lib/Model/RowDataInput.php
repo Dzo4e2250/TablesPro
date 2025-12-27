@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Model;
+namespace OCA\TablesPro\Model;
 
 use ArrayAccess;
 use Iterator;

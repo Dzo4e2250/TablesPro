@@ -7,7 +7,7 @@
 		<!-- options -->
 		<div class="row space-T">
 			<div class="fix-col-4">
-				{{ t('tables', 'Default') }}
+				{{ t('tablespro', 'Default') }}
 			</div>
 			<div class="fix-col-4 space-L-small">
 				<NcCheckboxRadioSwitch type="switch" :checked.sync="mutableColumn.selectionDefault" data-cy="selectionCheckFormDefaultSwitch" />

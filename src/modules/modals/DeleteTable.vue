@@ -5,9 +5,9 @@
 <template>
 	<div>
 		<DialogConfirmation :description="getTranslatedDescription"
-			:title="t('tables', 'Confirm table deletion')"
-			:cancel-title="t('tables', 'Cancel')"
-			:confirm-title="t('tables', 'Delete')"
+			:title="t('tablespro', 'Confirm table deletion')"
+			:cancel-title="t('tablespro', 'Cancel')"
+			:confirm-title="t('tablespro', 'Delete')"
 			confirm-class="error"
 			:show-modal="showModal"
 			@confirm="deleteMe"
@@ -40,7 +40,7 @@ export default {
 	computed: {
 		...mapState(useTablesStore, ['activeElement', 'isView']),
 		getTranslatedDescription() {
-			return t('tables', 'Do you really want to delete the table "{table}"? This will also delete all data, views and shares that are connected to this table.', { table: this.table?.title })
+			return t('tablespro', 'Do you really want to delete the table "{table}"? This will also delete all data, views and shares that are connected to this table.', { table: this.table?.title })
 		},
 	},
 	methods: {
@@ -51,7 +51,7 @@ export default {
 			if (this.activeElement) activeTableId = this.isView ? this.activeElement.id : this.activeElement.tableId
 			const res = await this.removeTable({ tableId: this.table.id })
 			if (res) {
-				showSuccess(t('tables', 'Table "{emoji}{table}" removed.', { emoji: this.table.emoji ? this.table.emoji + ' ' : '', table: this.table.title }))
+				showSuccess(t('tablespro', 'Table "{emoji}{table}" removed.', { emoji: this.table.emoji ? this.table.emoji + ' ' : '', table: this.table.title }))
 
 				// if the actual table was deleted, go to startpage
 				if (tableId === activeTableId) {

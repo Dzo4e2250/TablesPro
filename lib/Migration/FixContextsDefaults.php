@@ -7,9 +7,9 @@ declare(strict_types = 1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Migration;
+namespace OCA\TablesPro\Migration;
 
-use OCA\Tables\AppInfo\Application;
+use OCA\TablesPro\AppInfo\Application;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;

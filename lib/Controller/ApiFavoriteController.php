@@ -5,16 +5,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
 use Exception;
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Middleware\Attribute\RequirePermission;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\FavoritesService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Middleware\Attribute\RequirePermission;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\FavoritesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;

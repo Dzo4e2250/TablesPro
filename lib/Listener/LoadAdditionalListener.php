@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Listener;
+namespace OCA\TablesPro\Listener;
 
-use OCA\Tables\AppInfo\Application;
+use OCA\TablesPro\AppInfo\Application;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;

@@ -10,8 +10,8 @@
 				class="select-field"
 				:options="columns"
 				label="title"
-				:aria-label-combobox="t('tables', 'Column')"
-				:placeholder="t('tables', 'Column')"
+				:aria-label-combobox="t('tablespro', 'Column')"
+				:placeholder="t('tablespro', 'Column')"
 				data-cy="filterEntryColumn" />
 		</div>
 		<div class="fix-col-2">
@@ -20,8 +20,8 @@
 				v-model="selectedOperator"
 				class="select-field"
 				:options="operators"
-				:aria-label-combobox="t('tables', 'Operator')"
-				:placeholder="t('tables', 'Operator')"
+				:aria-label-combobox="t('tablespro', 'Operator')"
+				:placeholder="t('tablespro', 'Operator')"
 				data-cy="filterEntryOperator" />
 		</div>
 		<div class="fix-col-2" :class="{ 'has-additional-input': additionalInputType }">
@@ -55,7 +55,7 @@
 				:close-after-click="true"
 				type="tertiary"
 				class="delete-button"
-				:aria-label="t('tables', 'Delete filter')"
+				:aria-label="t('tablespro', 'Delete filter')"
 				@click="$emit('delete-filter')">
 				<template #icon>
 					<DeleteOutline :size="25" />
@@ -195,13 +195,13 @@ export default {
 		},
 		getValuePlaceholder() {
 			if (this.selectedColumn.type === ColumnTypes.Datetime) {
-				return t('tables', 'JJJJ-MM-DD hh:mm')
+				return t('tablespro', 'JJJJ-MM-DD hh:mm')
 			} else if (this.selectedColumn.type === ColumnTypes.DatetimeDate) {
-				return t('tables', 'JJJJ-MM-DD')
+				return t('tablespro', 'JJJJ-MM-DD')
 			} else if (this.selectedColumn.type === ColumnTypes.DatetimeTime) {
-				return t('tables', 'hh:mm')
+				return t('tablespro', 'hh:mm')
 			}
-			return t('tables', 'Search Value')
+			return t('tablespro', 'Search Value')
 		},
 		selectedMagicField() {
 			const magicFieldId = this.getMagicFieldId()

@@ -5,16 +5,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
 use InvalidArgumentException;
-use OCA\Tables\Db\Context;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\ContextService;
+use OCA\TablesPro\Db\Context;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\ContextService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;

@@ -5,22 +5,22 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
 use InvalidArgumentException;
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Db\Context;
-use OCA\Tables\Db\ContextMapper;
-use OCA\Tables\Db\ContextNodeRelation;
-use OCA\Tables\Db\ContextNodeRelationMapper;
-use OCA\Tables\Db\Page;
-use OCA\Tables\Db\PageContent;
-use OCA\Tables\Db\PageContentMapper;
-use OCA\Tables\Db\PageMapper;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Db\Context;
+use OCA\TablesPro\Db\ContextMapper;
+use OCA\TablesPro\Db\ContextNodeRelation;
+use OCA\TablesPro\Db\ContextNodeRelationMapper;
+use OCA\TablesPro\Db\Page;
+use OCA\TablesPro\Db\PageContent;
+use OCA\TablesPro\Db\PageContentMapper;
+use OCA\TablesPro\Db\PageMapper;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\TTransactional;

@@ -6,14 +6,14 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Activity;
+namespace OCA\TablesPro\Activity;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Db\ColumnMapper;
-use OCA\Tables\Db\Row2;
-use OCA\Tables\Db\Table;
-use OCA\Tables\Db\TableMapper;
-use OCA\Tables\Service\ShareService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Db\ColumnMapper;
+use OCA\TablesPro\Db\Row2;
+use OCA\TablesPro\Db\Table;
+use OCA\TablesPro\Db\TableMapper;
+use OCA\TablesPro\Service\ShareService;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\L10N\IFactory;

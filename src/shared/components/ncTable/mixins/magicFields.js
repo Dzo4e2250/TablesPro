@@ -11,7 +11,7 @@ class BaseMagicField {
 
 	constructor() {
 		this.source = 'magic-fields'
-		this.subline = t('tables', 'Magic field')
+		this.subline = t('tablespro', 'Magic field')
 	}
 
 }
@@ -43,28 +43,28 @@ export const AdditionalInputTypes = {
 export const MagicFields = {
 	Me: new MagicField({
 		id: 'me',
-		label: t('tables', 'Me (user ID)'),
+		label: t('tablespro', 'Me (user ID)'),
 		icon: 'icon-user',
 		goodFor: [ColumnTypes.TextLine, ColumnTypes.Selection, ColumnTypes.SelectionMulti, ColumnTypes.TextRich, ColumnTypes.TextLink, ColumnTypes.Usergroup],
 		replace: getCurrentUser()?.uid,
 	}),
 	MyName: new MagicField({
 		id: 'my-name',
-		label: t('tables', 'Me (name)'),
+		label: t('tablespro', 'Me (name)'),
 		icon: 'icon-user',
 		goodFor: [ColumnTypes.TextLine, ColumnTypes.Selection, ColumnTypes.SelectionMulti, ColumnTypes.TextRich, ColumnTypes.TextLink, ColumnTypes.Usergroup],
 		replace: getCurrentUser()?.displayName,
 	}),
 	Checked: new MagicField({
 		id: 'checked',
-		label: t('tables', 'Checked'),
+		label: t('tablespro', 'Checked'),
 		icon: 'icon-checkmark',
 		goodFor: [ColumnTypes.SelectionCheck],
 		replace: 'yes',
 	}),
 	Unchecked: new MagicField({
 		id: 'unchecked',
-		label: t('tables', 'Unchecked'),
+		label: t('tablespro', 'Unchecked'),
 		icon: 'icon-close',
 		goodFor: [ColumnTypes.SelectionCheck],
 		replace: 'no',
@@ -113,71 +113,71 @@ export const MagicFields = {
 	}),
 	DatetimeDateToday: new MagicField({
 		id: 'datetime-date-today',
-		label: t('tables', 'Today'),
+		label: t('tablespro', 'Today'),
 		icon: 'icon-calendar-dark',
 		goodFor: [ColumnTypes.DatetimeDate, ColumnTypes.Datetime],
 		replace: new Moment().format('YYYY-MM-DD'),
 	}),
 	DatetimeDateStartOfYear: new MagicField({
 		id: 'datetime-date-start-of-year',
-		label: t('tables', 'This year'),
+		label: t('tablespro', 'This year'),
 		icon: 'icon-history',
 		goodFor: [ColumnTypes.DatetimeDate],
 		replace: new Moment().startOf('year').format('YYYY-MM-DD'),
 	}),
 	DatetimeDateStartOfMonth: new MagicField({
 		id: 'datetime-date-start-of-month',
-		label: t('tables', 'This month'),
+		label: t('tablespro', 'This month'),
 		icon: 'icon-history',
 		goodFor: [ColumnTypes.DatetimeDate],
 		replace: new Moment().startOf('month').format('YYYY-MM-DD'),
 	}),
 	DatetimeDateStartOfWeek: new MagicField({
 		id: 'datetime-date-start-of-week',
-		label: t('tables', 'This week'),
+		label: t('tablespro', 'This week'),
 		icon: 'icon-history',
 		goodFor: [ColumnTypes.DatetimeDate],
 		replace: new Moment().startOf('week').format('YYYY-MM-DD'),
 	}),
 	DatetimeTimeNow: new MagicField({
 		id: 'datetime-time-now',
-		label: t('tables', 'Now'),
+		label: t('tablespro', 'Now'),
 		icon: 'icon-calendar-dark',
 		goodFor: [ColumnTypes.DatetimeTime],
 		replace: new Moment().format('HH:mm'),
 	}),
 	DatetimeNow: new MagicField({
 		id: 'datetime-now',
-		label: t('tables', 'Now'),
+		label: t('tablespro', 'Now'),
 		icon: 'icon-calendar-dark',
 		goodFor: [ColumnTypes.Datetime],
 		replace: new Moment().format('YYYY-MM-DD HH:mm'),
 	}),
 	DatetimeExactDate: new MagicField({
 		id: 'datetime-exact-date',
-		label: t('tables', 'Exact date'),
+		label: t('tablespro', 'Exact date'),
 		icon: 'icon-calendar-dark',
 		goodFor: [ColumnTypes.DatetimeDate, ColumnTypes.Datetime],
 		replace: null,
 		additionalInput: AdditionalInputTypes.DATE,
-		additionalInputLabel: t('tables', 'Select a date'),
+		additionalInputLabel: t('tablespro', 'Select a date'),
 	}),
 	DatetimeDaysAhead: new MagicField({
 		id: 'datetime-days-ahead',
-		label: t('tables', 'Number of days ahead'),
+		label: t('tablespro', 'Number of days ahead'),
 		icon: 'icon-calendar-dark',
 		goodFor: [ColumnTypes.DatetimeDate, ColumnTypes.Datetime],
 		replace: null,
 		additionalInput: AdditionalInputTypes.NUMBER,
-		additionalInputLabel: t('tables', 'Enter number of days'),
+		additionalInputLabel: t('tablespro', 'Enter number of days'),
 	}),
 	DatetimeDaysAgo: new MagicField({
 		id: 'datetime-days-ago',
-		label: t('tables', 'Number of days ago'),
+		label: t('tablespro', 'Number of days ago'),
 		icon: 'icon-calendar-dark',
 		goodFor: [ColumnTypes.DatetimeDate, ColumnTypes.Datetime],
 		replace: null,
 		additionalInput: AdditionalInputTypes.NUMBER,
-		additionalInputLabel: t('tables', 'Enter number of days'),
+		additionalInputLabel: t('tablespro', 'Enter number of days'),
 	}),
 }

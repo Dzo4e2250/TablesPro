@@ -9,11 +9,11 @@
 		<!-- default -->
 		<div v-if="!loading" class="row space-T">
 			<div class="fix-col-4">
-				{{ t('tables', 'Allowed types') }}
+				{{ t('tablespro', 'Allowed types') }}
 			</div>
 			<div v-if="!canSave" class="fix-col-4">
 				<NcNoteCard type="warning">
-					{{ t('tables', 'Please select at least one provider.') }}
+					{{ t('tablespro', 'Please select at least one provider.') }}
 				</NcNoteCard>
 			</div>
 			<div class="col-4 space-B typeSelection">
@@ -22,7 +22,7 @@
 				</NcCheckboxRadioSwitch>
 			</div>
 			<p class="span">
-				{{ t('tables', 'The provided types depends on your system setup. You can use the same providers like the fulltext-search.') }}
+				{{ t('tablespro', 'The provided types depends on your system setup. You can use the same providers like the fulltext-search.') }}
 			</p>
 		</div>
 	</div>
@@ -111,13 +111,13 @@ export default {
 			try {
 				res = await axios.get(generateOcsUrl('/search/providers'))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load link providers.'))
+				displayError(e, t('tablespro', 'Could not load link providers.'))
 				return
 			}
 			this.providers = [
 				{
 					id: 'url',
-					label: t('tables', 'URL'),
+					label: t('tablespro', 'URL'),
 					active: this.isActive('url'),
 				},
 			]

@@ -6,7 +6,7 @@
 	<NcAppNavigation v-if="!isStandaloneContext">
 		<template #list>
 			<div class="filter-box">
-				<NcTextField :value.sync="filterString" :label="t('tables', 'Filter items')"
+				<NcTextField :value.sync="filterString" :label="t('tablespro', 'Filter items')"
 					trailing-button-icon="close" :show-trailing-button="filterString !== ''"
 					@trailing-button-click="filterString = ''">
 					<Magnify :size="16" />
@@ -16,7 +16,7 @@
 			<div v-if="isLoadingSomething" class="icon-loading" />
 
 			<ul v-if="!isLoadingSomething">
-				<NcAppNavigationCaption v-if="getFavoriteNodes.length > 0" :name="t('tables', 'Favorites')" />
+				<NcAppNavigationCaption v-if="getFavoriteNodes.length > 0" :name="t('tablespro', 'Favorites')" />
 
 				<!-- FAVORITES -->
 				<template v-for="node in getFavoriteNodes">
@@ -26,9 +26,9 @@
 					<NavigationViewItem v-else :key="'view' + node.id" :view="node" />
 				</template>
 
-				<NcAppNavigationCaption :name="t('tables', 'Tables')">
+				<NcAppNavigationCaption :name="t('tablespro', 'Tables')">
 					<template #actions>
-						<NcActionButton :aria-label="t('tables', 'Create table')" icon="icon-add"
+						<NcActionButton :aria-label="t('tablespro', 'Create table')" icon="icon-add"
 							data-cy="navigationCreateTableIcon" @click.prevent="createTable" />
 					</template>
 				</NcAppNavigationCaption>
@@ -44,7 +44,7 @@
 				</template>
 
 				<!-- ARCHIVED -->
-				<NcAppNavigationItem v-if="getArchivedTables.length > 0" :name="t('tables', 'Archived tables')"
+				<NcAppNavigationItem v-if="getArchivedTables.length > 0" :name="t('tablespro', 'Archived tables')"
 					:allow-collapse="true" :open="false">
 					<template #icon>
 						<ArchiveOutline :size="20" />
@@ -61,9 +61,9 @@
 				</NcAppNavigationItem>
 			</ul>
 			<ul v-if="!isLoadingSomething">
-				<NcAppNavigationCaption :name="t('tables', 'Applications')">
+				<NcAppNavigationCaption :name="t('tablespro', 'Applications')">
 					<template #actions>
-						<NcActionButton :aria-label="t('tables', 'Create application')" icon="icon-add" data-cy="createContextIcon"
+						<NcActionButton :aria-label="t('tablespro', 'Create application')" icon="icon-add" data-cy="createContextIcon"
 							@click.prevent="createContext" />
 					</template>
 				</NcAppNavigationCaption>
@@ -74,14 +74,14 @@
 			</ul>
 
 			<div v-if="filterString !== ''" class="search-info">
-				<NcEmptyContent :description="t('tables', 'Your results are filtered.')">
+				<NcEmptyContent :description="t('tablespro', 'Your results are filtered.')">
 					<template #icon>
 						<Magnify :size="10" />
 					</template>
 
 					<template #action>
-						<NcButton :aria-label="t('tables', 'Clear filter')" @click="filterString = ''">
-							{{ t('tables', 'Clear filter') }}
+						<NcButton :aria-label="t('tablespro', 'Clear filter')" @click="filterString = ''">
+							{{ t('tablespro', 'Clear filter') }}
 						</NcButton>
 					</template>
 				</NcEmptyContent>
@@ -138,7 +138,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(useTablesStore, ['appNavCollapsed', 'tables', 'views', 'contexts', 'isLoadingSomething', 'isLoading']),
+		...mapState(useTablesStore, ['appNavCollapsed', 'tablespro', 'views', 'contexts', 'isLoadingSomething', 'isLoading']),
 		getAllNodes() {
 			return [...this.getFilteredTables, ...this.getOwnViews, ...this.getSharedViews]
 		},
@@ -186,7 +186,7 @@ export default {
 		isStandaloneContext() {
 			try {
 				// this state is only set by the PageController.context route
-				loadState('tables', 'contextId', undefined)
+				loadState('tablespro', 'contextId', undefined)
 				return true
 			} catch (e) {
 				return false

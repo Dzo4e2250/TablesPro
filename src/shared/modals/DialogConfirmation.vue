@@ -38,7 +38,7 @@ export default {
 		},
 		title: {
 			type: String,
-			default: t('tables', 'Confirmation'),
+			default: t('tablespro', 'Confirmation'),
 		},
 		description: {
 			type: String,
@@ -46,7 +46,7 @@ export default {
 		},
 		cancelTitle: {
 			type: String,
-			default: t('tables', 'Cancel'),
+			default: t('tablespro', 'Cancel'),
 		},
 		cancelClass: {
 			type: String,
@@ -54,7 +54,7 @@ export default {
 		},
 		confirmTitle: {
 			type: String,
-			default: t('tables', 'Confirm'),
+			default: t('tablespro', 'Confirm'),
 		},
 		confirmClass: {
 			type: String,

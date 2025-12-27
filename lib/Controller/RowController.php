@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Middleware\Attribute\RequirePermission;
-use OCA\Tables\Service\RowService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Middleware\Attribute\RequirePermission;
+use OCA\TablesPro\Service\RowService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;

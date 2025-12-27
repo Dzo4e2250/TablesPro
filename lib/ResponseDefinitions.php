@@ -10,7 +10,7 @@
  * Otherwise API extractor won't know all the return types...
  */
 
-namespace OCA\Tables;
+namespace OCA\TablesPro;
 
 /**
  * @psalm-type TablesView = array{

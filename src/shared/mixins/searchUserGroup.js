@@ -37,9 +37,9 @@ export default {
 
 		noResultText() {
 			if (this.loading) {
-				return t('tables', 'Searching …')
+				return t('tablespro', 'Searching …')
 			}
-			return t('tables', 'No elements found.')
+			return t('tablespro', 'No elements found.')
 		},
 
 	},
@@ -65,7 +65,7 @@ export default {
 				: 'User, group or team'
 		},
 		getPlaceholder() {
-			return t('tables', '{shareTypeString}...', { shareTypeString: this.getShareTypeString() })
+			return t('tablespro', '{shareTypeString}...', { shareTypeString: this.getShareTypeString() })
 		},
 		async asyncFind(query) {
 			this.query = query.trim()
@@ -82,7 +82,7 @@ export default {
 			} else if (source.startsWith('groups')) {
 				return 1
 			} else {
-				showError(t('tables', 'Unsupported source: {source}', { source }))
+				showError(t('tablespro', 'Unsupported source: {source}', { source }))
 				throw new Error('Unsupported source: ' + source)
 			}
 		},
@@ -117,7 +117,7 @@ export default {
 				this.loading = false
 			} catch (err) {
 				console.debug(err)
-				showError(t('tables', 'Failed to fetch {shareTypeString}', { shareTypeString: this.getShareTypeString().toLowerCase() }))
+				showError(t('tablespro', 'Failed to fetch {shareTypeString}', { shareTypeString: this.getShareTypeString().toLowerCase() }))
 			}
 		},
 

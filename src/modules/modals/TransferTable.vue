@@ -4,19 +4,19 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Transfer table')"
+		:name="t('tablespro', 'Transfer table')"
 		data-cy="transferTableModal"
 		size="normal"
 		@closing="actionCancel">
 		<div class="modal__content">
 			<div class="row">
-				<h3>{{ t('tables', 'Transfer this table to another user') }}</h3>
+				<h3>{{ t('tablespro', 'Transfer this table to another user') }}</h3>
 				<NcUserPicker :select-users="true" :select-groups="false" :selected-user-id.sync="selectedUserId" />
 			</div>
 			<div class="row">
 				<div class="fix-col-4 space-T end">
 					<NcButton type="warning" :disabled="selectedUserId === ''" data-cy="transferTableButton" @click="transferMe">
-						{{ t('tables', 'Transfer') }}
+						{{ t('tablespro', 'Transfer') }}
 					</NcButton>
 				</div>
 			</div>
@@ -94,7 +94,7 @@ export default {
 			})
 
 			if (res) {
-				showSuccess(t('tables', 'Table "{emoji}{table}" transferred to {user}', { emoji: this.table?.emoji ? this.table?.emoji + ' ' : '', table: this.table?.title, user: this.selectedUserId }))
+				showSuccess(t('tablespro', 'Table "{emoji}{table}" transferred to {user}', { emoji: this.table?.emoji ? this.table?.emoji + ' ' : '', table: this.table?.title, user: this.selectedUserId }))
 
 				if (transferId === activeTableId) {
 					await this.$router.push('/').catch(err => err)

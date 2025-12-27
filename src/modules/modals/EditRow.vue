@@ -5,12 +5,12 @@
 <template>
 	<NcDialog v-if="showModal"
 		data-cy="editRowModal"
-		:name="t('tables', 'Edit row')"
+		:name="t('tablespro', 'Edit row')"
 		size="large"
 		@closing="actionCancel">
 		<div class="modal__content" @keydown="onKeydown">
 			<div v-if="isActivityEnabled" class="tabs-navigation">
-				<NcButton :aria-label="t('tables', 'Edit')"
+				<NcButton :aria-label="t('tablespro', 'Edit')"
 					:active="activeTabId === 'edit'"
 					:variant="activeTabId === 'edit' ? 'primary' : 'secondary'"
 					wide
@@ -19,9 +19,9 @@
 						<HomeIcon v-if="activeTabId === 'edit'" />
 						<HomeOutlineIcon v-else />
 					</template>
-					{{ t('tables', 'Edit') }}
+					{{ t('tablespro', 'Edit') }}
 				</NcButton>
-				<NcButton :aria-label="t('tables', 'Activity')"
+				<NcButton :aria-label="t('tablespro', 'Activity')"
 					:active="activeTabId === 'activity'"
 					:variant="activeTabId === 'activity' ? 'primary' : 'secondary'"
 					wide
@@ -29,7 +29,7 @@
 					<template #icon>
 						<ActivityIcon />
 					</template>
-					{{ t('tables', 'Activity') }}
+					{{ t('tablespro', 'Activity') }}
 				</NcButton>
 			</div>
 
@@ -40,33 +40,33 @@
 						:value.sync="localRow[column.id]" />
 					<NcNoteCard v-if="isMandatory(column) && !isValueValidForColumn(localRow[column.id], column)"
 						type="error">
-						{{ t('tables', '"{columnTitle}" should not be empty', { columnTitle: column.title }) }}
+						{{ t('tablespro', '"{columnTitle}" should not be empty', { columnTitle: column.title }) }}
 					</NcNoteCard>
 					<NcNoteCard v-if="localRow[column.id] && column.type === 'text-link' && !isValidUrlProtocol(localRow[column.id])"
 						type="error">
-						{{ t('tables', 'Invalid protocol. Allowed: {allowed}', {allowed: allowedProtocols.join(', ')}) }}
+						{{ t('tablespro', 'Invalid protocol. Allowed: {allowed}', {allowed: allowedProtocols.join(', ')}) }}
 					</NcNoteCard>
 				</div>
 				<div class="row">
 					<div class="fix-col-4 space-T" :class="{'justify-between': showDeleteButton, 'end': !showDeleteButton}">
 						<div v-if="showDeleteButton">
-							<NcButton v-if="!prepareDeleteRow" :aria-label="t('tables', 'Delete')" type="error" data-cy="editRowDeleteButton" @click="prepareDeleteRow = true">
-								{{ t('tables', 'Delete') }}
+							<NcButton v-if="!prepareDeleteRow" :aria-label="t('tablespro', 'Delete')" type="error" data-cy="editRowDeleteButton" @click="prepareDeleteRow = true">
+								{{ t('tablespro', 'Delete') }}
 							</NcButton>
 							<NcButton v-if="prepareDeleteRow"
 								data-cy="editRowDeleteConfirmButton"
 								:wide="true"
-								:aria-label="t('tables', 'I really want to delete this row!')"
+								:aria-label="t('tablespro', 'I really want to delete this row!')"
 								type="error"
 								@click="actionDeleteRow">
-								{{ t('tables', 'I really want to delete this row!') }}
+								{{ t('tablespro', 'I really want to delete this row!') }}
 							</NcButton>
 						</div>
-						<NcButton v-if="canUpdateData(element) && !localLoading" :aria-label="t('tables', 'Save')" type="primary"
+						<NcButton v-if="canUpdateData(element) && !localLoading" :aria-label="t('tablespro', 'Save')" type="primary"
 							data-cy="editRowSaveButton"
 							:disabled="hasEmptyMandatoryRows || hasInvalidUrlProtocol"
 							@click="actionConfirm">
-							{{ t('tables', 'Save') }}
+							{{ t('tablespro', 'Save') }}
 						</NcButton>
 						<div v-if="localLoading" class="icon-loading" style="margin-left: 20px;" />
 					</div>
@@ -254,7 +254,7 @@ export default {
 				elementId: this.element.id,
 			})
 			if (!res) {
-				showError(t('tables', 'Could not delete row.'))
+				showError(t('tablespro', 'Could not delete row.'))
 			}
 			this.localLoading = false
 			this.actionCancel()

@@ -11,7 +11,7 @@
 			@dragover="dragOver(index)" @dragend="dragEnd(index)">
 			<div data-cy="selectedViewColumnEl" class="row-elements">
 				<NcButton
-					aria-label="t('tables', 'Move')"
+					aria-label="t('tablespro', 'Move')"
 					type="tertiary-no-background"
 					class="move-button">
 					<template #icon>
@@ -28,7 +28,7 @@
 					<span v-if="isMandatory(column)" class="mandatory-indicator">*</span>
 				</span>
 				<div v-if="column.id < 0" class="meta-info">
-					({{ t('tables', 'Metadata') }})
+					({{ t('tablespro', 'Metadata') }})
 				</div>
 			</div>
 
@@ -41,7 +41,7 @@
 						:checked="column.viewColumnInformation?.readonly"
 						:disabled="isMandatory(column)"
 						@change="onReadonlyChanged(column.id, $event.target.checked)">
-						{{ t('tables', 'Read only') }}
+						{{ t('tablespro', 'Read only') }}
 					</NcActionCheckbox>
 					<!-- Mandatory -->
 					<NcActionCheckbox
@@ -50,7 +50,7 @@
 						:checked="isMandatory(column)"
 						:disabled="column.viewColumnInformation?.readonly"
 						@change="onMandatoryChanged(column.id, $event.target.checked)">
-						{{ t('tables', 'Mandatory') }}
+						{{ t('tablespro', 'Mandatory') }}
 					</NcActionCheckbox>
 				</NcActions>
 			</div>

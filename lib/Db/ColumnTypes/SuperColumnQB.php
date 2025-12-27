@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db\ColumnTypes;
+namespace OCA\TablesPro\Db\ColumnTypes;
 
-use OCA\Tables\Db\Column;
-use OCA\Tables\Errors\InternalError;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Errors\InternalError;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use Psr\Log\LoggerInterface;

@@ -20,23 +20,23 @@
 				<template #icon>
 					<PlaylistEdit :size="20" />
 				</template>
-				{{ t('tables', 'Edit application') }}
+				{{ t('tablespro', 'Edit application') }}
 			</NcActionButton>
 			<NcActionButton v-if="ownsContext(context)" :close-after-click="true" @click="transferContext">
 				<template #icon>
 					<FileSwapOutline :size="20" />
 				</template>
-				{{ t('tables', 'Transfer application') }}
+				{{ t('tablespro', 'Transfer application') }}
 			</NcActionButton>
 			<NcActionButton v-if="ownsContext(context)" :close-after-click="true" data-cy="navigationContextDeleteBtn"
 				@click="deleteContext">
 				<template #icon>
 					<DeleteOutline :size="20" />
 				</template>
-				{{ t('tables', 'Delete application') }}
+				{{ t('tablespro', 'Delete application') }}
 			</NcActionButton>
 			<NcActionCheckbox :checked="showInNavigation" data-cy="navigationContextShowInNavSwitch" @change="changeDisplayMode">
-				{{ t('tables', 'Show in app list') }}
+				{{ t('tablespro', 'Show in app list') }}
 			</NcActionCheckbox>
 		</template>
 	</NcAppNavigationItem>

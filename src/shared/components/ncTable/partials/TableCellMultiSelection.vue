@@ -7,7 +7,7 @@
 		<div v-if="!isEditing" class="non-edit-mode" @click="handleStartEditing">
 			<ul>
 				<li v-for="v in getObjects()" :key="v.id">
-					{{ v.label }}<span v-if="v.deleted" :title="t('tables', 'This option is outdated.')">&nbsp;⚠️</span>
+					{{ v.label }}<span v-if="v.deleted" :title="t('tablespro', 'This option is outdated.')">&nbsp;⚠️</span>
 				</li>
 			</ul>
 		</div>
@@ -21,7 +21,7 @@
 				:tag-width="80"
 				:options="getAllNonDeletedOrSelectedOptions"
 				:multiple="true"
-				:aria-label-combobox="t('tables', 'Options')"
+				:aria-label-combobox="t('tablespro', 'Options')"
 				:disabled="localLoading || !canEditCell()"
 				:clearable="true"
 				style="width: 100%;" />

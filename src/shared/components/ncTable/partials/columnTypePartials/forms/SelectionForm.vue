@@ -6,23 +6,23 @@
 	<div style="width: 100%">
 		<div class="row">
 			<div class="col-4 title">
-				{{ t('tables', 'Options') }}
+				{{ t('tablespro', 'Options') }}
 			</div>
 			<div v-for="opt in mutableColumn.selectionOptions" :key="opt.id" class="col-4 inline" data-cy="selectionOption">
 				<NcCheckboxRadioSwitch :value="'' + opt.id" type="radio" :checked.sync="mutableColumn.selectionDefault" />
 				<input :value="opt.label" data-cy="selectionOptionLabel" @input="updateLabel(opt.id, $event)">
-				<NcButton type="tertiary" :aria-label="t('tables', 'Delete option')" @click="deleteOption(opt.id)">
+				<NcButton type="tertiary" :aria-label="t('tablespro', 'Delete option')" @click="deleteOption(opt.id)">
 					<template #icon>
 						<DeleteOutline :size="20" />
 					</template>
 				</NcButton>
 			</div>
-			<NcButton :aria-label="t('tables', 'Add option')" @click="addOption">
-				{{ t('tables', 'Add option') }}
+			<NcButton :aria-label="t('tablespro', 'Add option')" @click="addOption">
+				{{ t('tablespro', 'Add option') }}
 			</NcButton>
 			<p class="span">
-				{{ t('tables', 'You can set a default value by clicking on one of the radio buttons next to the label fields.') }}
-				<a v-if="mutableColumn.selectionDefault" @click="mutableColumn.selectionDefault = ''">{{ t('tables', 'Click here to unset default selection.') }}</a>
+				{{ t('tablespro', 'You can set a default value by clicking on one of the radio buttons next to the label fields.') }}
+				<a v-if="mutableColumn.selectionDefault" @click="mutableColumn.selectionDefault = ''">{{ t('tablespro', 'Click here to unset default selection.') }}</a>
 			</p>
 		</div>
 	</div>
@@ -71,11 +71,11 @@ export default {
 			const options = [
 				{
 					id: 0,
-					label: t('tables', 'First option'),
+					label: t('tablespro', 'First option'),
 				},
 				{
 					id: 1,
-					label: t('tables', 'Second option'),
+					label: t('tablespro', 'Second option'),
 				},
 			]
 			return options

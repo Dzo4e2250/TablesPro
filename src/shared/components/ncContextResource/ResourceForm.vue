@@ -5,15 +5,15 @@
 <template>
 	<div class="row space-B">
 		<div class="resource-label">
-			{{ t('tables', 'Select a table or view') }}
+			{{ t('tablespro', 'Select a table or view') }}
 		</div>
 		<NcSelect style="width: 100%;" :loading="loading" :options="options" :clear-on-select="true"
-			:hide-selected="true" :placeholder="t('tables', 'Select a table or view')" :searchable="true"
+			:hide-selected="true" :placeholder="t('tablespro', 'Select a table or view')" :searchable="true"
 			:get-option-key="(option) => option.key" label="title"
-			:aria-label-combobox="t('tables', 'Select a table or view')" :preselect-first="true"
+			:aria-label-combobox="t('tablespro', 'Select a table or view')" :preselect-first="true"
 			:preserve-search="true" @search="asyncFind" @input="addResource">
 			<template #no-options>
-				{{ t('tables', 'No recommendations. Start typing.') }}
+				{{ t('tablespro', 'No recommendations. Start typing.') }}
 			</template>
 			<template #option="props">
 				<SearchAndSelectOption
@@ -69,7 +69,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tables', 'views']),
+		...mapState(useTablesStore, ['tablespro', 'views']),
 
 		isValidQuery() {
 			return this.query?.trim() && this.query.length >= this.minSearchStringLength
@@ -84,9 +84,9 @@ export default {
 
 		noResultText() {
 			if (this.loading) {
-				return t('tables', 'Searching …')
+				return t('tablespro', 'Searching …')
 			}
-			return t('tables', 'No elements found.')
+			return t('tablespro', 'No elements found.')
 		},
 	},
 

@@ -4,29 +4,29 @@
 -->
 <template>
 	<NcDialog v-if="!importResults"
-		:name="t('tables', 'Import file into Tables')"
+		:name="t('tablespro', 'Import file into Tables')"
 		size="normal"
 		@closing="closeImportDialog">
 		<div class="modal__content">
 			<RowFormWrapper
 				class="row"
-				:title="t('tables', 'Import as new table')"
-				:description="t('tables', 'This will create a new table from the data in this file.')">
+				:title="t('tablespro', 'Import as new table')"
+				:description="t('tablespro', 'This will create a new table from the data in this file.')">
 				<div style="display: flex; flex-flow: row wrap; align-items: center;">
 					<NcCheckboxRadioSwitch
 						data-cy="importAsNewTableSwitch"
-						:aria-label="t('tables', 'Import as new table')"
+						:aria-label="t('tablespro', 'Import as new table')"
 						:checked.sync="importAsNew"
 						type="switch"
 						class="switch"
 						style="flex-grow: 0;">
-						{{ t('tables', 'Import as new table') }}
+						{{ t('tablespro', 'Import as new table') }}
 					</NcCheckboxRadioSwitch>
 
 					<div style="display: flex; flex-flow: row nowrap; flex-grow: 1;">
 						<NcEmojiPicker :close-on-select="true" @select="selectIcon">
 							<NcButton
-								:aria-label="t('tables', 'Select emoji for table')"
+								:aria-label="t('tablespro', 'Select emoji for table')"
 								type="tertiary"
 								:disabled="!importAsNew"
 								@click.prevent>
@@ -37,7 +37,7 @@
 						</NcEmojiPicker>
 
 						<input
-							:aria-label="t('tables', 'Title of the new table')"
+							:aria-label="t('tablespro', 'Title of the new table')"
 							style="flex-grow: 1;"
 							:placeholder="newTable.title"
 							:disabled="!importAsNew"
@@ -48,15 +48,15 @@
 
 			<RowFormWrapper
 				class="row"
-				:title="t('tables', 'Import into existing table')"
-				:description="t('tables', 'This will import the data from this file into an already existing table.')">
+				:title="t('tablespro', 'Import into existing table')"
+				:description="t('tablespro', 'This will import the data from this file into an already existing table.')">
 				<div style="display: flex; flex-flow: row nowrap; margin: 20px 0;">
 					<NcSelect
 						v-model="selectedTable"
 						data-cy="selectExistingTableDropdown"
 						:options="tableOptions"
-						:aria-label-combobox="t('tables', 'Select the table to import into')"
-						:placeholder="t('tables', 'Select an existing table')"
+						:aria-label-combobox="t('tablespro', 'Select the table to import into')"
+						:placeholder="t('tablespro', 'Select an existing table')"
 						:disabled="importAsNew"
 						:loading="loadingTables"
 						style="flex-grow: 1;" />
@@ -64,18 +64,18 @@
 			</RowFormWrapper>
 
 			<NcCheckboxRadioSwitch
-				:aria-label="t('tables', 'Create missing columns')"
+				:aria-label="t('tablespro', 'Create missing columns')"
 				type="switch"
 				:disabled="importAsNew"
 				:checked.sync="createMissingColumns"
 				style="flex-grow: 0;">
-				{{ t('tables', 'Create missing columns') }}
+				{{ t('tablespro', 'Create missing columns') }}
 			</NcCheckboxRadioSwitch>
 
 			<div class="end">
 				<NcButton
 					data-cy="fileActionImportButton"
-					:aria-label="t('tables', 'Import')"
+					:aria-label="t('tablespro', 'Import')"
 					type="primary"
 					:disabled="importingFile"
 					@click="importFile">
@@ -83,19 +83,19 @@
 						<NcLoadingIcon :size="20" />
 					</template>
 
-					{{ t('tables', 'Import') }}
+					{{ t('tablespro', 'Import') }}
 				</NcButton>
 			</div>
 		</div>
 	</NcDialog>
 
 	<NcDialog v-else
-		:name="t('tables', 'Import successful')"
+		:name="t('tablespro', 'Import successful')"
 		:open.sync="showResultsDialog"
 		size="small">
 		<template #actions>
-			<NcButton :aria-label="t('tables', 'Close')" @click="closeResultsDialog()">
-				{{ t('tables', 'Close') }}
+			<NcButton :aria-label="t('tablespro', 'Close')" @click="closeResultsDialog()">
+				{{ t('tablespro', 'Close') }}
 			</NcButton>
 		</template>
 
@@ -209,18 +209,18 @@ export default {
 				this.importResults = await importToNewTable(this.newTable.title, this.newTable.emoji, this.file)
 
 				if (!this.importResults) {
-					showError(t('tables', 'Could not create table'))
+					showError(t('tablespro', 'Could not create table'))
 				}
 			} else {
 				if (!this.selectedTable) {
-					showError(t('tables', 'You must select an existing table'))
+					showError(t('tablespro', 'You must select an existing table'))
 					return
 				}
 
 				this.importResults = await importToExistingTable(this.selectedTable.value, this.file, this.createMissingColumns)
 
 				if (!this.importResults) {
-					showError(t('tables', 'Could not import data to table'))
+					showError(t('tablespro', 'Could not import data to table'))
 				}
 			}
 

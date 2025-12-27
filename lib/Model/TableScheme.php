@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Model;
+namespace OCA\TablesPro\Model;
 
 use JsonSerializable;
-use OCA\Tables\Db\Column;
-use OCA\Tables\Db\View;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Db\View;
 
 class TableScheme implements JsonSerializable {
 

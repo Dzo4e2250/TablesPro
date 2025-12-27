@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service\ColumnTypes;
+namespace OCA\TablesPro\Service\ColumnTypes;
 
 use DateTime;
-use OCA\Tables\Db\Column;
+use OCA\TablesPro\Db\Column;
 use Psr\Log\LoggerInterface;
 
 class SuperBusiness {

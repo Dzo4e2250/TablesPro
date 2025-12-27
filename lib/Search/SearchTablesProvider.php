@@ -5,13 +5,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Search;
+namespace OCA\TablesPro\Search;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Db\Table;
-use OCA\Tables\Db\View;
-use OCA\Tables\Service\TableService;
-use OCA\Tables\Service\ViewService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Db\Table;
+use OCA\TablesPro\Db\View;
+use OCA\TablesPro\Service\TableService;
+use OCA\TablesPro\Service\ViewService;
 use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;

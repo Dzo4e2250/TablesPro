@@ -5,7 +5,7 @@
 <template>
 	<div class="row space-B">
 		<div class="col-4">
-			{{ t('tables', 'Share with accounts') }}
+			{{ t('tablespro', 'Share with accounts') }}
 		</div>
 		<NcSelect v-model="preExistingSharees" style="width: 100%;" :loading="loading" :options="options"
 			:placeholder="getPlaceholder()"

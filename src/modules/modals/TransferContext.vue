@@ -4,19 +4,19 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Transfer application')"
+		:name="t('tablespro', 'Transfer application')"
 		size="normal"
 		data-cy="transferContextModal"
 		@closing="actionCancel">
 		<div class="modal__content">
 			<div class="row">
-				<h3>{{ t('tables', 'Transfer the application "{context}" to another user', { context: context.name }) }}</h3>
+				<h3>{{ t('tablespro', 'Transfer the application "{context}" to another user', { context: context.name }) }}</h3>
 				<NcUserPicker :select-users="true" :select-groups="false" :selected-user-id.sync="newOwnerId" />
 			</div>
 			<div class="row">
 				<div class="fix-col-4 space-T end">
 					<NcButton type="warning" :disabled="newOwnerId === ''" data-cy="transferContextButton" @click="transferMe">
-						{{ t('tables', 'Transfer') }}
+						{{ t('tablespro', 'Transfer') }}
 					</NcButton>
 				</div>
 			</div>
@@ -80,7 +80,7 @@ export default {
 			})
 
 			if (res) {
-				showSuccess(t('tables', 'Context "{name}" transferred to {user}', {
+				showSuccess(t('tablespro', 'Context "{name}" transferred to {user}', {
 					name: this.context?.name,
 					user: this.newOwnerId,
 				}))

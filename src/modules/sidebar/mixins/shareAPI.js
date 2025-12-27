@@ -19,7 +19,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions('tables', ['setTableHasShares', 'setViewHasShares']),
+		...mapActions('tablespro', ['setTableHasShares', 'setViewHasShares']),
 		async getSharedWithFromBE() {
 			try {
 				let res
@@ -35,7 +35,7 @@ export default {
 				}
 			} catch (e) {
 				console.error('Error fetching shares:', e)
-				displayError(e, t('tables', 'Could not fetch shares.'))
+				displayError(e, t('tablespro', 'Could not fetch shares.'))
 				return []
 			}
 		},
@@ -60,7 +60,7 @@ export default {
 			try {
 				await axios.post(generateUrl('/apps/tables/share'), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not create share.'))
+				displayError(e, t('tablespro', 'Could not create share.'))
 				return false
 			}
 
@@ -82,7 +82,7 @@ export default {
 			try {
 				await axios.delete(generateUrl('/apps/tables/share/' + shareId))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove share.'))
+				displayError(e, t('tablespro', 'Could not remove share.'))
 			}
 		},
 
@@ -90,7 +90,7 @@ export default {
 			try {
 				await axios.put(generateUrl('/apps/tables/share/' + shareId + '/permission'), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not update share.'))
+				displayError(e, t('tablespro', 'Could not update share.'))
 			}
 		},
 

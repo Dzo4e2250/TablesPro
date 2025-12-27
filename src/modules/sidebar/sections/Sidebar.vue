@@ -12,19 +12,19 @@
 			<template #description>
 				<table v-if="activeElement">
 					<tr>
-						<td>{{ t('tables', 'Created at') }}</td>
+						<td>{{ t('tablespro', 'Created at') }}</td>
 						<td>{{ activeElement.createdAt | niceDateTime }}</td>
 					</tr>
 					<tr>
-						<td>{{ t('tables', 'Ownership') }}</td>
+						<td>{{ t('tablespro', 'Ownership') }}</td>
 						<td><NcUserBubble :user="activeElement.ownership" :display-name="activeElement.ownerDisplayName" /></td>
 					</tr>
 					<tr>
 						<td v-if="isView">
-							{{ t('tables', 'View ID') }}
+							{{ t('tablespro', 'View ID') }}
 						</td>
 						<td v-else>
-							{{ t('tables', 'Table ID') }}
+							{{ t('tablespro', 'Table ID') }}
 						</td>
 						<td>{{ activeElement.id }}</td>
 					</tr>
@@ -33,7 +33,7 @@
 			<NcAppSidebarTab
 				id="integration"
 				:order="2"
-				:name="t('tables', 'Integration')">
+				:name="t('tablespro', 'Integration')">
 				<SidebarIntegration />
 				<template #icon>
 					<Connection :size="20" />
@@ -42,7 +42,7 @@
 			<NcAppSidebarTab v-if="isActivityEnabled"
 				id="activity"
 				:order="1"
-				:name="t('tables', 'Activity')">
+				:name="t('tablespro', 'Activity')">
 				<template #icon>
 					<ActivityIcon :size="20" />
 				</template>
@@ -52,7 +52,7 @@
 				id="sharing"
 				icon="icon-share"
 				:order="0"
-				:name="t('tables', 'Sharing')">
+				:name="t('tablespro', 'Sharing')">
 				<SidebarSharing />
 			</NcAppSidebarTab>
 		</NcAppSidebar>
@@ -101,17 +101,17 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(useTablesStore, ['tables', 'activeElement', 'isView']),
+		...mapState(useTablesStore, ['tablespro', 'activeElement', 'isView']),
 		elementTitle() {
 			if (this.activeElement) {
 				return this.activeElement.emoji + ' ' + this.activeElement.title
 			} else {
-				return t('tables', 'No view in context')
+				return t('tablespro', 'No view in context')
 			}
 		},
 		elementSubtitle() {
 			if (this.activeElement) {
-				return t('tables', 'From {ownerName}', { ownerName: this.activeElement.ownership })
+				return t('tablespro', 'From {ownerName}', { ownerName: this.activeElement.ownership })
 				// TODO: Created By?
 			} else {
 				return ''

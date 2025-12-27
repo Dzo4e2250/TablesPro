@@ -7,7 +7,7 @@
 		<NcDateTimePickerNative
 			id="datetime-time-picker"
 			v-model="localValue"
-			:label="t('tables', 'Please select a new time')"
+			:label="t('tablespro', 'Please select a new time')"
 			:readonly="column.viewColumnInformation?.readonly"
 			type="time" />
 		<div v-if="canBeCleared" class="icon-close make-empty" @click="emptyValue" />

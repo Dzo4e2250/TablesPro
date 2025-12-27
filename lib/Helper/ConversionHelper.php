@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Helper;
+namespace OCA\TablesPro\Helper;
 
 use InvalidArgumentException;
-use OCA\Tables\AppInfo\Application;
+use OCA\TablesPro\AppInfo\Application;
 
 class ConversionHelper {
 

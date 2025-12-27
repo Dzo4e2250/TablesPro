@@ -8,7 +8,7 @@
 			v-model="localValue"
 			:options="getAllNonDeletedOptions"
 			:disabled="column.viewColumnInformation?.readonly"
-			:aria-label-combobox="t('tables', 'Options')" />
+			:aria-label-combobox="t('tablespro', 'Options')" />
 	</RowFormWrapper>
 </template>
 

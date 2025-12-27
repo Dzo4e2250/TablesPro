@@ -6,22 +6,22 @@
 	<div style="width: 100%">
 		<div class="row">
 			<div class="col-4 title">
-				{{ t('tables', 'Options') }}
+				{{ t('tablespro', 'Options') }}
 			</div>
 			<div v-for="opt in mutableColumn.selectionOptions" :key="opt.id" class="col-4 inline" data-cy="selectionOption">
 				<NcCheckboxRadioSwitch :value="'' + opt.id" :checked.sync="mutableColumn.selectionDefault" name="defaultValues" />
 				<input :value="opt.label" data-cy="selectionOptionLabel" @input="updateLabel(opt.id, $event)">
-				<NcButton type="tertiary" :aria-label="t('tables', 'Delete option')" @click="deleteOption(opt.id)">
+				<NcButton type="tertiary" :aria-label="t('tablespro', 'Delete option')" @click="deleteOption(opt.id)">
 					<template #icon>
 						<DeleteOutline :size="20" />
 					</template>
 				</NcButton>
 			</div>
-			<NcButton :aria-label="t('tables', 'Add option')" @click="addOption">
-				{{ t('tables', 'Add option') }}
+			<NcButton :aria-label="t('tablespro', 'Add option')" @click="addOption">
+				{{ t('tablespro', 'Add option') }}
 			</NcButton>
 			<p class="span">
-				{{ t('tables', 'You can set default values by marking the checkboxes next to the label fields.') }}
+				{{ t('tablespro', 'You can set default values by marking the checkboxes next to the label fields.') }}
 			</p>
 		</div>
 	</div>
@@ -78,11 +78,11 @@ export default {
 			const options = [
 				{
 					id: 0,
-					label: t('tables', 'First option'),
+					label: t('tablespro', 'First option'),
 				},
 				{
 					id: 1,
-					label: t('tables', 'Second option'),
+					label: t('tablespro', 'Second option'),
 				},
 			]
 			return options

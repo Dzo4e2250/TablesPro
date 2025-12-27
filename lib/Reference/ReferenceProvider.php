@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Reference;
+namespace OCA\TablesPro\Reference;
 
 use OC\Collaboration\Reference\ReferenceManager;
-use OCA\Tables\AppInfo\Application;
+use OCA\TablesPro\AppInfo\Application;
 use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\ISearchableReferenceProvider;

@@ -10,7 +10,7 @@
 		<table>
 			<tr>
 				<td class="key">
-					{{ t('tables', 'Last edit') }}
+					{{ t('tablespro', 'Last edit') }}
 				</td>
 				<td class="value">
 					{{ updateTime }}&nbsp;
@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<td class="key">
-					{{ t('tables', 'Create') }}
+					{{ t('tablespro', 'Create') }}
 				</td>
 				<td class="value">
 					{{ createTime }}&nbsp;
@@ -28,7 +28,7 @@
 			</tr>
 			<tr>
 				<td class="key">
-					{{ t('tables', 'Column ID') }}
+					{{ t('tablespro', 'Column ID') }}
 				</td>
 				<td class="value">
 					{{ column.id }}
@@ -36,7 +36,7 @@
 			</tr>
 			<tr>
 				<td class="key">
-					{{ t('tables', 'Table ID') }}
+					{{ t('tablespro', 'Table ID') }}
 				</td>
 				<td class="value">
 					{{ column.tableId }}
@@ -72,7 +72,7 @@ export default {
 	},
 	methods: {
 		relativeDateTime(v) {
-			return moment(v).format('L') === moment().format('L') ? t('tables', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
+			return moment(v).format('L') === moment().format('L') ? t('tablespro', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
 		},
 	},
 }

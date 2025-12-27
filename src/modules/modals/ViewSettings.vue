@@ -3,18 +3,18 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppSettingsDialog :open.sync="open" :show-navigation="true" data-cy="viewSettingsDialog" :title="createView ? t('tables', 'Create view') : t('tables', 'Edit view')">
+	<NcAppSettingsDialog :open.sync="open" :show-navigation="true" data-cy="viewSettingsDialog" :title="createView ? t('tablespro', 'Create view') : t('tablespro', 'Edit view')">
 		<NcAppSettingsSection v-if="columns === null" id="loading" name="">
 			<div class="icon-loading" />
 		</NcAppSettingsSection>
 		<!--title & emoji-->
-		<NcAppSettingsSection v-if="columns != null" id="title" :name="t('tables', 'Title')" data-cy="viewSettingsDialogSection">
+		<NcAppSettingsSection v-if="columns != null" id="title" :name="t('tablespro', 'Title')" data-cy="viewSettingsDialogSection">
 			<div class="row">
 				<div class="col-4" style="display: inline-flex;">
 					<NcEmojiPicker :close-on-select="true" @select="setIcon">
 						<NcButton type="tertiary"
-							:aria-label="t('tables', 'Select emoji for view')"
-							:title="t('tables', 'Select emoji')"
+							:aria-label="t('tablespro', 'Select emoji for view')"
+							:title="t('tablespro', 'Select emoji')"
 							@click.prevent>
 							{{ icon }}
 						</NcButton>
@@ -23,13 +23,13 @@
 						data-cy="viewSettingsDialogTitleInput"
 						:class="{missing: errorTitle}"
 						type="text"
-						:placeholder="createView ? t('tables', 'Title of the new view') : t('tables', 'New title of the view')">
+						:placeholder="createView ? t('tablespro', 'Title of the new view') : t('tablespro', 'New title of the view')">
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-4 space-T mandatory">
-					{{ t('tables', 'Description') }}
+					{{ t('tablespro', 'Description') }}
 				</div>
 				<div class="col-4">
 					<TableDescription :description.sync="description" />
@@ -37,7 +37,7 @@
 			</div>
 		</NcAppSettingsSection>
 		<!--columns & order-->
-		<NcAppSettingsSection v-if="columns != null" id="columns-and-order" :name="t('tables', 'Columns')">
+		<NcAppSettingsSection v-if="columns != null" id="columns-and-order" :name="t('tablespro', 'Columns')">
 			<SelectedViewColumns
 				:columns="allColumns"
 				:selected-columns="selectedColumns"
@@ -46,7 +46,7 @@
 				:disable-hide="!canManageTable(view)" />
 		</NcAppSettingsSection>
 		<!--filtering-->
-		<NcAppSettingsSection v-if="columns != null && canManageTable(view)" id="filter" :name="t('tables', 'Filter')">
+		<NcAppSettingsSection v-if="columns != null && canManageTable(view)" id="filter" :name="t('tablespro', 'Filter')">
 			<FilterForm
 				:filters.sync="mutableFilters"
 				:view-filters="viewSetting ? view.filter : null"
@@ -54,7 +54,7 @@
 				:columns="allColumns" />
 		</NcAppSettingsSection>
 		<!--sorting-->
-		<NcAppSettingsSection v-if="columns != null" id="sort" :name="t('tables', 'Sort')">
+		<NcAppSettingsSection v-if="columns != null" id="sort" :name="t('tablespro', 'Sort')">
 			<SortForm
 				:sort="mutableView.sort"
 				:view-sort="viewSetting ? view.sort : null"
@@ -153,15 +153,15 @@ export default {
 		},
 		saveText() {
 			if (this.createView) {
-				return t('tables', 'Create View')
+				return t('tablespro', 'Create View')
 			} else if (this.viewSetting) {
-				return t('tables', 'Save modified View')
+				return t('tablespro', 'Save modified View')
 			} else {
-				return t('tables', 'Save View')
+				return t('tablespro', 'Save View')
 			}
 		},
 		createNewViewText() {
-			return t('tables', 'Save as new view')
+			return t('tablespro', 'Save as new view')
 		},
 		generateViewConfigData() {
 			if (!this.viewSetting) return this.view
@@ -202,7 +202,7 @@ export default {
 	watch: {
 		title() {
 			if (this.title.length >= 200) {
-				showError(t('tables', 'The title character limit is 200 characters. Please use a shorter title.'))
+				showError(t('tablespro', 'The title character limit is 200 characters. Please use a shorter title.'))
 				this.title = this.title.slice(0, 199)
 			}
 		},
@@ -256,8 +256,8 @@ export default {
 		},
 		async saveView() {
 			if (this.title === '') {
-				let titleErrorText = this.createView ? t('tables', 'Cannot create view.') : t('tables', 'Cannot update view.')
-				titleErrorText += ' ' + t('tables', 'Title is missing.')
+				let titleErrorText = this.createView ? t('tablespro', 'Cannot create view.') : t('tablespro', 'Cannot update view.')
+				titleErrorText += ' ' + t('tablespro', 'Title is missing.')
 				showError(titleErrorText)
 				this.errorTitle = true
 			} else {
@@ -275,7 +275,7 @@ export default {
 		},
 		async createNewView() {
 			if (this.title === '') {
-				showError(t('tables', 'Cannot create view.') + ' ' + t('tables', 'Title is missing.'))
+				showError(t('tablespro', 'Cannot create view.') + ' ' + t('tablespro', 'Title is missing.'))
 				this.errorTitle = true
 			} else {
 				this.localLoading = true
@@ -299,7 +299,7 @@ export default {
 			if (res) {
 				return res
 			} else {
-				showError(t('tables', 'Could not create new view'))
+				showError(t('tablespro', 'Could not create new view'))
 			}
 		},
 		async updateViewToBE(id) {
@@ -334,7 +334,7 @@ export default {
 			if (res) {
 				return res
 			} else {
-				showError(t('tables', 'Could not update view'))
+				showError(t('tablespro', 'Could not update view'))
 			}
 		},
 		reset() {

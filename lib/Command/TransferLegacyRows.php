@@ -5,16 +5,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Command;
+namespace OCA\TablesPro\Command;
 
-use OCA\Tables\Db\LegacyRowMapper;
-use OCA\Tables\Db\Row2Mapper;
-use OCA\Tables\Db\Table;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Service\ColumnService;
-use OCA\Tables\Service\TableService;
+use OCA\TablesPro\Db\LegacyRowMapper;
+use OCA\TablesPro\Db\Row2Mapper;
+use OCA\TablesPro\Db\Table;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Service\ColumnService;
+use OCA\TablesPro\Service\TableService;
 use OCP\DB\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;

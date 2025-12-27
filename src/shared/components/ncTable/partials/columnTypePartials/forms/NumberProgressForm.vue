@@ -7,7 +7,7 @@
 		<!-- default -->
 		<div class="row space-T">
 			<div class="fix-col-4">
-				{{ t('tables', 'Default') }}
+				{{ t('tablespro', 'Default') }}
 			</div>
 			<div class="fix-col-2">
 				<input v-model="mutableColumn.numberDefault"

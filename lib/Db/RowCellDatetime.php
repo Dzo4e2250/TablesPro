@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
 /** @template-extends RowCellSuper<RowCellDatetime> */
 class RowCellDatetime extends RowCellSuper {

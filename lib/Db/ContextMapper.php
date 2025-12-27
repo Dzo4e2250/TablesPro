@@ -5,12 +5,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Helper\GroupHelper;
-use OCA\Tables\Helper\UserHelper;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Helper\GroupHelper;
+use OCA\TablesPro\Helper\UserHelper;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;

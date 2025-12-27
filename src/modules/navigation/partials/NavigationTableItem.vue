@@ -40,7 +40,7 @@
 				<template #icon>
 					<IconRename :size="20" decorative />
 				</template>
-				{{ t('tables', 'Edit table') }}
+				{{ t('tablespro', 'Edit table') }}
 			</NcActionButton>
 
 			<!-- CREATE VIEW -->
@@ -50,7 +50,7 @@
 				<template #icon>
 					<PlaylistPlus :size="20" />
 				</template>
-				{{ t('tables', 'Create view') }}
+				{{ t('tablespro', 'Create view') }}
 			</NcActionButton>
 
 			<!-- SHARE -->
@@ -58,14 +58,14 @@
 				icon="icon-share"
 				:close-after-click="true"
 				@click="actionShowShare">
-				{{ t('tables', 'Share') }}
+				{{ t('tablespro', 'Share') }}
 			</NcActionButton>
 
 			<!-- IMPORT -->
 			<NcActionButton v-if="canCreateRowInElement(table)"
 				:close-after-click="true"
 				@click="actionShowImport(table)">
-				{{ t('tables', 'Import') }}
+				{{ t('tablespro', 'Import') }}
 				<template #icon>
 					<Import :size="20" />
 				</template>
@@ -73,7 +73,7 @@
 
 			<!-- EXPORT -->
 			<NcActionButton @click="exportFile">
-				{{ t('tables','Export') }}
+				{{ t('tablespro','Export') }}
 				<template #icon>
 					<Import :size="20" />
 				</template>
@@ -82,7 +82,7 @@
 			<NcActionButton
 				:close-after-click="true"
 				@click="actionShowIntegration">
-				{{ t('tables', 'Integration') }}
+				{{ t('tablespro', 'Integration') }}
 				<template #icon>
 					<Connection :size="20" />
 				</template>
@@ -92,7 +92,7 @@
 			<NcActionButton v-if="canReadData(table) && isActivityEnabled"
 				:close-after-click="true"
 				@click="actionShowActivity">
-				{{ t('tables', 'Activity') }}
+				{{ t('tablespro', 'Activity') }}
 				<template #icon>
 					<ActivityIcon :size="20" />
 				</template>
@@ -102,7 +102,7 @@
 			<NcActionButton v-if="!table.favorite && !table.archived"
 				:close-after-click="true"
 				@click="toggleFavoriteTable(true)">
-				{{ t('tables', 'Add to favorites') }}
+				{{ t('tablespro', 'Add to favorites') }}
 				<template #icon>
 					<Star :size="20" />
 				</template>
@@ -112,7 +112,7 @@
 			<NcActionButton v-if="table.favorite"
 				:close-after-click="true"
 				@click="toggleFavoriteTable(false)">
-				{{ t('tables', 'Remove from favorites') }}
+				{{ t('tablespro', 'Remove from favorites') }}
 				<template #icon>
 					<StarOutline :size="20" />
 				</template>
@@ -122,7 +122,7 @@
 			<NcActionButton v-if="canManageElement(table) && !table.archived && !table.favorite"
 				:close-after-click="true"
 				@click="toggleArchiveTable(true)">
-				{{ t('tables', 'Archive table') }}
+				{{ t('tablespro', 'Archive table') }}
 				<template #icon>
 					<ArchiveArrowDown :size="20" />
 				</template>
@@ -132,7 +132,7 @@
 			<NcActionButton v-if="canManageElement(table) && table.archived"
 				:close-after-click="true"
 				@click="toggleArchiveTable(false)">
-				{{ t('tables', 'Unarchive table') }}
+				{{ t('tablespro', 'Unarchive table') }}
 				<template #icon>
 					<ArchiveArrowUpOutline :size="20" />
 				</template>
@@ -142,7 +142,7 @@
 			<NcActionButton v-if="canManageElement(table)"
 				:close-after-click="true"
 				@click="deleteTable()">
-				{{ t('tables', 'Delete table') }}
+				{{ t('tablespro', 'Delete table') }}
 				<template #icon>
 					<DeleteOutline :size="20" />
 				</template>
@@ -234,7 +234,7 @@ export default {
 	computed: {
 		...mapState(useTablesStore, ['activeTable', 'activeView', 'views']),
 		getTranslatedDescription() {
-			return t('tables', 'Do you really want to delete the table "{table}"?', { table: this.table.title })
+			return t('tablespro', 'Do you really want to delete the table "{table}"?', { table: this.table.title })
 		},
 		userId() {
 			return getCurrentUser().uid

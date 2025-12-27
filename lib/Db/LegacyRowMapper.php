@@ -5,17 +5,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
-use OCA\Tables\Db\ColumnTypes\DatetimeColumnQB;
-use OCA\Tables\Db\ColumnTypes\IColumnTypeQB;
-use OCA\Tables\Db\ColumnTypes\NumberColumnQB;
-use OCA\Tables\Db\ColumnTypes\SelectionColumnQB;
-use OCA\Tables\Db\ColumnTypes\SuperColumnQB;
-use OCA\Tables\Db\ColumnTypes\TextColumnQB;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Helper\ColumnsHelper;
-use OCA\Tables\Helper\UserHelper;
+use OCA\TablesPro\Db\ColumnTypes\DatetimeColumnQB;
+use OCA\TablesPro\Db\ColumnTypes\IColumnTypeQB;
+use OCA\TablesPro\Db\ColumnTypes\NumberColumnQB;
+use OCA\TablesPro\Db\ColumnTypes\SelectionColumnQB;
+use OCA\TablesPro\Db\ColumnTypes\SuperColumnQB;
+use OCA\TablesPro\Db\ColumnTypes\TextColumnQB;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Helper\ColumnsHelper;
+use OCA\TablesPro\Helper\UserHelper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
@@ -84,7 +84,7 @@ class LegacyRowMapper extends QBMapper {
 
 	private function buildFilterByColumnType($qb, array $filter, string $filterId): ?IQueryFunction {
 		try {
-			$columnQbClassName = 'OCA\Tables\Db\ColumnTypes\\';
+			$columnQbClassName = 'OCA\TablesPro\Db\ColumnTypes\\';
 			$type = explode('-', $filter['columnType'])[0];
 
 			$columnQbClassName .= ucfirst($type) . 'ColumnQB';

@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
-use OCA\Tables\Service\ContextService;
+use OCA\TablesPro\Service\ContextService;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;

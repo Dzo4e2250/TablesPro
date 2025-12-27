@@ -10,7 +10,7 @@
 			:options="getAllNonDeletedOrSelectedOptions"
 			:disabled="column.viewColumnInformation?.readonly"
 			:multiple="true"
-			:aria-label-combobox="t('tables', 'Options')" />
+			:aria-label-combobox="t('tablespro', 'Options')" />
 	</RowFormWrapper>
 </template>
 

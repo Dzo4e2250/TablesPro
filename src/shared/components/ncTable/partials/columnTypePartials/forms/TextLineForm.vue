@@ -7,7 +7,7 @@
 		<!-- default -->
 		<div class="row">
 			<div class="fix-col-4">
-				{{ t('tables', 'Default') }}
+				{{ t('tablespro', 'Default') }}
 			</div>
 			<div class="fix-col-4 space-B">
 				<input v-model="mutableColumn.textDefault">
@@ -18,7 +18,7 @@
 		<!--
 		<div class="row">
 			<div class="fix-col-1">
-				{{ t('tables', 'Allowed pattern (regex)') }}
+				{{ t('tablespro', 'Allowed pattern (regex)') }}
 			</div>
 			<div class="fix-col-3 margin-bottom">
 				<input v-model="mutableColumn.textAllowedPattern">
@@ -29,7 +29,7 @@
 		<!-- max text length -->
 		<div class="row">
 			<div class="fix-col-4">
-				{{ t('tables', 'Maximum text length') }}
+				{{ t('tablespro', 'Maximum text length') }}
 			</div>
 			<div class="fix-col-4">
 				<input v-model="maxLength"
@@ -43,7 +43,7 @@
 		<div class="row">
 			<div class="row space-T">
 				<div class="fix-col-4 title">
-					{{ t('tables', 'Unique value') }}
+					{{ t('tablespro', 'Unique value') }}
 				</div>
 				<div class="fix-col-4 margin-bottom">
 					<NcCheckboxRadioSwitch type="switch" :checked.sync="mutableColumn.textUnique" />

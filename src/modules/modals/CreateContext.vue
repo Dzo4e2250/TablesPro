@@ -4,21 +4,21 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Create an application')"
+		:name="t('tablespro', 'Create an application')"
 		size="normal"
 		data-cy="createContextModal"
 		@closing="actionCancel">
 		<div class="modal__content">
 			<div class="row space-T">
 				<div class="col-4 mandatory">
-					{{ t('tables', 'Title') }}
+					{{ t('tablespro', 'Title') }}
 				</div>
 				<div class="col-4 content-emoji">
 					<NcIconPicker :close-on-select="true" @select="setIcon">
 						<NcButton
 							type="tertiary"
-							:aria-label="t('tables', 'Select icon for the application')"
-							:title="t('tables', 'Select icon')"
+							:aria-label="t('tablespro', 'Select icon for the application')"
+							:title="t('tablespro', 'Select icon')"
 							@click.prevent>
 							<template #icon>
 								<NcIconSvgWrapper :svg="icon.svg" />
@@ -26,34 +26,34 @@
 						</NcButton>
 					</NcIconPicker>
 					<input ref="titleInput" v-model="title" :class="{ missing: errorTitle }" type="text" data-cy="createContextTitle"
-						:placeholder="t('tables', 'Title of the new application')" @input="titleChangedManually">
+						:placeholder="t('tablespro', 'Title of the new application')" @input="titleChangedManually">
 				</div>
 			</div>
 			<div class="col-4 row space-T">
 				<div class="col-4">
-					{{ t('tables', 'Description') }}
+					{{ t('tablespro', 'Description') }}
 				</div>
 				<input v-model="description" type="text" data-cy="createContextDes"
-					:placeholder="t('tables', 'Description of the new application')">
+					:placeholder="t('tablespro', 'Description of the new application')">
 			</div>
 			<div class="col-4 row space-T">
 				<div class="col-4">
-					{{ t('tables', 'Resources') }}
+					{{ t('tablespro', 'Resources') }}
 				</div>
 				<NcContextResource :resources.sync="resources" :receivers.sync="receivers" />
 			</div>
 			<div class="row space-T">
 				<NcActionCheckbox :checked="showInNavigationDefault" data-cy="createContextShowInNavSwitch" @change="changeDisplayMode">
-					{{ t('tables', 'Show in app list') }}
+					{{ t('tablespro', 'Show in app list') }}
 				</NcActionCheckbox>
 				<p class="nav-display-subtext">
-					{{ t('tables', 'This can be overridden by a per-account preference') }}
+					{{ t('tablespro', 'This can be overridden by a per-account preference') }}
 				</p>
 			</div>
 			<div class="row space-R row space-T">
 				<div class="fix-col-4 end">
-					<NcButton type="primary" :aria-label="t('tables', 'Create application')" data-cy="createContextSubmitBtn" @click="submit">
-						{{ t('tables', 'Create application') }}
+					<NcButton type="primary" :aria-label="t('tablespro', 'Create application')" data-cy="createContextSubmitBtn" @click="submit">
+						{{ t('tablespro', 'Create application') }}
 					</NcButton>
 				</div>
 			</div>
@@ -109,7 +109,7 @@ export default {
 	watch: {
 		title() {
 			if (this.title.length >= 200) {
-				showError(t('tables', 'The title character limit is 200 characters. Please use a shorter title.'))
+				showError(t('tablespro', 'The title character limit is 200 characters. Please use a shorter title.'))
 				this.title = this.title.slice(0, 199)
 			}
 		},
@@ -137,7 +137,7 @@ export default {
 		},
 		async submit() {
 			if (this.title === '') {
-				showError(t('tables', 'Cannot create new application. Title is missing.'))
+				showError(t('tablespro', 'Cannot create new application. Title is missing.'))
 				this.errorTitle = true
 			} else {
 				const newContextId = await this.sendNewContextToBE()
@@ -179,7 +179,7 @@ export default {
 			if (res) {
 				return res.id
 			} else {
-				showError(t('tables', 'Could not create new application'))
+				showError(t('tablespro', 'Could not create new application'))
 			}
 		},
 		changeDisplayMode() {

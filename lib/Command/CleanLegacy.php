@@ -5,16 +5,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Command;
+namespace OCA\TablesPro\Command;
 
-use OCA\Tables\Db\LegacyRow;
-use OCA\Tables\Db\LegacyRowMapper;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Service\ColumnService;
-use OCA\Tables\Service\RowService;
-use OCA\Tables\Service\TableService;
+use OCA\TablesPro\Db\LegacyRow;
+use OCA\TablesPro\Db\LegacyRowMapper;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Service\ColumnService;
+use OCA\TablesPro\Service\RowService;
+use OCA\TablesPro\Service\TableService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;

@@ -5,9 +5,9 @@
 <template>
 	<div>
 		<DialogConfirmation :description="getTranslatedDescription"
-			:title="t('tables', 'Confirm view deletion')"
-			:cancel-title="t('tables', 'Cancel')"
-			:confirm-title="t('tables', 'Delete')"
+			:title="t('tablespro', 'Confirm view deletion')"
+			:cancel-title="t('tablespro', 'Cancel')"
+			:confirm-title="t('tablespro', 'Delete')"
 			confirm-class="error"
 			:show-modal="showModal"
 			@confirm="deleteMe"
@@ -39,7 +39,7 @@ export default {
 	computed: {
 		...mapState(useTablesStore, ['activeView', 'isView']),
 		getTranslatedDescription() {
-			return t('tables', 'Do you really want to delete the view "{view}"?', { view: this.view?.title })
+			return t('tablespro', 'Do you really want to delete the view "{view}"?', { view: this.view?.title })
 		},
 	},
 	methods: {
@@ -49,7 +49,7 @@ export default {
 			const activeViewId = this.activeView?.id
 			const res = await this.removeView({ viewId: this.view.id })
 			if (res) {
-				showSuccess(t('tables', 'View "{emoji}{view}" removed.', { emoji: this.view.emoji ? this.view.emoji + ' ' : '', view: this.view.title }))
+				showSuccess(t('tablespro', 'View "{emoji}{view}" removed.', { emoji: this.view.emoji ? this.view.emoji + ' ' : '', view: this.view.title }))
 
 				// if the actual view was deleted, go to startpage
 				if (viewId === activeViewId) {

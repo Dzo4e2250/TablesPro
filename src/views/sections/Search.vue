@@ -8,8 +8,8 @@
 			id="smartpicker-select"
 			v-model="localValue"
 			:loading="loading"
-			:placeholder="t('tables', 'Search for tables and views...')"
-			:aria-label-combobox="t('tables', 'Search for tables and views...')"
+			:placeholder="t('tablespro', 'Search for tables and views...')"
+			:aria-label-combobox="t('tablespro', 'Search for tables and views...')"
 			:options="getOptions"
 			@search="v => term = v">
 			<template #option="props">
@@ -97,7 +97,7 @@ export default {
 				console.debug('res', res)
 				this.options = res.data
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load search results.'))
+				displayError(e, t('tablespro', 'Could not load search results.'))
 			}
 
 			this.loading = false

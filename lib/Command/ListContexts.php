@@ -5,11 +5,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Command;
+namespace OCA\TablesPro\Command;
 
 use OC\Core\Command\Base;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Service\ContextService;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Service\ContextService;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;

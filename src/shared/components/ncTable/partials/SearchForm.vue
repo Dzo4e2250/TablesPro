@@ -6,7 +6,7 @@
 	<div :class="{ empty: localValue === '' }">
 		<NcTextField
 			:value.sync="localValue"
-			:label="t('tables', 'Search')"
+			:label="t('tablespro', 'Search')"
 			trailing-button-icon="close"
 			:show-trailing-button="localValue !== ''"
 			@trailing-button-click="clearValue"

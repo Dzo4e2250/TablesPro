@@ -4,14 +4,14 @@
 -->
 <template>
 	<div>
-		<NcEmptyContent :name="t('tables', 'Tables')"
-			:description="t('tables', 'Manage data the way you need it.')">
+		<NcEmptyContent :name="t('tablespro', 'Tables')"
+			:description="t('tablespro', 'Manage data the way you need it.')">
 			<template #icon>
 				<IconTables />
 			</template>
 			<template #action>
-				<NcButton :aria-label="t('tables', 'Create new table')" type="primary" @click="addTable">
-					{{ t('tables', 'Create new table') }}
+				<NcButton :aria-label="t('tablespro', 'Create new table')" type="primary" @click="addTable">
+					{{ t('tablespro', 'Create new table') }}
 				</NcButton>
 			</template>
 		</NcEmptyContent>

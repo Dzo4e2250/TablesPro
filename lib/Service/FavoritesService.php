@@ -5,12 +5,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\Exception;
 use OCP\IDBConnection;

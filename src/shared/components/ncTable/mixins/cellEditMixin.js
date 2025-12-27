@@ -87,7 +87,7 @@ export default {
 			})
 
 			if (!res) {
-				showError(t('tables', 'Could not update cell'))
+				showError(t('tablespro', 'Could not update cell'))
 				return false
 			} else {
 				this.$emit('update:value', newValue)

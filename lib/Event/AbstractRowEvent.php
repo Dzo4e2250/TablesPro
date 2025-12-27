@@ -5,10 +5,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Event;
+namespace OCA\TablesPro\Event;
 
-use OCA\Tables\Db\Row2;
-use OCA\Tables\Model\Public\Row;
+use OCA\TablesPro\Db\Row2;
+use OCA\TablesPro\Model\Public\Row;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IWebhookCompatibleEvent;
 

@@ -7,10 +7,10 @@
 		<div class="row space-T space-B">
 			<div class="col-4 space-L">
 				<h2>
-					{{ t('tables', 'Views') }}&nbsp;&nbsp;
+					{{ t('tablespro', 'Views') }}&nbsp;&nbsp;
 					<NcButton v-if="canManageElement(table)"
 						type="secondary"
-						:aria-label="t('tables', 'Create view')"
+						:aria-label="t('tablespro', 'Create view')"
 						:close-after-click="true" @click="$emit('create-view')">
 						<template #icon>
 							<PlaylistPlus :size="20" />
@@ -22,12 +22,12 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>{{ t('tables', 'View') }} </th>
-							<th>{{ t('tables', 'Rows') }} </th>
-							<th>{{ t('tables', 'Columns') }} </th>
-							<th>{{ t('tables', 'Last edited') }} </th>
-							<th>{{ t('tables', 'Shares') }} </th>
-							<th>{{ t('tables', 'Actions') }}</th>
+							<th>{{ t('tablespro', 'View') }} </th>
+							<th>{{ t('tablespro', 'Rows') }} </th>
+							<th>{{ t('tablespro', 'Columns') }} </th>
+							<th>{{ t('tablespro', 'Last edited') }} </th>
+							<th>{{ t('tablespro', 'Shares') }} </th>
+							<th>{{ t('tablespro', 'Actions') }}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,37 +61,37 @@
 								<NcActions>
 									<NcActionButton v-if="canManageElement(table)"
 										type="secondary"
-										:aria-label="t('tables', 'Edit view')"
+										:aria-label="t('tablespro', 'Edit view')"
 										:close-after-click="true"
 										@click="emit('tables:view:edit', { view })">
 										<template #icon>
 											<PlaylistEditIcon :size="20" />
 										</template>
-										{{ t('tables', 'Edit view') }}
+										{{ t('tablespro', 'Edit view') }}
 									</NcActionButton>
 									<NcActionButton v-if="canShareElement(table)"
 										icon="icon-share"
 										:close-after-click="true"
 										@click="actionShowShare(view)">
-										{{ t('tables', 'Share') }}
+										{{ t('tablespro', 'Share') }}
 									</NcActionButton>
 									<NcActionButton
 										:close-after-click="true"
 										@click="actionShowIntegration(view)">
-										{{ t('tables', 'Integration') }}
+										{{ t('tablespro', 'Integration') }}
 										<template #icon>
 											<Connection :size="20" />
 										</template>
 									</NcActionButton>
 									<NcActionButton v-if="canManageElement(table)"
 										type="error"
-										:aria-label="t('tables', 'Delete view')"
+										:aria-label="t('tablespro', 'Delete view')"
 										:close-after-click="true"
 										@click="emit('tables:view:delete', view)">
 										<template #icon>
 											<DeleteOutline :size="20" />
 										</template>
-										{{ t('tables', 'Delete view') }}
+										{{ t('tablespro', 'Delete view') }}
 									</NcActionButton>
 								</NcActions>
 							</td>
@@ -214,7 +214,7 @@ export default {
 				data: { title: this.table.title, emoji },
 			})
 			if (res) {
-				showSuccess(t('tables', 'Updated table "{emoji}{table}".', {
+				showSuccess(t('tablespro', 'Updated table "{emoji}{table}".', {
 					emoji: emoji ? emoji + ' ' : '',
 					table: this.table.title,
 				}))
@@ -223,14 +223,14 @@ export default {
 
 		async updateTableTitle() {
 			if (this.tableTitle === '' || this.tableTitle === null) {
-				showError(t('tables', 'Cannot update table. Title is missing.'))
+				showError(t('tablespro', 'Cannot update table. Title is missing.'))
 			} else {
 				const res = await this.updateTable({
 					id: this.table.id,
 					data: { title: this.tableTitle, emoji: this.table.emoji },
 				})
 				if (res) {
-					showSuccess(t('tables', 'Updated table "{emoji}{table}".', {
+					showSuccess(t('tablespro', 'Updated table "{emoji}{table}".', {
 						emoji: this.icon ? this.icon + ' ' : '',
 						table: this.tableTitle,
 					}))
@@ -247,7 +247,7 @@ export default {
 				const res = await axios.get(generateUrl('/apps/tables/share/view/' + viewId))
 				return res.data
 			} catch (e) {
-				displayError(e, t('tables', 'Could not fetch shares.'))
+				displayError(e, t('tablespro', 'Could not fetch shares.'))
 			}
 		},
 
@@ -256,7 +256,7 @@ export default {
 				const res = await axios.get(generateUrl('/apps/tables/share/table/' + tableId))
 				return res.data
 			} catch (e) {
-				displayError(e, t('tables', 'Could not fetch shares.'))
+				displayError(e, t('tablespro', 'Could not fetch shares.'))
 			}
 		},
 

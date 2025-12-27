@@ -5,7 +5,7 @@
 <template>
 	<div class="cell-selection">
 		<div v-if="!isEditing" class="non-edit-mode" @click="handleStartEditing">
-			{{ column.getLabel(value) }}<span v-if="isDeleted()" :title="t('tables', 'This option is outdated.')">&nbsp;⚠️</span>
+			{{ column.getLabel(value) }}<span v-if="isDeleted()" :title="t('tablespro', 'This option is outdated.')">&nbsp;⚠️</span>
 		</div>
 		<div v-else
 			ref="editingContainer"
@@ -15,7 +15,7 @@
 			@keydown.escape.stop="cancelEdit">
 			<NcSelect v-model="editValue"
 				:options="getAllNonDeletedOptions"
-				:aria-label-combobox="t('tables', 'Options')"
+				:aria-label-combobox="t('tablespro', 'Options')"
 				:disabled="localLoading || !canEditCell()"
 				style="width: 100%;" />
 			<div v-if="localLoading" class="loading-indicator">

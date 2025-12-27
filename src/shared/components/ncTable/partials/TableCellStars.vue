@@ -15,7 +15,7 @@
 						'clickable': isClickable,
 						'hovering': hoverValue !== null
 					}"
-					:aria-label="t('tables', 'Set {star} stars', { star })"
+					:aria-label="t('tablespro', 'Set {star} stars', { star })"
 					@mouseenter="hoverValue = star"
 					@click="setStar(star)">
 					{{ star <= displayValue ? '★' : '☆' }}

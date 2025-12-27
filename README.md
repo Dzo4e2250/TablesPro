@@ -1,39 +1,38 @@
-<!--
-  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
-  - SPDX-License-Identifier: AGPL-3.0-or-later
--->
-# Nextcloud App »Tables«
+# TablesPro
 
-[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/tables)](https://api.reuse.software/info/github.com/nextcloud/tables)
+An advanced fork of [Nextcloud Tables](https://github.com/nextcloud/tables) with Monday.com-like features.
 
-**Manage data the way you need it.**
+## New Features (Planned)
 
-With this app you are able to create your own tables with individual columns. You can start with a template or from scratch and add your wanted columns.
+- **Row Groups** - Collapsible sections to organize rows
+- **Summary Rows** - SUM, COUNT, percentage statistics at group level
+- **Colored Status** - Color-coded selection/dropdown options
+- **Progress Visualization** - Visual progress bars for status columns
 
-## Documentation
+## Installation
 
-### General information
-https://github.com/nextcloud/tables/wiki
+1. Download the latest release
+2. Extract to your Nextcloud `apps/` directory
+3. Enable the app in Nextcloud admin settings
 
-### Administration
-https://github.com/nextcloud/tables/wiki/Administration
+## Development
 
-### API
-https://github.com/nextcloud/tables/wiki/API
+```bash
+# Install dependencies
+composer install --no-dev
+npm ci
 
-### Developer information
-https://github.com/nextcloud/tables/wiki/Developing
+# Build for development
+npm run dev
 
-## Installation/Update
-The app can be installed through the [app store](https://apps.nextcloud.com/apps/tables) within Nextcloud. You can also download the latest release from the [release page](https://github.com/nextcloud-releases/tables/releases).
+# Build for production
+npm run build
+```
 
-### Install from source code
-*To build you will need to have [Node.js](https://nodejs.org/en/) and [Composer](https://getcomposer.org/) installed.*
+## License
 
-- Clone repository into the app-directory: `cd /path/to/apps && git clone https://github.com/nextcloud/tables && cd tables`
-- Install PHP dependencies: `composer install --no-dev`
-- Install JS dependencies: `npm ci`
-- Build JavaScript for the frontend
-	- Development build `npm run dev` or
-	- Watch for changes `npm run watch` or
-	- Production build `npm run build`
+AGPL-3.0-or-later
+
+## Credits
+
+Based on [Nextcloud Tables](https://github.com/nextcloud/tables) by Nextcloud GmbH.

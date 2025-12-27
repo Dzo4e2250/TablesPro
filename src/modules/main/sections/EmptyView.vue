@@ -3,14 +3,14 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcEmptyContent :name="t('tables', 'No columns selected')"
-		:description="t('tables', 'The view is empty. Edit which columns should be displayed.')">
+	<NcEmptyContent :name="t('tablespro', 'No columns selected')"
+		:description="t('tablespro', 'The view is empty. Edit which columns should be displayed.')">
 		<template #icon>
 			{{ view.emoji }}
 		</template>
 		<template #action>
 			<NcButton :aria-label="t('table', 'Edit view')" type="primary" @click="editView()">
-				{{ t('tables', 'Edit view') }}
+				{{ t('tablespro', 'Edit view') }}
 			</NcButton>
 		</template>
 	</NcEmptyContent>

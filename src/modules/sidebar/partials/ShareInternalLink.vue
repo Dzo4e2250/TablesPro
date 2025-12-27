@@ -10,7 +10,7 @@
 
 		<div class="share-internal-link__info">
 			<span class="share-internal-link__title">
-				{{ t('tables', 'Internal link') }}
+				{{ t('tablespro', 'Internal link') }}
 			</span>
 			<span class="share-internal-link__subtitle">
 				{{ internalLinkSubtitle }}
@@ -62,13 +62,13 @@ export default {
 
 	computed: {
 		copyTooltip() {
-			return t('tables', 'Copy internal link to clipboard')
+			return t('tablespro', 'Copy internal link to clipboard')
 		},
 		internalLinkSubtitle() {
 			if (this.isView) {
-				return t('tables', 'Only works for users with access to this view')
+				return t('tablespro', 'Only works for users with access to this view')
 			}
-			return t('tables', 'Only works for users with access to this table')
+			return t('tablespro', 'Only works for users with access to this table')
 		},
 	},
 

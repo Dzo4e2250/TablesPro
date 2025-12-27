@@ -7,17 +7,17 @@
 		<div class="row">
 			<div v-if="providers?.length === 0" class="col-4">
 				<NcNoteCard type="info">
-					{{ t('tables', 'You can not insert any links in this field. Please configure at least one link provider in the column configuration.') }}
+					{{ t('tablespro', 'You can not insert any links in this field. Please configure at least one link provider in the column configuration.') }}
 				</NcNoteCard>
 			</div>
 			<div class="link-input">
-				<NcTextField v-if="isPlainUrl" :value.sync="plainLink" :placeholder="t('tables', 'URL')" />
+				<NcTextField v-if="isPlainUrl" :value.sync="plainLink" :placeholder="t('tablespro', 'URL')" />
 				<NcSelect v-else v-model="localValue"
 					:options="results"
 					:clearable="true"
 					label="title"
 					:disabled="column.viewColumnInformation?.readonly"
-					:aria-label-combobox="t('tables', 'Link providers')"
+					:aria-label-combobox="t('tablespro', 'Link providers')"
 					style="width: 100%"
 					@search="v => term = v">
 					<template #option="props">
@@ -27,13 +27,13 @@
 						<LinkWidget :thumbnail-url="props.thumbnailUrl" :icon-url="props.icon" :title="props.title" :icon-size="24" />
 					</template>
 				</NcSelect>
-				<NcButton type="tertiary" :disabled="!localValue" :title="t('tables', 'Copy link')" @click="copyLink">
+				<NcButton type="tertiary" :disabled="!localValue" :title="t('tablespro', 'Copy link')" @click="copyLink">
 					<template #icon>
 						<ContentCopy v-if="!copied" :size="20" />
 						<ClipboardCheckMultipleOutline v-else :size="20" />
 					</template>
 				</NcButton>
-				<NcButton type="tertiary" :disabled="!localValue" :title="t('tables', 'Open link')" @click="openLink">
+				<NcButton type="tertiary" :disabled="!localValue" :title="t('tablespro', 'Open link')" @click="openLink">
 					<template #icon>
 						<OpenInNew :size="20" />
 					</template>
@@ -107,7 +107,7 @@ export default {
 			set(v) {
 				this.$emit('update:value', JSON.stringify({
 					title: v,
-					subline: t('tables', 'URL'),
+					subline: t('tablespro', 'URL'),
 					providerId: 'url',
 					value: v,
 				}))
@@ -119,7 +119,7 @@ export default {
 				if (this.value && !this.hasJsonStructure(this.value)) {
 					return {
 						title: this.value,
-						subline: t('tables', 'URL'),
+						subline: t('tablespro', 'URL'),
 						providerId: 'url',
 						value: this.value,
 					}
@@ -209,7 +209,7 @@ export default {
 			try {
 				res = await axios.get(generateOcsUrl('/search/providers/' + providerId + '/search?term=' + term))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load link provider results.'))
+				displayError(e, t('tablespro', 'Could not load link provider results.'))
 				return
 			}
 			for (const item of res.data.ocs.data.entries) {
@@ -242,7 +242,7 @@ export default {
 		addUrlResult(term) {
 			this.results.push({
 				title: term,
-				subline: t('tables', 'Url'),
+				subline: t('tablespro', 'Url'),
 				providerId: 'url',
 				value: term,
 			})

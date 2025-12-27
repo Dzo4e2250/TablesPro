@@ -10,7 +10,7 @@
 		<table>
 			<tr>
 				<td>
-					{{ t('tables', 'Receiver type') }}
+					{{ t('tablespro', 'Receiver type') }}
 				</td>
 				<td>
 					{{ share.receiverType }}
@@ -18,7 +18,7 @@
 			</tr>
 			<tr>
 				<td>
-					{{ t('tables', 'Last edit') }}
+					{{ t('tablespro', 'Last edit') }}
 				</td>
 				<td>
 					{{ updateTime }}
@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<td>
-					{{ t('tables', 'Create time') }}
+					{{ t('tablespro', 'Create time') }}
 				</td>
 				<td>
 					{{ createTime }}
@@ -34,7 +34,7 @@
 			</tr>
 			<tr>
 				<td>
-					{{ t('tables', 'Share ID') }}
+					{{ t('tablespro', 'Share ID') }}
 				</td>
 				<td>
 					{{ share.id }}
@@ -69,7 +69,7 @@ export default {
 	},
 	methods: {
 		relativeDateTime(v) {
-			return moment(v).format('L') === moment().format('L') ? t('tables', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
+			return moment(v).format('L') === moment().format('L') ? t('tablespro', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
 		},
 	},
 }

@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Command;
+namespace OCA\TablesPro\Command;
 
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Service\TableService;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Service\TableService;
 use OCP\DB\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;

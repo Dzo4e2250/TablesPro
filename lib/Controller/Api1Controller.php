@@ -7,26 +7,26 @@
 
 /** @noinspection DuplicatedCode */
 
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
 use Exception;
 use InvalidArgumentException;
-use OCA\Tables\Api\V1Api;
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Db\ViewMapper;
-use OCA\Tables\Dto\Column as ColumnDto;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Middleware\Attribute\RequirePermission;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\ColumnService;
-use OCA\Tables\Service\ImportService;
-use OCA\Tables\Service\RowService;
-use OCA\Tables\Service\ShareService;
-use OCA\Tables\Service\TableService;
-use OCA\Tables\Service\ViewService;
+use OCA\TablesPro\Api\V1Api;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Db\ViewMapper;
+use OCA\TablesPro\Dto\Column as ColumnDto;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Middleware\Attribute\RequirePermission;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\ColumnService;
+use OCA\TablesPro\Service\ImportService;
+use OCA\TablesPro\Service\RowService;
+use OCA\TablesPro\Service\ShareService;
+use OCA\TablesPro\Service\TableService;
+use OCA\TablesPro\Service\ViewService;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;

@@ -23,7 +23,7 @@
 					:type="getPickerType"
 					:disabled="localLoading || !canEditCell()" />
 				<div v-if="canBeCleared" class="icon-close make-empty" role="button"
-					:aria-label="t('tables', 'Clear value')" @click="emptyValue" />
+					:aria-label="t('tablespro', 'Clear value')" @click="emptyValue" />
 			</div>
 			<div v-if="localLoading" class="loading-indicator">
 				<div class="icon-loading-small icon-loading-inline" />

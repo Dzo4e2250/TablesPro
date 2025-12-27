@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Listener;
+namespace OCA\TablesPro\Listener;
 
-use OCA\Tables\Service\ContextService;
+use OCA\TablesPro\Service\ContextService;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;

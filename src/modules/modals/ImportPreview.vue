@@ -30,13 +30,13 @@
 							<div class="no-padding-on-mobile">
 								<div class="flex w-100">
 									<NcCheckboxRadioSwitch v-if="createMissingColumns" :checked.sync="columnsConfig[colIndex].action" value="new" name="columnActionSelection" type="radio" @update:checked="$forceUpdate()">
-										{{ t('tables', 'Create new column') }}
+										{{ t('tablespro', 'Create new column') }}
 									</NcCheckboxRadioSwitch>
 								</div>
 								<div class="col-4 action-selections mobile-block">
 									<div class="w-100">
 										<NcCheckboxRadioSwitch :checked.sync="columnsConfig[colIndex].action" value="exist" name="columnActionSelection" type="radio" @update:checked="$forceUpdate()">
-											{{ t('tables', 'Import to existing column') }}
+											{{ t('tablespro', 'Import to existing column') }}
 										</NcCheckboxRadioSwitch>
 									</div>
 									<div class="inline-flex">
@@ -44,12 +44,12 @@
 											:disabled="columnsConfig[colIndex].action !== 'exist'"
 											:options="existingColumnOptions"
 											:selectable="selectableExistingColumnOption"
-											:aria-label-combobox="t('tables', 'Existing column')" />
+											:aria-label-combobox="t('tablespro', 'Existing column')" />
 									</div>
 								</div>
 								<div v-if="!createMissingColumns" class="flex w-100">
 									<NcCheckboxRadioSwitch :checked.sync="columnsConfig[colIndex].action" value="ignore" name="columnActionSelection" type="radio" @update:checked="$forceUpdate()">
-										{{ t('tables', 'Ignore column') }}
+										{{ t('tablespro', 'Ignore column') }}
 									</NcCheckboxRadioSwitch>
 								</div>
 							</div>
@@ -124,7 +124,7 @@ export default {
 
 			columns.unshift({
 				id: TYPE_META_ID,
-				label: t('tables', 'ID (Meta)'),
+				label: t('tablespro', 'ID (Meta)'),
 			})
 
 			return columns
@@ -151,7 +151,7 @@ export default {
 			this.columnsConfig.push({
 				titleRaw: this.previewData.columns[i].title,
 				title: this.previewData.columns[i].title,
-				description: t('tables', 'This column was automatically created by the import service.'),
+				description: t('tablespro', 'This column was automatically created by the import service.'),
 				action: this.previewData.columns[i].id ? 'exist' : this.createMissingColumns ? 'new' : 'ignore',
 				existColumn: this.previewData.columns[i].id ? this.existingColumnOptions.find(col => col.id === this.previewData.columns[i].id) : null,
 				type: this.previewData.columns[i].type,
@@ -194,23 +194,23 @@ export default {
 			case ColumnTypes.TextLine:
 			case ColumnTypes.TextLong:
 			case ColumnTypes.TextRich:
-				return t('tables', 'Text')
+				return t('tablespro', 'Text')
 			case ColumnTypes.TextLink:
-				return t('tables', 'Link')
+				return t('tablespro', 'Link')
 			case ColumnTypes.Number:
-				return t('tables', 'Number')
+				return t('tablespro', 'Number')
 			case ColumnTypes.NumberStars:
-				return t('tables', 'Stars rating')
+				return t('tablespro', 'Stars rating')
 			case ColumnTypes.NumberProgress:
-				return t('tables', 'Progress bar')
+				return t('tablespro', 'Progress bar')
 			case ColumnTypes.Selection:
 			case ColumnTypes.SelectionMulti:
 			case ColumnTypes.SelectionCheck:
-				return t('tables', 'Selection')
+				return t('tablespro', 'Selection')
 			case ColumnTypes.Datetime:
 			case ColumnTypes.DatetimeDate:
 			case ColumnTypes.DatetimeTime:
-				return t('tables', 'Date and time')
+				return t('tablespro', 'Date and time')
 			default:
 				return ''
 			}

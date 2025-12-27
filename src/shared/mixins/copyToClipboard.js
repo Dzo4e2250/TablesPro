@@ -16,13 +16,13 @@ export default {
 				}
 
 				if (!silent) {
-					showSuccess(t('tables', 'Copied to clipboard.'))
+					showSuccess(t('tablespro', 'Copied to clipboard.'))
 				}
 				return true
 			} catch (e) {
 				console.error('Error copying to clipboard', e)
 				if (!silent) {
-					showError(t('tables', 'Clipboard is not available'))
+					showError(t('tablespro', 'Clipboard is not available'))
 				}
 			}
 		},

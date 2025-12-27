@@ -4,7 +4,7 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Create row')"
+		:name="t('tablespro', 'Create row')"
 		size="large"
 		data-cy="createRowModal"
 		@closing="actionCancel">
@@ -15,22 +15,22 @@
 					:value.sync="row[column.id]" />
 				<NcNoteCard v-if="isMandatory(column) && !isValueValidForColumn(row[column.id], column)"
 					type="error">
-					{{ t('tables', '"{columnTitle}" should not be empty', { columnTitle: column.title }) }}
+					{{ t('tablespro', '"{columnTitle}" should not be empty', { columnTitle: column.title }) }}
 				</NcNoteCard>
 				<NcNoteCard v-if="row[column.id] && column.type === 'text-link' && !isValidUrlProtocol(row[column.id])"
 					type="error">
-					{{ t('tables', 'Invalid protocol. Allowed: {allowed}', {allowed: allowedProtocols.join(', ')}) }}
+					{{ t('tablespro', 'Invalid protocol. Allowed: {allowed}', {allowed: allowedProtocols.join(', ')}) }}
 				</NcNoteCard>
 			</div>
 			<div class="row">
 				<div class="fix-col-4 space-T end">
 					<div class="padding-right">
 						<NcCheckboxRadioSwitch :checked.sync="addNewAfterSave" type="switch" data-cy="createRowAddMoreSwitch">
-							{{ t('tables', 'Add more') }}
+							{{ t('tablespro', 'Add more') }}
 						</NcCheckboxRadioSwitch>
 					</div>
-					<NcButton v-if="!localLoading" class="primary" :aria-label="t('tables', 'Save row')" :disabled="hasEmptyMandatoryRows || hasInvalidUrlProtocol" data-cy="createRowSaveButton" @click="actionConfirm()">
-						{{ t('tables', 'Save') }}
+					<NcButton v-if="!localLoading" class="primary" :aria-label="t('tablespro', 'Save row')" :disabled="hasEmptyMandatoryRows || hasInvalidUrlProtocol" data-cy="createRowSaveButton" @click="actionConfirm()">
+						{{ t('tablespro', 'Save') }}
 					</NcButton>
 				</div>
 			</div>
@@ -124,7 +124,7 @@ export default {
 			if (!this.addNewAfterSave) {
 				this.actionCancel()
 			} else {
-				showSuccess(t('tables', 'Row successfully created.'))
+				showSuccess(t('tablespro', 'Row successfully created.'))
 				this.reset()
 			}
 		},
@@ -146,7 +146,7 @@ export default {
 				})
 			} catch (e) {
 				console.error(e)
-				showError(t('tables', 'Could not create new row'))
+				showError(t('tablespro', 'Could not create new row'))
 				return false
 			}
 		},

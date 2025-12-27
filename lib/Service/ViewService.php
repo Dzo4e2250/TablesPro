@@ -7,24 +7,24 @@
 
 /** @noinspection DuplicatedCode */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
 use DateTime;
 use Exception;
 use InvalidArgumentException;
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Db\Column;
-use OCA\Tables\Db\Table;
-use OCA\Tables\Db\View;
-use OCA\Tables\Db\ViewMapper;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Event\ViewDeletedEvent;
-use OCA\Tables\Helper\UserHelper;
-use OCA\Tables\Model\Permissions;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\ValueObject\ViewColumnInformation;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Db\Table;
+use OCA\TablesPro\Db\View;
+use OCA\TablesPro\Db\ViewMapper;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Event\ViewDeletedEvent;
+use OCA\TablesPro\Helper\UserHelper;
+use OCA\TablesPro\Model\Permissions;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\EventDispatcher\IEventDispatcher;

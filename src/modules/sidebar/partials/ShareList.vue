@@ -4,7 +4,7 @@
 -->
 <template>
 	<div>
-		<h3>{{ t('tables', 'Shares') }}</h3>
+		<h3>{{ t('tablespro', 'Shares') }}</h3>
 		<div v-if="loading" class="icon-loading" />
 		<ul v-if="getShares && getShares.length > 0" data-cy="sharedWithList" class="sharedWithList">
 			<div v-for="share in getShares"
@@ -19,7 +19,7 @@
 							{{ getShareDisplayName(share) }}
 						</div>
 						<div v-if="personHasTableManagePermission(share.receiver)">
-							{{ '(' + t('tables', 'Table manager') + ')' }}
+							{{ '(' + t('tablespro', 'Table manager') + ')' }}
 						</div>
 					</div>
 				</div>
@@ -31,36 +31,36 @@
 							<Crown :size="20" />
 						</template>
 						<template v-if="!personHasTableManagePermission(share.receiver)">
-							<NcActionCaption :name="t('tables', 'Permissions')" />
+							<NcActionCaption :name="t('tablespro', 'Permissions')" />
 							<NcActionCheckbox :checked.sync="share.permissionRead"
 								:disabled="share.permissionManage || share.permissionUpdate || share.permissionDelete"
 								@check="updatePermission(share, 'read', true)"
 								@uncheck="updatePermission(share, 'read', false)">
-								{{ t('tables', 'Read data') }}
+								{{ t('tablespro', 'Read data') }}
 							</NcActionCheckbox>
 							<NcActionCheckbox :checked.sync="share.permissionCreate"
 								:disabled="share.permissionManage"
 								@check="updatePermission(share, 'create', true)"
 								@uncheck="updatePermission(share, 'create', false)">
-								{{ t('tables', 'Create data') }}
+								{{ t('tablespro', 'Create data') }}
 							</NcActionCheckbox>
 							<NcActionCheckbox :checked.sync="share.permissionUpdate"
 								:disabled="share.permissionManage"
 								@check="updatePermission(share, 'update', true)"
 								@uncheck="updatePermission(share, 'update', false)">
-								{{ t('tables', 'Update data') }}
+								{{ t('tablespro', 'Update data') }}
 							</NcActionCheckbox>
 							<NcActionCheckbox :checked.sync="share.permissionDelete"
 								:disabled="share.permissionManage"
 								@check="updatePermission(share, 'delete', true)"
 								@uncheck="updatePermission(share, 'delete', false)">
-								{{ t('tables', 'Delete data') }}
+								{{ t('tablespro', 'Delete data') }}
 							</NcActionCheckbox>
 							<NcActionCheckbox v-if="share.nodeType === 'view'"
 								:checked.sync="share.permissionManage"
 								@check="updatePermission(share, 'manage', true)"
 								@uncheck="updatePermission(share, 'manage', false)">
-								{{ t('tables', 'Manage view') }}
+								{{ t('tablespro', 'Manage view') }}
 							</NcActionCheckbox>
 							<NcActionButton v-if="!isView && !personHasTableManagePermission(share.receiver)"
 								:close-after-click="true"
@@ -68,17 +68,17 @@
 								<template #icon>
 									<Crown :size="20" />
 								</template>
-								{{ t('tables', 'Promote to table manager') }}
+								{{ t('tablespro', 'Promote to table manager') }}
 							</NcActionButton>
 							<NcActionSeparator />
 							<NcActionButton :close-after-click="true" icon="icon-delete" @click="actionDelete(share)">
-								{{ t('tables', 'Delete') }}
+								{{ t('tablespro', 'Delete') }}
 							</NcActionButton>
 							<NcActionText>
 								<template #icon>
 									<Information :size="20" />
 								</template>
-								{{ t('tables', 'Last edit') + ': ' }}{{ updateTime(share) }}
+								{{ t('tablespro', 'Last edit') + ': ' }}{{ updateTime(share) }}
 							</NcActionText>
 						</template>
 						<template v-else-if="!isView">
@@ -88,13 +88,13 @@
 								<template #icon>
 									<Account :size="20" />
 								</template>
-								{{ t('tables', 'Demote to normal share') }}
+								{{ t('tablespro', 'Demote to normal share') }}
 							</NcActionButton>
 							<NcActionText>
 								<template #icon>
 									<Information :size="20" />
 								</template>
-								{{ t('tables', 'Last edit') + ': ' }}{{ updateTime(share) }}
+								{{ t('tablespro', 'Last edit') + ': ' }}{{ updateTime(share) }}
 							</NcActionText>
 						</template>
 						<template v-else>
@@ -104,7 +104,7 @@
 								<template #icon>
 									<OpenInNew :size="20" />
 								</template>
-								{{ t('tables', 'Open main table to adjust table management permissions') }}
+								{{ t('tablespro', 'Open main table to adjust table management permissions') }}
 							</NcActionButton>
 						</template>
 					</NcActions>
@@ -112,13 +112,13 @@
 			</div>
 		</ul>
 		<div v-else>
-			{{ t('tables', 'No shares') }}
+			{{ t('tablespro', 'No shares') }}
 		</div>
 		<div>
-			<DialogConfirmation :description="t('tables', 'After the promotion of the share recipient to table manager, any applications created by share recipients that utilise this table will continue to access its data, even if you later demote them.')"
-				:title="t('tables', 'Confirm table manager promotion')"
-				:cancel-title="t('tables', 'Cancel')"
-				:confirm-title="t('tables', 'Promote to table manager')"
+			<DialogConfirmation :description="t('tablespro', 'After the promotion of the share recipient to table manager, any applications created by share recipients that utilise this table will continue to access its data, even if you later demote them.')"
+				:title="t('tablespro', 'Confirm table manager promotion')"
+				:cancel-title="t('tablespro', 'Cancel')"
+				:confirm-title="t('tablespro', 'Promote to table manager')"
 				confirm-class="warning"
 				:show-modal="showModal"
 				@confirm="promoteToManager"
@@ -179,7 +179,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tables', 'showSidebar', 'isLoadingSomething', 'activeElement', 'isView']),
+		...mapState(useTablesStore, ['tablespro', 'showSidebar', 'isLoadingSomething', 'activeElement', 'isView']),
 		sortedShares() {
 			return [...this.userShares, ...this.groupShares].slice()
 				.sort(this.sortByDisplayName)
@@ -204,7 +204,7 @@ export default {
 			return (share && share.lastEditAt) ? this.relativeDateTime(share.lastEditAt) : ''
 		},
 		relativeDateTime(v) {
-			return moment(v).format('L') === moment().format('L') ? t('tables', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
+			return moment(v).format('L') === moment().format('L') ? t('tablespro', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
 		},
 		async openDashboard() {
 			await this.$router.push('/table/' + this.activeElement.tableId)
@@ -226,7 +226,7 @@ export default {
 			this.showModal = false
 		},
 		async demoteManager(share) {
-			showWarning(t('tables', 'Any application created by a demoted share recipients using a shared table will continue to consume its data.', { share: share.displayName }))
+			showWarning(t('tablespro', 'Any application created by a demoted share recipients using a shared table will continue to consume its data.', { share: share.displayName }))
 			this.$emit('update', { id: share.id, permission: 'manage', value: false })
 		},
 		personHasTableManagePermission(userId) {
@@ -237,9 +237,9 @@ export default {
 			const type = share.receiverType
 
 			if (type === 'group') {
-				return `${name} (${t('tables', 'group')})`
+				return `${name} (${t('tablespro', 'group')})`
 			} else if (type === 'circle') {
-				return `${name} (${t('tables', 'team')})`
+				return `${name} (${t('tablespro', 'team')})`
 			}
 			return name
 		},

@@ -5,16 +5,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Middleware;
+namespace OCA\TablesPro\Middleware;
 
 use InvalidArgumentException;
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Helper\ConversionHelper;
-use OCA\Tables\Middleware\Attribute\RequirePermission;
-use OCA\Tables\Service\PermissionsService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Helper\ConversionHelper;
+use OCA\TablesPro\Middleware\Attribute\RequirePermission;
+use OCA\TablesPro\Service\PermissionsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Middleware;

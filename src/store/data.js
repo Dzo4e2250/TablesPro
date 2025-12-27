@@ -64,7 +64,7 @@ export const useDataStore = defineStore('data', {
 					return false
 				}
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load columns.'))
+				displayError(e, t('tablespro', 'Could not load columns.'))
 				return false
 			}
 
@@ -104,7 +104,7 @@ export const useDataStore = defineStore('data', {
 			try {
 				res = await axios.post(generateUrl('/apps/tables/api/1/columns'), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not insert column.'))
+				displayError(e, t('tablespro', 'Could not insert column.'))
 				return false
 			}
 
@@ -123,7 +123,7 @@ export const useDataStore = defineStore('data', {
 			try {
 				res = await axios.put(generateUrl('/apps/tables/api/1/columns/' + id), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not update column.'))
+				displayError(e, t('tablespro', 'Could not update column.'))
 				return false
 			}
 
@@ -141,7 +141,7 @@ export const useDataStore = defineStore('data', {
 			try {
 				await axios.delete(generateUrl('/apps/tables/api/1/columns/' + id))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove column.'))
+				displayError(e, t('tablespro', 'Could not remove column.'))
 				return false
 			}
 
@@ -167,7 +167,7 @@ export const useDataStore = defineStore('data', {
 					res = await axios.get(generateUrl('/apps/tables/row/table/' + tableId))
 				}
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load rows.'))
+				displayError(e, t('tablespro', 'Could not load rows.'))
 				return false
 			}
 
@@ -190,10 +190,10 @@ export const useDataStore = defineStore('data', {
 			} catch (e) {
 				console.debug(e?.response)
 				if (e?.response?.data?.message?.startsWith('User should not be able to access row')) {
-					showError(t('tables', 'Outdated data. View is reloaded'))
+					showError(t('tablespro', 'Outdated data. View is reloaded'))
 					await this.loadRowsFromBE({ viewId })
 				} else {
-					displayError(e, t('tables', 'Could not update row.'))
+					displayError(e, t('tablespro', 'Could not update row.'))
 				}
 				return false
 			}
@@ -213,11 +213,11 @@ export const useDataStore = defineStore('data', {
 			let res = null
 
 			try {
-				const collection = viewId == null ? 'tables' : 'views'
+				const collection = viewId == null ? 'tablespro' : 'views'
 				const nodeId = viewId == null ? tableId : viewId
 				res = await axios.post(generateOcsUrl('/apps/tables/api/2/' + collection + '/' + nodeId + '/rows'), { data })
 			} catch (e) {
-				displayError(e, t('tables', 'Could not insert row.'))
+				displayError(e, t('tablespro', 'Could not insert row.'))
 				return false
 			}
 
@@ -242,10 +242,10 @@ export const useDataStore = defineStore('data', {
 				}
 			} catch (e) {
 				if (e?.response?.data?.message?.startsWith('User should not be able to access row')) {
-					showError(t('tables', 'Outdated data. View is reloaded'))
+					showError(t('tablespro', 'Outdated data. View is reloaded'))
 					await this.loadRowsFromBE({ viewId })
 				} else {
-					displayError(e, t('tables', 'Could not remove row.'))
+					displayError(e, t('tablespro', 'Could not remove row.'))
 				}
 				return false
 			}
@@ -263,7 +263,7 @@ export const useDataStore = defineStore('data', {
 				const res = await axios.get(generateUrl('/apps/tables/view/{viewId}/row/{rowId}/present', { viewId, rowId }))
 				return res.data.present
 			} catch (e) {
-				showError(t('tables', 'Could not verify row. View is reloaded'))
+				showError(t('tablespro', 'Could not verify row. View is reloaded'))
 				await this.loadRowsFromBE({ viewId })
 			}
 		},

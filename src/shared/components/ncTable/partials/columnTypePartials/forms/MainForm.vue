@@ -6,15 +6,15 @@
 	<div class="row space-R">
 		<!-- title -->
 		<div class="fix-col-4 mandatory title space-T" :class="{error: titleMissingError}">
-			{{ t('tables', 'Title') }}
+			{{ t('tablespro', 'Title') }}
 		</div>
 		<div class="fix-col-4" :class="{error: titleMissingError}">
-			<input v-model="localTitle" data-cy="columnTypeFormInput" :placeholder="t('tables', 'Enter a column title')">
+			<input v-model="localTitle" data-cy="columnTypeFormInput" :placeholder="t('tablespro', 'Enter a column title')">
 		</div>
 
 		<!-- description -->
 		<div class="fix-col-4 title space-T">
-			{{ t('tables', 'Description') }}
+			{{ t('tablespro', 'Description') }}
 		</div>
 		<div class="fix-col-4">
 			<textarea v-model="localDescription" />
@@ -22,7 +22,7 @@
 
 		<!-- mandatory -->
 		<div class="fix-col-4 title space-T">
-			{{ t('tables', 'Mandatory') }}
+			{{ t('tablespro', 'Mandatory') }}
 		</div>
 		<div class="fix-col-4">
 			<NcCheckboxRadioSwitch type="switch" :checked.sync="localMandatory" />
@@ -30,7 +30,7 @@
 
 		<!-- column width -->
 		<div class="fix-col-4 mandatory title space-T" :class="{error: widthInvalidError}">
-			{{ t('tables', 'Column width') }}
+			{{ t('tablespro', 'Column width') }}
 		</div>
 		<div class="fix-col-4" :class="{error: widthInvalidError}">
 			<input
@@ -39,12 +39,12 @@
 				pattern="\d+"
 				:min="COLUMN_WIDTH_MIN"
 				:max="COLUMN_WIDTH_MAX"
-				:placeholder="t('tables', 'Enter a column width between {min} and {max}', { min: COLUMN_WIDTH_MIN, max: COLUMN_WIDTH_MAX })">
+				:placeholder="t('tablespro', 'Enter a column width between {min} and {max}', { min: COLUMN_WIDTH_MIN, max: COLUMN_WIDTH_MAX })">
 		</div>
 
 		<!-- add to views -->
 		<div v-if="!editColumn && views.length > 0" class="fix-col-4 title space-T">
-			{{ t('tables', 'Add column to other views') }}
+			{{ t('tablespro', 'Add column to other views') }}
 		</div>
 		<div v-if="!editColumn && views.length > 0" class="fix-col-4">
 			<NcSelect
@@ -52,9 +52,9 @@
 				:multiple="true"
 				:options="viewsForTable"
 				:get-option-key="(option) => option.id"
-				:placeholder="t('tables', 'Column')"
+				:placeholder="t('tablespro', 'Column')"
 				label="title"
-				:aria-label-combobox="t('tables', 'Column')">
+				:aria-label-combobox="t('tablespro', 'Column')">
 				<template #option="props">
 					<div>
 						{{ props.emoji }}

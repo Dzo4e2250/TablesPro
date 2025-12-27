@@ -43,18 +43,18 @@
 		</table>
 		<div v-if="totalPages > 1" class="pagination-footer" :class="{'large-width': !appNavCollapsed || isMobile}">
 			<div class="pagination-items">
-				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber <= 1" :aria-label="t('tables', 'Go to first page')" @click="pageNumber = 1">
+				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber <= 1" :aria-label="t('tablespro', 'Go to first page')" @click="pageNumber = 1">
 					<template #icon>
 						<PageFirstIcon :size="20" />
 					</template>
 				</NcButton>
-				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber <= 1" :aria-label="t('tables', 'Go to previous page')" @click="pageNumber--">
+				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber <= 1" :aria-label="t('tablespro', 'Go to previous page')" @click="pageNumber--">
 					<template #icon>
 						<ChevronLeftIcon :size="20" />
 					</template>
 				</NcButton>
 				<div class="page-number">
-					<NcSelect v-model="pageNumber" :options="allPageNumbersArray" :aria-label-combobox="t('tables', 'Page number')">
+					<NcSelect v-model="pageNumber" :options="allPageNumbersArray" :aria-label-combobox="t('tablespro', 'Page number')">
 						<template #selected-option-container="{ option }">
 							<span class="selected-page">
 								{{ option.label }} of {{ totalPages }}
@@ -62,12 +62,12 @@
 						</template>
 					</NcSelect>
 				</div>
-				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber >= totalPages" :aria-label="t('tables', 'Go to next page')" @click="pageNumber++">
+				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber >= totalPages" :aria-label="t('tablespro', 'Go to next page')" @click="pageNumber++">
 					<template #icon>
 						<ChevronRightIcon :size="20" />
 					</template>
 				</NcButton>
-				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber >= totalPages" :aria-label="t('tables', 'Go to last page')" @click="pageNumber = totalPages">
+				<NcButton type="tertiary" :disabled="totalPages === 1 || pageNumber >= totalPages" :aria-label="t('tablespro', 'Go to last page')" @click="pageNumber = totalPages">
 					<template #icon>
 						<PageLastIcon :size="20" />
 					</template>

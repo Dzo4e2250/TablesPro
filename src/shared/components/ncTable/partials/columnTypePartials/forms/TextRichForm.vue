@@ -7,7 +7,7 @@
 		<!-- default -->
 		<div class="row">
 			<div class="fix-col-4">
-				{{ t('tables', 'Default') }}
+				{{ t('tablespro', 'Default') }}
 			</div>
 			<div class="fix-col-4 space-B">
 				<NcEditor :text.sync="mutableColumn.textDefault" height="small" />

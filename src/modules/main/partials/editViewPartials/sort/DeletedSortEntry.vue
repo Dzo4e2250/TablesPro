@@ -8,8 +8,8 @@
 			<NcSelect v-model="selectedColumn" class="select-field"
 				:disabled="true"
 				:options="columns" :get-option-key="(option) => option.id"
-				:aria-label-combobox="t('tables', 'Column')"
-				:placeholder="t('tables', 'Column')" label="title" />
+				:aria-label-combobox="t('tablespro', 'Column')"
+				:placeholder="t('tablespro', 'Column')" label="title" />
 			<div class="mode-switch">
 				<NcCheckboxRadioSwitch
 					:button-variant="true"
@@ -21,7 +21,7 @@
 					class="mode-checkbox">
 					<div style="display: flex">
 						<SortAsc :size="20" class="mode-icon" />
-						{{ t('tables','Ascending') }}
+						{{ t('tablespro','Ascending') }}
 					</div>
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch
@@ -34,14 +34,14 @@
 					class="mode-checkbox">
 					<div style="display: flex">
 						<SortDesc :size="20" class="mode-icon" />
-						{{ t('tables','Descending') }}
+						{{ t('tablespro','Descending') }}
 					</div>
 				</NcCheckboxRadioSwitch>
 			</div>
 		</div>
 		<NcButton
 			:close-after-click="true"
-			:aria-label="t('tables', 'Reactivate sorting rule')"
+			:aria-label="t('tablespro', 'Reactivate sorting rule')"
 			type="tertiary"
 			class="delete-button"
 			@click="$emit('reactive-sorting-rule')">

@@ -5,7 +5,7 @@
 <template>
 	<div class="filter-section">
 		<div v-if="hasFilter" class="filter-text">
-			{{ t('tables', 'Filtering rows') }}
+			{{ t('tablespro', 'Filtering rows') }}
 		</div>
 		<div v-for="(filterGroup, i) in mutableFilters" :key="i">
 			<FilterGroup
@@ -15,19 +15,19 @@
 				:columns="columns"
 				@delete-filter-group="deleteFilterGroup(i)" />
 			<div v-if="i < filters.length - 1" class="filter-text">
-				{{ t('tables', 'OR') }}
+				{{ t('tablespro', 'OR') }}
 			</div>
 		</div>
 		<div v-if="filters.length > 0" class="filter-text">
-			{{ t('tables', 'OR') }}
+			{{ t('tablespro', 'OR') }}
 		</div>
 		<NcButton
 			:close-after-click="true"
-			:aria-label="t('tables', 'Add new filter group')"
+			:aria-label="t('tablespro', 'Add new filter group')"
 			type="tertiary"
 			data-cy="filterFormFilterGroupBtn"
 			@click="addFilterGroup">
-			{{ t('tables', 'Add new filter group') }}
+			{{ t('tablespro', 'Add new filter group') }}
 			<template #icon>
 				<Plus :size="25" />
 			</template>

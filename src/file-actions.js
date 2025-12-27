@@ -18,7 +18,7 @@ const validMimeTypes = [
 
 const fileAction = new FileAction({
 	id: 'import-to-tables',
-	displayName: () => t('tables', 'Import into Tables'),
+	displayName: () => t('tablespro', 'Import into Tables'),
 	iconSvgInline: () => tablesIcon,
 
 	enabled: (files) => {

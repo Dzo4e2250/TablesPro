@@ -5,9 +5,9 @@
 <template>
 	<div>
 		<DialogConfirmation :description="getTranslatedDescription"
-			:title="t('tables', 'Confirm application deletion')"
-			:cancel-title="t('tables', 'Cancel')"
-			:confirm-title="t('tables', 'Delete')"
+			:title="t('tablespro', 'Confirm application deletion')"
+			:cancel-title="t('tablespro', 'Cancel')"
+			:confirm-title="t('tablespro', 'Delete')"
 			confirm-class="error"
 			:show-modal="showModal"
 			data-cy="deleteContextModal"
@@ -40,7 +40,7 @@ export default {
 	computed: {
 		...mapState(useTablesStore, ['activeContextId']),
 		getTranslatedDescription() {
-			return t('tables', 'Do you really want to delete the application "{context}"? This will also delete the shares and unshare the resources that are connected to this application.', { context: this.context?.name })
+			return t('tablespro', 'Do you really want to delete the application "{context}"? This will also delete the shares and unshare the resources that are connected to this application.', { context: this.context?.name })
 		},
 	},
 	methods: {
@@ -48,7 +48,7 @@ export default {
 		async deleteContext() {
 			const res = await this.removeContext({ context: this.context, receivers: this.context.sharing })
 			if (res) {
-				showSuccess(t('tables', 'Application "{context}" removed.', { context: this.context.name }))
+				showSuccess(t('tablespro', 'Application "{context}" removed.', { context: this.context.name }))
 				// if the active context was deleted, go to startpage
 				if (this.context.id === this.activeContextId) {
 					await this.$router.push('/').catch(err => err)

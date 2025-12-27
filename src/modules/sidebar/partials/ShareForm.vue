@@ -11,7 +11,7 @@
 			:preserve-search="true" :searchable="true" :user-select="true" :get-option-key="(option) => option.key"
 			:aria-label-combobox="selectPlaceholder" label="displayName" @search="asyncFind" @input="addShare">
 			<template #no-options>
-				{{ t('tables', 'No recommendations. Start typing.') }}
+				{{ t('tablespro', 'No recommendations. Start typing.') }}
 			</template>
 			<template #noResult>
 				{{ noResultText }}
@@ -59,18 +59,18 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tables', 'showSidebar', 'isLoadingSomething']),
+		...mapState(useTablesStore, ['tablespro', 'showSidebar', 'isLoadingSomething']),
 
 		shareHeading() {
 			return this.isCirclesEnabled
-				? t('tables', 'Share with accounts, groups or teams')
-				: t('tables', 'Share with accounts or groups')
+				? t('tablespro', 'Share with accounts, groups or teams')
+				: t('tablespro', 'Share with accounts or groups')
 		},
 
 		selectPlaceholder() {
 			return this.isCirclesEnabled
-				? t('tables', 'User, group or team …')
-				: t('tables', 'User or group …')
+				? t('tablespro', 'User, group or team …')
+				: t('tablespro', 'User or group …')
 		},
 	},
 
@@ -110,7 +110,7 @@ export default {
 				this.loading = false
 			} catch (err) {
 				console.debug(err)
-				showError(t('tables', 'Failed to fetch share recommendations'))
+				showError(t('tablespro', 'Failed to fetch share recommendations'))
 			}
 		},
 

@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service\ColumnTypes;
+namespace OCA\TablesPro\Service\ColumnTypes;
 
-use OCA\Tables\Db\Column;
+use OCA\TablesPro\Db\Column;
 
 class SelectionCheckBusiness extends SuperBusiness implements IColumnTypeBusiness {
 	public const PATTERN_POSITIVE = ['yes', '1', true, 1, 'true', 'TRUE'];

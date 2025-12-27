@@ -4,62 +4,62 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Edit application')"
+		:name="t('tablespro', 'Edit application')"
 		size="normal"
 		data-cy="editContextModal"
 		@closing="actionCancel">
 		<div class="modal__content" data-cy="editContextModal">
 			<div class="row">
 				<div class="col-4 mandatory">
-					{{ t('tables', 'Title') }}
+					{{ t('tablespro', 'Title') }}
 				</div>
 				<div class="col-4" style="display: inline-flex;">
 					<NcIconPicker :close-on-select="true" @select="setIcon">
-						<NcButton type="tertiary" :aria-label="t('tables', 'Select an icon for application')"
-							:title="t('tables', 'Select icon')" @click.prevent>
+						<NcButton type="tertiary" :aria-label="t('tablespro', 'Select an icon for application')"
+							:title="t('tablespro', 'Select icon')" @click.prevent>
 							<template #icon>
 								<NcIconSvgWrapper :svg="icon.svg" />
 							</template>
 						</NcButton>
 					</NcIconPicker>
 					<input v-model="title" :class="{ missing: errorTitle }" type="text" data-cy="editContextTitle"
-						:placeholder="t('tables', 'Title of the application')">
+						:placeholder="t('tablespro', 'Title of the application')">
 				</div>
 			</div>
 			<div class="col-4 row space-T">
 				<div class="col-4">
-					{{ t('tables', 'Description') }}
+					{{ t('tablespro', 'Description') }}
 				</div>
-				<input v-model="description" type="text" data-cy="editContextDes" :placeholder="t('tables', 'Description of the application')">
+				<input v-model="description" type="text" data-cy="editContextDes" :placeholder="t('tablespro', 'Description of the application')">
 			</div>
 			<div class="col-4 row space-T">
 				<div class="col-4">
-					{{ t('tables', 'Resources') }}
+					{{ t('tablespro', 'Resources') }}
 				</div>
 				<NcContextResource :resources.sync="resources" :receivers.sync="receivers" />
 			</div>
 			<div class="row space-T">
 				<NcActionCheckbox :checked="showInNavigationDefault" @change="changeDisplayMode">
-					{{ t('tables', 'Show in app list') }}
+					{{ t('tablespro', 'Show in app list') }}
 				</NcActionCheckbox>
 				<p class="nav-display-subtext">
-					{{ t('tables', 'This can be overridden by a per-account preference') }}
+					{{ t('tablespro', 'This can be overridden by a per-account preference') }}
 				</p>
 			</div>
 			<div class="row space-T">
 				<div class="fix-col-4 space-T justify-between">
 					<NcButton v-if="!prepareDeleteContext" type="error" @click="prepareDeleteContext = true">
-						{{ t('tables', 'Delete') }}
+						{{ t('tablespro', 'Delete') }}
 					</NcButton>
 					<NcButton v-if="prepareDeleteContext" :wide="true" type="error" @click="actionDeleteContext">
-						{{ t('tables', 'I really want to delete this application!') }}
+						{{ t('tablespro', 'I really want to delete this application!') }}
 					</NcButton>
 					<div class="right-additional-button">
 						<NcButton v-if="ownsContext(localContext)" data-cy="transferContextSubmitBtn" @click="actionTransfer">
-							{{ t('tables', 'Transfer application') }}
+							{{ t('tablespro', 'Transfer application') }}
 						</NcButton>
 						<NcButton type="primary" data-cy="editContextSubmitBtn" @click="submit">
-							{{ t('tables', 'Save') }}
+							{{ t('tablespro', 'Save') }}
 						</NcButton>
 					</div>
 				</div>
@@ -124,7 +124,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(useTablesStore, ['getContext', 'tables', 'views', 'activeContextId']),
+		...mapState(useTablesStore, ['getContext', 'tablespro', 'views', 'activeContextId']),
 		localContext() {
 			return this.getContext(this.contextId)
 		},
@@ -132,7 +132,7 @@ export default {
 	watch: {
 		title() {
 			if (this.title && this.title.length >= 200) {
-				showError(t('tables', 'The title character limit is 200 characters. Please use a shorter title.'))
+				showError(t('tablespro', 'The title character limit is 200 characters. Please use a shorter title.'))
 				this.title = this.title.slice(0, 199)
 			}
 		},
@@ -160,7 +160,7 @@ export default {
 		},
 		async submit() {
 			if (this.title === '') {
-				showError(t('tables', 'Cannot update application. Title is missing.'))
+				showError(t('tablespro', 'Cannot update application. Title is missing.'))
 				this.errorTitle = true
 			} else {
 				const dataResources = this.resources.map(resource => {
@@ -189,7 +189,7 @@ export default {
 				const displayMode = this.showInNavigationDefault ? 'NAV_ENTRY_MODE_ALL' : 'NAV_ENTRY_MODE_HIDDEN'
 				const res = await this.updateContext({ id: this.contextId, data, previousReceivers: Object.values(context.sharing), receivers: this.receivers, displayMode: NAV_ENTRY_MODE[displayMode] })
 				if (res) {
-					showSuccess(t('tables', 'Updated application "{contextTitle}".', { contextTitle: this.title }))
+					showSuccess(t('tablespro', 'Updated application "{contextTitle}".', { contextTitle: this.title }))
 					this.actionCancel()
 				}
 			}
@@ -260,7 +260,7 @@ export default {
 			const context = this.getContext(this.contextId)
 			const res = await this.removeContext({ context, receivers: context.sharing })
 			if (res) {
-				showSuccess(t('tables', 'Application "{context}" removed.', { context: this.title }))
+				showSuccess(t('tablespro', 'Application "{context}" removed.', { context: this.title }))
 				// if the active context was deleted, go to startpage
 				if (this.contextId === this.activeContextId) {
 					await this.$router.push('/').catch(err => err)

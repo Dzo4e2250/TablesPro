@@ -4,31 +4,31 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\AppInfo;
+namespace OCA\TablesPro\AppInfo;
 
 use Exception;
 use OCA\Analytics\Datasource\DatasourceEvent;
-use OCA\Tables\Capabilities;
-use OCA\Tables\Event\RowDeletedEvent;
-use OCA\Tables\Event\TableDeletedEvent;
-use OCA\Tables\Event\TableOwnershipTransferredEvent;
-use OCA\Tables\Event\ViewDeletedEvent;
-use OCA\Tables\Listener\AddMissingIndicesListener;
-use OCA\Tables\Listener\AnalyticsDatasourceListener;
-use OCA\Tables\Listener\BeforeTemplateRenderedListener;
-use OCA\Tables\Listener\LoadAdditionalListener;
-use OCA\Tables\Listener\TablesReferenceListener;
-use OCA\Tables\Listener\UserDeletedListener;
-use OCA\Tables\Listener\WhenRowDeletedAuditLogListener;
-use OCA\Tables\Listener\WhenTableDeletedAuditLogListener;
-use OCA\Tables\Listener\WhenTableTransferredAuditLogListener;
-use OCA\Tables\Listener\WhenViewDeletedAuditLogListener;
-use OCA\Tables\Middleware\PermissionMiddleware;
-use OCA\Tables\Reference\ContentReferenceProvider;
-use OCA\Tables\Reference\ReferenceProvider;
-use OCA\Tables\Search\SearchTablesProvider;
-use OCA\Tables\Service\Support\AuditLogServiceInterface;
-use OCA\Tables\Service\Support\DefaultAuditLogService;
+use OCA\TablesPro\Capabilities;
+use OCA\TablesPro\Event\RowDeletedEvent;
+use OCA\TablesPro\Event\TableDeletedEvent;
+use OCA\TablesPro\Event\TableOwnershipTransferredEvent;
+use OCA\TablesPro\Event\ViewDeletedEvent;
+use OCA\TablesPro\Listener\AddMissingIndicesListener;
+use OCA\TablesPro\Listener\AnalyticsDatasourceListener;
+use OCA\TablesPro\Listener\BeforeTemplateRenderedListener;
+use OCA\TablesPro\Listener\LoadAdditionalListener;
+use OCA\TablesPro\Listener\TablesReferenceListener;
+use OCA\TablesPro\Listener\UserDeletedListener;
+use OCA\TablesPro\Listener\WhenRowDeletedAuditLogListener;
+use OCA\TablesPro\Listener\WhenTableDeletedAuditLogListener;
+use OCA\TablesPro\Listener\WhenTableTransferredAuditLogListener;
+use OCA\TablesPro\Listener\WhenViewDeletedAuditLogListener;
+use OCA\TablesPro\Middleware\PermissionMiddleware;
+use OCA\TablesPro\Reference\ContentReferenceProvider;
+use OCA\TablesPro\Reference\ReferenceProvider;
+use OCA\TablesPro\Search\SearchTablesProvider;
+use OCA\TablesPro\Service\Support\AuditLogServiceInterface;
+use OCA\TablesPro\Service\Support\DefaultAuditLogService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;

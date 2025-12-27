@@ -5,7 +5,7 @@
 <template>
 	<div class="tables-smart-picker">
 		<h2>
-			{{ t('tables', 'Nextcloud Tables') }}
+			{{ t('tablespro', 'Nextcloud Tables') }}
 		</h2>
 		<div class="selection-wrapper">
 			<div class="selection">
@@ -14,27 +14,27 @@
 				</div>
 
 				<div class="space-T space-B">
-					<h3>{{ t('tables', 'Render mode') }}</h3>
+					<h3>{{ t('tablespro', 'Render mode') }}</h3>
 					<div class="radio">
 						<NcCheckboxRadioSwitch
 							:checked.sync="renderMode"
 							value="link"
 							name="render-mode"
 							type="radio">
-							<IconLink :size="20" />{{ t('tables', 'Link') }}
+							<IconLink :size="20" />{{ t('tablespro', 'Link') }}
 						</NcCheckboxRadioSwitch>
 						<NcCheckboxRadioSwitch
 							:checked.sync="renderMode"
 							value="content"
 							name="render-mode"
 							type="radio">
-							<IconText :size="20" />{{ t('tables', 'Content') }}
+							<IconText :size="20" />{{ t('tablespro', 'Content') }}
 						</NcCheckboxRadioSwitch>
 					</div>
 				</div>
 
 				<div v-if="getLink" class="space-T space-B">
-					<h3>{{ t('tables', 'Preview') }}</h3>
+					<h3>{{ t('tablespro', 'Preview') }}</h3>
 					<div class="preview space-T">
 						<div v-if="previewLoading">
 							<NcLoadingIcon />
@@ -54,11 +54,11 @@
 		</div>
 
 		<div class="select-button">
-			<NcButton type="primary" :disabled="value === null" :aria-label="t('tables', 'Select')" @click="selectReference">
+			<NcButton type="primary" :disabled="value === null" :aria-label="t('tablespro', 'Select')" @click="selectReference">
 				<template #icon>
 					<IconCheck :size="20" />
 				</template>
-				{{ t('tables', 'Insert') }}
+				{{ t('tablespro', 'Insert') }}
 			</NcButton>
 		</div>
 	</div>
@@ -187,7 +187,7 @@ export default {
 				const res = await axios.get(generateUrl('/apps/tables/api/1/' + this.value.type + 's/' + this.value.value + '/columns'))
 				this.$set(this.richObject, 'columns', res.data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not fetch columns for content preview.'))
+				displayError(e, t('tablespro', 'Could not fetch columns for content preview.'))
 			}
 		},
 		async loadRowsForContentPreview() {
@@ -199,7 +199,7 @@ export default {
 				const res = await axios.get(generateUrl('/apps/tables/row/' + this.value.type + '/' + this.value.value))
 				this.$set(this.richObject, 'rows', res.data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not fetch rows for content preview.'))
+				displayError(e, t('tablespro', 'Could not fetch rows for content preview.'))
 			}
 		},
 	},

@@ -5,11 +5,11 @@
 import { showError } from '@nextcloud/dialogs'
 
 export function getNotFoundError(type) {
-	return t('tables', 'This {type} could not be found', { type })
+	return t('tablespro', 'This {type} could not be found', { type })
 }
 
 export function getGenericLoadError(type) {
-	return t('tables', 'An error occurred while loading the {type}', { type })
+	return t('tablespro', 'An error occurred while loading the {type}', { type })
 }
 
 /**
@@ -36,16 +36,16 @@ function statusMessage(e, status) {
 		if (e.response?.data?.message) {
 			return e.response.data.message
 		}
-		return t('tables', 'Unknown error.')
+		return t('tablespro', 'Unknown error.')
 	}
 	if (status === 401) {
-		return t('tables', 'Request is not authorized. Are you logged in?')
+		return t('tablespro', 'Request is not authorized. Are you logged in?')
 	} else if (status === 403) {
-		return t('tables', 'Request not allowed.')
+		return t('tablespro', 'Request not allowed.')
 	} else if (status === 404) {
-		return t('tables', 'Resource not found.')
+		return t('tablespro', 'Resource not found.')
 	} else {
-		return t('tables', 'Unknown error.')
+		return t('tablespro', 'Unknown error.')
 	}
 }
 

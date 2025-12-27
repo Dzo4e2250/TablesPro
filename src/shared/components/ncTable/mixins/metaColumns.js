@@ -15,9 +15,9 @@ import {
 } from '../../../constants.ts'
 
 export const MetaColumns = [
-	new NumberColumn({ id: TYPE_META_ID, title: t('tables', 'ID') }),
-	new TextLineColumn({ id: TYPE_META_CREATED_BY, title: t('tables', 'Creator') }),
-	new TextLineColumn({ id: TYPE_META_UPDATED_BY, title: t('tables', 'Last editor') }),
-	new DatetimeColumn({ id: TYPE_META_CREATED_AT, title: t('tables', 'Created at') }),
-	new DatetimeColumn({ id: TYPE_META_UPDATED_AT, title: t('tables', 'Last edited at') }),
+	new NumberColumn({ id: TYPE_META_ID, title: t('tablespro', 'ID') }),
+	new TextLineColumn({ id: TYPE_META_CREATED_BY, title: t('tablespro', 'Creator') }),
+	new TextLineColumn({ id: TYPE_META_UPDATED_BY, title: t('tablespro', 'Last editor') }),
+	new DatetimeColumn({ id: TYPE_META_CREATED_AT, title: t('tablespro', 'Created at') }),
+	new DatetimeColumn({ id: TYPE_META_UPDATED_AT, title: t('tablespro', 'Last edited at') }),
 ]

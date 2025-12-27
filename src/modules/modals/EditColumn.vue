@@ -4,7 +4,7 @@
 -->
 <template>
 	<NcDialog size="large"
-		:name="t('tables', 'Edit column')"
+		:name="t('tablespro', 'Edit column')"
 		@closing="actionCancel">
 		<div class="modal__content">
 			<div v-if="loading" class="icon-loading" />
@@ -26,19 +26,19 @@
 				<div class="edit-info">
 					<ColumnInfoPopover :column="column" />&nbsp;
 					<div class="last-edit-info">
-						{{ t('tables', 'Last edit') + ': ' }}
+						{{ t('tablespro', 'Last edit') + ': ' }}
 						{{ updateTime }}&nbsp;
 						<NcUserBubble class="last-edit-info-bubble" :user="column.lastEditBy" :display-name="column.lastEditByDisplayName ? column.lastEditByDisplayName : column.lastEditBy" />
 					</div>
 				</div>
 				<div class="right-additional-button">
 					<div class="button-padding-right">
-						<NcButton type="secondary" :aria-label="t('tables', 'Cancel')" @click="actionCancel">
-							{{ t('tables', 'Cancel') }}
+						<NcButton type="secondary" :aria-label="t('tablespro', 'Cancel')" @click="actionCancel">
+							{{ t('tablespro', 'Cancel') }}
 						</NcButton>
 					</div>
-					<NcButton type="primary" :aria-label="t('tables', 'Save')" :disabled="!canSave" @click="saveColumn">
-						{{ t('tables', 'Save') }}
+					<NcButton type="primary" :aria-label="t('tablespro', 'Save')" :disabled="!canSave" @click="saveColumn">
+						{{ t('tablespro', 'Save') }}
 					</NcButton>
 				</div>
 			</div>
@@ -149,7 +149,7 @@ export default {
 	methods: {
 		...mapActions(useDataStore, ['updateColumn']),
 		relativeDateTime(v) {
-			return moment(v).format('L') === moment().format('L') ? t('tables', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
+			return moment(v).format('L') === moment().format('L') ? t('tablespro', 'Today') + ' ' + moment(v).format('LT') : moment(v).format('LLLL')
 		},
 		snakeToCamel(str) {
 			str = str.toLowerCase().replace(/([-_][a-z])/g, group =>
@@ -166,14 +166,14 @@ export default {
 		},
 		async saveColumn() {
 			if (this.editColumn.title === '') {
-				showError(t('tables', 'Cannot update column. Title is missing.'))
+				showError(t('tablespro', 'Cannot update column. Title is missing.'))
 				this.editErrorTitle = true
 				return
 			}
 
 			if (this.editColumn.customSettings?.width
 				&& (this.editColumn.customSettings?.width < COLUMN_WIDTH_MIN || this.editColumn.customSettings?.width > COLUMN_WIDTH_MAX)) {
-				showError(t('tables', 'Cannot save column. Column width must be between {min} and {max}.', { min: COLUMN_WIDTH_MIN, max: COLUMN_WIDTH_MAX }))
+				showError(t('tablespro', 'Cannot save column. Column width must be between {min} and {max}.', { min: COLUMN_WIDTH_MIN, max: COLUMN_WIDTH_MAX }))
 				this.widthInvalidError = true
 				return
 			}
@@ -213,7 +213,7 @@ export default {
 			})
 
 			if (res) {
-				showSuccess(t('tables', 'The column "{column}" was updated.', { column: this.editColumn.title }))
+				showSuccess(t('tablespro', 'The column "{column}" was updated.', { column: this.editColumn.title }))
 			}
 		},
 	},

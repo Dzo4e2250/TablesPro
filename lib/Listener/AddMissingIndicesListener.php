@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Listener;
+namespace OCA\TablesPro\Listener;
 
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\Event;

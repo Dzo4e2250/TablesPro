@@ -65,24 +65,24 @@ deselect-all-rows        -> unselect all rows, e.g. after deleting selected rows
 				</template>
 			</CustomTable>
 			<NcEmptyContent v-else-if="config.canCreateRows && rows.length === 0"
-				:name="t('tables', 'Create rows')"
-				:description="t('tables', 'You are not allowed to read this table, but you can still create rows.')">
+				:name="t('tablespro', 'Create rows')"
+				:description="t('tablespro', 'You are not allowed to read this table, but you can still create rows.')">
 				<template #icon>
 					<Plus :size="25" />
 				</template>
 				<template #action>
-					<NcButton :aria-label="t('tables', 'Create row')" type="primary"
+					<NcButton :aria-label="t('tablespro', 'Create row')" type="primary"
 						@click="$emit('create-row')">
 						<template #icon>
 							<Plus :size="25" />
 						</template>
-						{{ t('tables', 'Create row') }}
+						{{ t('tablespro', 'Create row') }}
 					</NcButton>
 				</template>
 			</NcEmptyContent>
 			<NcEmptyContent v-else
-				:name="t('tables', 'No permissions')"
-				:description="t('tables', 'You have no permissions for this table.')">
+				:name="t('tablespro', 'No permissions')"
+				:description="t('tablespro', 'You have no permissions for this table.')">
 				<template #icon>
 					<Cancel :size="25" />
 				</template>
@@ -130,7 +130,7 @@ export default {
 		},
 		downloadTitle: {
 			type: String,
-			default: t('tables', 'Download'),
+			default: t('tablespro', 'Download'),
 		},
 		viewSetting: {
 			type: Object,

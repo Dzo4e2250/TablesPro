@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Helper;
+namespace OCA\TablesPro\Helper;
 
-use OCA\Tables\Constants\UsergroupType;
-use OCA\Tables\Db\Column;
+use OCA\TablesPro\Constants\UsergroupType;
+use OCA\TablesPro\Db\Column;
 
 class ColumnsHelper {
 

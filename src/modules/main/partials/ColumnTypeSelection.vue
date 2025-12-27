@@ -7,7 +7,7 @@
 		class="columnTypeSelection"
 		:options="typeOptions"
 		:clearable="false"
-		:aria-label-combobox="t('tables', 'Column type')"
+		:aria-label-combobox="t('tablespro', 'Column type')"
 		style="width: 100%">
 		<template #option="props">
 			<div class="icon-label-container">
@@ -75,17 +75,17 @@ export default {
 			type: 'text',
 			subtype: 'line',
 			typeOptions: [
-				{ id: 'text', label: t('tables', 'Text') },
-				{ id: 'text-link', label: t('tables', 'Link') },
+				{ id: 'text', label: t('tablespro', 'Text') },
+				{ id: 'text-link', label: t('tablespro', 'Link') },
 
-				{ id: 'number', label: t('tables', 'Number') },
-				{ id: 'number-stars', label: t('tables', 'Stars rating') },
-				{ id: 'number-progress', label: t('tables', 'Progress bar') },
+				{ id: 'number', label: t('tablespro', 'Number') },
+				{ id: 'number-stars', label: t('tablespro', 'Stars rating') },
+				{ id: 'number-progress', label: t('tablespro', 'Progress bar') },
 
-				{ id: 'selection', label: t('tables', 'Selection') },
+				{ id: 'selection', label: t('tablespro', 'Selection') },
 
-				{ id: 'datetime', label: t('tables', 'Date and time') },
-				{ id: 'usergroup', label: t('tables', 'Users and groups') },
+				{ id: 'datetime', label: t('tablespro', 'Date and time') },
+				{ id: 'usergroup', label: t('tablespro', 'Users and groups') },
 			],
 		}
 	},

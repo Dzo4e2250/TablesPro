@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Command;
+namespace OCA\TablesPro\Command;
 
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Service\TableService;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Service\TableService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

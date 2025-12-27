@@ -5,15 +5,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
 use DateTime;
 use DateTimeImmutable;
-use OCA\Tables\Constants\UsergroupType;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Helper\ColumnsHelper;
-use OCA\Tables\Helper\UserHelper;
+use OCA\TablesPro\Constants\UsergroupType;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Helper\ColumnsHelper;
+use OCA\TablesPro\Helper\UserHelper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\TTransactional;
@@ -649,7 +649,7 @@ class Row2Mapper {
 
 			$column = $this->columnMapper->find($rowData['column_id']);
 			$columnType = $column->getType();
-			$cellClassName = 'OCA\Tables\Db\RowCell' . ucfirst($columnType);
+			$cellClassName = 'OCA\TablesPro\Db\RowCell' . ucfirst($columnType);
 			$entity = call_user_func($cellClassName . '::fromRowData', $rowData); // >5.2.3
 			if (!isset($cellMapperCache[$columnType])) {
 				$cellMapperCache[$columnType] = $this->getCellMapperFromType($columnType);
@@ -798,7 +798,7 @@ class Row2Mapper {
 		$cellMapper = $this->getCellMapper($column);
 
 		try {
-			$cellClassName = 'OCA\Tables\Db\RowCell' . ucfirst($column->getType());
+			$cellClassName = 'OCA\TablesPro\Db\RowCell' . ucfirst($column->getType());
 			if ($cellMapper->hasMultipleValues()) {
 				foreach ($value as $val) {
 					/** @var RowCellSuper $cell */
@@ -868,7 +868,7 @@ class Row2Mapper {
 	}
 
 	private function getCellMapperFromType(string $columnType): RowCellMapperSuper {
-		$cellMapperClassName = 'OCA\Tables\Db\RowCell' . ucfirst($columnType) . 'Mapper';
+		$cellMapperClassName = 'OCA\TablesPro\Db\RowCell' . ucfirst($columnType) . 'Mapper';
 		/** @var RowCellMapperSuper $cellMapper */
 		try {
 			return Server::get($cellMapperClassName);

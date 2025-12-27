@@ -9,8 +9,8 @@
 		</div>
 		<div v-else>
 			<NcEmptyContent
-				:name="t('tables', 'Error')"
-				:description="t('tables', 'Could not load editor, text not available.')">
+				:name="t('tablespro', 'Error')"
+				:description="t('tablespro', 'Could not load editor, text not available.')">
 				<template #icon>
 					<Alert :size="20" />
 				</template>

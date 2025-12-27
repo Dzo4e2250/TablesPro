@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Listener;
+namespace OCA\TablesPro\Listener;
 
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Service\TableService;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Service\TableService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\BeforeUserDeletedEvent;

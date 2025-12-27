@@ -33,7 +33,7 @@ export default {
 	props: {
 		filter: {
 			type: String,
-			default: 'tables',
+			default: 'tablespro',
 		},
 		type: {
 			type: String,

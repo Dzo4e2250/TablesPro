@@ -10,7 +10,7 @@
 		<div class="info">
 			<div v-if="isFiltered">
 				<TextIcon :size="15" />
-				{{ t('tables', 'Filtered view') }}&nbsp;&nbsp;
+				{{ t('tablespro', 'Filtered view') }}&nbsp;&nbsp;
 			</div>
 			<NcSmallButton
 				v-if="isViewSettingSet"
@@ -18,7 +18,7 @@
 				<template #icon>
 					<FilterRemove :size="15" />
 				</template>
-				{{ t('tables', 'Reset local adjustments') }}
+				{{ t('tablespro', 'Reset local adjustments') }}
 			</NcSmallButton>
 		</div>
 		<div v-if="!isTable && activeElement.isShared" class="user-bubble">

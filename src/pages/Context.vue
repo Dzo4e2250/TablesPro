@@ -84,7 +84,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tables', 'contexts', 'activeContextId', 'views', 'activeContext']),
+		...mapState(useTablesStore, ['tablespro', 'contexts', 'activeContextId', 'views', 'activeContext']),
 		rows() {
 			const rows = {}
 			if (this.context && this.context.nodes) {
@@ -159,7 +159,7 @@ export default {
 				this.context = this.contexts[index]
 
 				if (!this.context) {
-					this.errorMessage = t('tables', 'This application could not be found')
+					this.errorMessage = t('tablespro', 'This application could not be found')
 					return
 				}
 
@@ -202,7 +202,7 @@ export default {
 							}
 						} catch (err) {
 							console.error(`Failed to load resource ${node.node_id}:`, err)
-							this.errorMessage = t('tables', 'Some resources in this application could not be loaded')
+							this.errorMessage = t('tablespro', 'Some resources in this application could not be loaded')
 						}
 					}
 				}

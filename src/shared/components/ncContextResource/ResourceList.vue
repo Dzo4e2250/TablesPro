@@ -14,13 +14,13 @@
 				</div>
 				<div class="fix-col-2" style="justify-content: end;">
 					<NcActionButton :close-after-click="true" icon="icon-delete" @click="actionDelete(resource)">
-						{{ t('tables', 'Delete') }}
+						{{ t('tablespro', 'Delete') }}
 					</NcActionButton>
 				</div>
 			</div>
 		</ul>
 		<div v-else>
-			{{ t('tables', 'No selected resources') }}
+			{{ t('tablespro', 'No selected resources') }}
 		</div>
 	</div>
 </template>

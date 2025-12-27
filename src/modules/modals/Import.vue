@@ -11,24 +11,24 @@
 			<!-- Starting -->
 			<div v-if="!loading && result === null && preview === null && !waitForReload">
 				<div class="row space-T">
-					{{ t('tables', 'Add data to the table from a file') }}
+					{{ t('tablespro', 'Add data to the table from a file') }}
 				</div>
 				<RowFormWrapper>
 					<div v-if="importFileName.length" class="import-filename">
 						<IconFile :size="20" />{{ importFileName }}
 					</div>
 					<div class="fix-col-4 middle">
-						<NcButton :aria-label="t('tables', 'Select from Files')" @click="pickFile">
+						<NcButton :aria-label="t('tablespro', 'Select from Files')" @click="pickFile">
 							<template #icon>
 								<IconFolder :size="20" />
 							</template>
-							{{ t('tables', 'Select from Files') }}
+							{{ t('tablespro', 'Select from Files') }}
 						</NcButton>
-						<NcButton :aria-label="t('tables', 'Upload from device')" @click="selectUploadFile">
+						<NcButton :aria-label="t('tablespro', 'Upload from device')" @click="selectUploadFile">
 							<template #icon>
 								<IconUpload :size="20" />
 							</template>
-							{{ t('tables', 'Upload from device') }}
+							{{ t('tablespro', 'Upload from device') }}
 						</NcButton>
 						<input ref="uploadFileInput"
 							type="file"
@@ -39,9 +39,9 @@
 					</div>
 					<div class="fix-col-4">
 						<p class="span">
-							{{ t('tables', 'Supported formats: xlsx, xls, csv, html, xml') }}
+							{{ t('tablespro', 'Supported formats: xlsx, xls, csv, html, xml') }}
 							<br>
-							{{ t('tables', 'First row of the file must contain column headings without gaps.') }}
+							{{ t('tablespro', 'First row of the file must contain column headings without gaps.') }}
 						</p>
 					</div>
 				</RowFormWrapper>
@@ -49,18 +49,18 @@
 				<div class="row">
 					<div class="fix-col-2">
 						<NcCheckboxRadioSwitch :checked.sync="createMissingColumns" type="switch" :disabled="!canCreateMissingColumns">
-							{{ t('tables', 'Create missing columns') }}
+							{{ t('tablespro', 'Create missing columns') }}
 						</NcCheckboxRadioSwitch>
 					</div>
 					<p v-if="(isElementView && !canManageTable(element)) || !canManageElement(element)" class="fix-col-2 span">
-						{{ t('tables', '⚠️ You don\'t have the permission to create columns.') }}
+						{{ t('tablespro', '⚠️ You don\'t have the permission to create columns.') }}
 					</p>
 				</div>
 
 				<div class="row">
 					<div class="fix-col-4 end">
-						<NcButton :aria-label="t('tables', 'Preview')" type="primary" @click="actionPreview">
-							{{ t('tables', 'Preview') }}
+						<NcButton :aria-label="t('tablespro', 'Preview')" type="primary" @click="actionPreview">
+							{{ t('tablespro', 'Preview') }}
 						</NcButton>
 					</div>
 				</div>
@@ -72,8 +72,8 @@
 
 				<div class="row">
 					<div class="fix-col-4 space-T end">
-						<NcButton :aria-label="t('tables', 'Import')" type="primary" @click="actionImport">
-							{{ t('tables', 'Import') }}
+						<NcButton :aria-label="t('tablespro', 'Import')" type="primary" @click="actionImport">
+							{{ t('tablespro', 'Import') }}
 						</NcButton>
 					</div>
 				</div>
@@ -85,8 +85,8 @@
 
 				<div class="row">
 					<div class="fix-col-4 space-T end">
-						<NcButton :aria-label="t('tables', 'Done')" type="primary" @click="actionCloseAndReload">
-							{{ t('tables', 'Done') }}
+						<NcButton :aria-label="t('tablespro', 'Done')" type="primary" @click="actionCloseAndReload">
+							{{ t('tablespro', 'Done') }}
 						</NcButton>
 					</div>
 				</div>
@@ -95,20 +95,20 @@
 			<!-- show loading -->
 			<div v-if="loading && !waitForReload">
 				<div v-if="!importFailed">
-					<NcEmptyContent :name="t('tables', 'Importing data from ') + importFileName"
-						:description="t('tables', 'This might take a while...')">
+					<NcEmptyContent :name="t('tablespro', 'Importing data from ') + importFileName"
+						:description="t('tablespro', 'This might take a while...')">
 						<template #icon>
 							<NcIconTimerSand />
 						</template>
 					</NcEmptyContent>
 				</div>
 				<div v-else>
-					<NcEmptyContent :name="t('tables', 'Failed')" :description="errorMessage" />
+					<NcEmptyContent :name="t('tablespro', 'Failed')" :description="errorMessage" />
 				</div>
 			</div>
 
 			<div v-if="waitForReload">
-				<NcLoadingIcon :name="t('tables', 'Loading table data')" :size="64" />
+				<NcLoadingIcon :name="t('tablespro', 'Loading table data')" :size="64" />
 			</div>
 		</div>
 	</NcDialog>
@@ -185,7 +185,7 @@ export default {
 				'application/vnd.oasis.opendocument.spreadsheet',
 			],
 			selectedUploadFile: null,
-			errorMessage: t('tables', 'Could not import data due to unknown errors.'),
+			errorMessage: t('tablespro', 'Could not import data due to unknown errors.'),
 		}
 	},
 
@@ -208,10 +208,10 @@ export default {
 			return fileName
 		},
 		title() {
-			let title = t('tables', 'Import table')
+			let title = t('tablespro', 'Import table')
 
 			if (!this.loading && this.preview !== null && !this.result && !this.waitForReload) {
-				title = t('tables', 'Preview imported table')
+				title = t('tablespro', 'Preview imported table')
 			}
 
 			return title
@@ -268,7 +268,7 @@ export default {
 		},
 		actionPreview() {
 			if (this.selectedUploadFile && this.selectedUploadFile.type !== '' && !this.mimeTypes.includes(this.selectedUploadFile.type)) {
-				showWarning(t('tables', 'The selected file is not supported.'))
+				showWarning(t('tablespro', 'The selected file is not supported.'))
 				return null
 			}
 
@@ -278,7 +278,7 @@ export default {
 			}
 
 			if (this.path === '') {
-				showWarning(t('tables', 'Please select a file.'))
+				showWarning(t('tablespro', 'Please select a file.'))
 				this.pathError = true
 				return null
 			}
@@ -297,7 +297,7 @@ export default {
 					this.importFailed = true
 				}
 			} catch (e) {
-				this.errorMessage = t('tables', 'Could not import data due to unknown errors.')
+				this.errorMessage = t('tablespro', 'Could not import data due to unknown errors.')
 				console.error(e)
 				this.importFailed = true
 				return false
@@ -324,7 +324,7 @@ export default {
 					this.importFailed = true
 				}
 			} catch (e) {
-				this.errorMessage = t('tables', 'Could not import data due to unknown errors.')
+				this.errorMessage = t('tablespro', 'Could not import data due to unknown errors.')
 				console.error(e)
 				this.importFailed = true
 				return false
@@ -332,7 +332,7 @@ export default {
 		},
 		actionImport() {
 			if (this.selectedUploadFile && this.selectedUploadFile.type !== '' && !this.mimeTypes.includes(this.selectedUploadFile.type)) {
-				showWarning(t('tables', 'The selected file is not supported.'))
+				showWarning(t('tablespro', 'The selected file is not supported.'))
 				return null
 			}
 
@@ -346,7 +346,7 @@ export default {
 			}
 
 			if (this.path === '') {
-				showWarning(t('tables', 'Please select a file.'))
+				showWarning(t('tablespro', 'Please select a file.'))
 				this.pathError = true
 				return null
 			}
@@ -358,7 +358,7 @@ export default {
 			for (const column of this.columnsConfig) {
 				if (column.action === 'exist') {
 					if (!column.existColumn) {
-						showWarning(t('tables', 'Please select column for mapping.'))
+						showWarning(t('tablespro', 'Please select column for mapping.'))
 						return false
 					}
 					if (existColumnCount[column.existColumn.id] === undefined) {
@@ -369,7 +369,7 @@ export default {
 				}
 			}
 			if (Object.values(existColumnCount).some(count => count > 1)) {
-				showWarning(t('tables', 'Cannot map same exist column for multiple columns.'))
+				showWarning(t('tablespro', 'Cannot map same exist column for multiple columns.'))
 				return false
 			}
 
@@ -386,7 +386,7 @@ export default {
 					this.result = res.data
 				} else {
 					console.debug('error while importing', res)
-					this.errorMessage = t('tables', res.data?.message || 'Could not import data due to unknown errors.')
+					this.errorMessage = t('tablespro', res.data?.message || 'Could not import data due to unknown errors.')
 				}
 			} catch (e) {
 				this.handleResponse(e.response, e)
@@ -412,7 +412,7 @@ export default {
 					this.result = res.data
 				} else {
 					console.debug('error while importing', res)
-					this.errorMessage = t('tables', res.data?.message || 'Could not import data due to unknown errors.')
+					this.errorMessage = t('tablespro', res.data?.message || 'Could not import data due to unknown errors.')
 				}
 			} catch (e) {
 				this.handleResponse(e.response, e)
@@ -437,7 +437,7 @@ export default {
 				.setMultiSelect(false)
 				.setMimeTypeFilter(this.mimeTypes)
 				.addButton({
-					label: t('tables', 'Import'),
+					label: t('tablespro', 'Import'),
 					callback: (nodes) => {
 						const fileInfo = nodes[0]
 						this.path = fileInfo.path
@@ -464,16 +464,16 @@ export default {
 		handleResponse(res, e) {
 			if (res?.status === 401) {
 				console.debug('error while importing', e || res)
-				this.errorMessage = t('tables', 'Could not import, not authorized. Are you logged in?')
+				this.errorMessage = t('tablespro', 'Could not import, not authorized. Are you logged in?')
 			} else if (res?.status === 403) {
 				console.debug('error while importing', e || res)
-				this.errorMessage = t('tables', 'Could not import, missing needed permission.')
+				this.errorMessage = t('tablespro', 'Could not import, missing needed permission.')
 			} else if (res?.status === 404) {
 				console.debug('error while importing', e || res)
-				this.errorMessage = t('tables', 'Could not import, needed resources were not found.')
+				this.errorMessage = t('tablespro', 'Could not import, needed resources were not found.')
 			} else {
 				console.debug('error while importing', e || res)
-				this.errorMessage = t('tables', e?.response?.data?.message || 'Could not import data due to unknown errors.')
+				this.errorMessage = t('tablespro', e?.response?.data?.message || 'Could not import data due to unknown errors.')
 			}
 		},
 	},

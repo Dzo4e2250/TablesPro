@@ -5,10 +5,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Tables\Listener;
+namespace OCA\TablesPro\Listener;
 
-use OCA\Tables\Event\TableOwnershipTransferredEvent;
-use OCA\Tables\Service\Support\AuditLogServiceInterface;
+use OCA\TablesPro\Event\TableOwnershipTransferredEvent;
+use OCA\TablesPro\Service\Support\AuditLogServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 

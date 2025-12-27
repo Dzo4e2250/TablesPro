@@ -5,13 +5,13 @@
 <template>
 	<div class="filter-section">
 		<div v-if="hasHiddenSortingRules">
-			ℹ {{ t('tables', 'Among the sorting rules are some to which you have no permissions. However, if you like, you can override the sorting.') }}
+			ℹ {{ t('tablespro', 'Among the sorting rules are some to which you have no permissions. However, if you like, you can override the sorting.') }}
 			<NcButton
 				:close-after-click="true"
-				:aria-label="t('tables', 'Override sorting rules')"
+				:aria-label="t('tablespro', 'Override sorting rules')"
 				type="tertiary"
 				@click="overrideRules">
-				{{ t('tables', 'Override sorting rules') }}
+				{{ t('tablespro', 'Override sorting rules') }}
 				<template #icon>
 					<Plus :size="25" />
 				</template>
@@ -34,16 +34,16 @@
 			</div>
 			<NcButton
 				:close-after-click="true"
-				:aria-label="t('tables', 'Add new sorting rule')"
+				:aria-label="t('tablespro', 'Add new sorting rule')"
 				type="tertiary"
 				@click="addSortingRule">
-				{{ t('tables', 'Add new sorting rule') }}
+				{{ t('tablespro', 'Add new sorting rule') }}
 				<template #icon>
 					<Plus :size="25" />
 				</template>
 			</NcButton>
 			<p class="span">
-				{{ t('tables', 'The sorting rules are applied sequentially, meaning that if there are rows with the same priority to the first rule, the second rule determines the order among those rows.') }}
+				{{ t('tablespro', 'The sorting rules are applied sequentially, meaning that if there are rows with the same priority to the first rule, the second rule determines the order among those rows.') }}
 			</p>
 		</div>
 	</div>

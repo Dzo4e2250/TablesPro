@@ -5,17 +5,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Reference;
+namespace OCA\TablesPro\Reference;
 
 use Exception;
 use OC\Collaboration\Reference\LinkReferenceProvider;
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Service\ColumnService;
-use OCA\Tables\Service\RowService;
-use OCA\Tables\Service\TableService;
-use OCA\Tables\Service\ViewService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Service\ColumnService;
+use OCA\TablesPro\Service\RowService;
+use OCA\TablesPro\Service\TableService;
+use OCA\TablesPro\Service\ViewService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\Collaboration\Reference\IReference;

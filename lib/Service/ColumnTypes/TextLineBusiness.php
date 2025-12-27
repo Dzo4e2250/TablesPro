@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service\ColumnTypes;
+namespace OCA\TablesPro\Service\ColumnTypes;
 
-use OCA\Tables\Db\Column;
-use OCA\Tables\Db\Row2Mapper;
-use OCA\Tables\Errors\BadRequestError;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Db\Row2Mapper;
+use OCA\TablesPro\Errors\BadRequestError;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 

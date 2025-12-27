@@ -7,16 +7,16 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
-use OCA\Tables\Db\Column;
-use OCA\Tables\Db\Table;
-use OCA\Tables\Dto\Column as ColumnDto;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Service\ValueObject\ViewColumnInformation;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Db\Table;
+use OCA\TablesPro\Dto\Column as ColumnDto;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;

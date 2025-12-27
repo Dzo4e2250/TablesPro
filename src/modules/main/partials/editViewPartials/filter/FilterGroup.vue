@@ -5,7 +5,7 @@
 <template>
 	<div class="filter-group" data-cy="filterGroupSection">
 		<div class="group-text">
-			{{ t('tables', '... that meet all of the following conditions') }}
+			{{ t('tablespro', '... that meet all of the following conditions') }}
 		</div>
 		<div v-for="(filter, index) in mutableFilterGroup"
 			:key="index">
@@ -18,10 +18,10 @@
 		<NcButton
 			:close-after-click="true"
 			type="tertiary"
-			:aria-label="t('tables', 'Add new filter')"
+			:aria-label="t('tablespro', 'Add new filter')"
 			data-cy="filterGroupAddFilterBtn"
 			@click="addFilter">
-			{{ t('tables', 'Add new filter') }}
+			{{ t('tablespro', 'Add new filter') }}
 			<template #icon>
 				<Plus :size="25" />
 			</template>

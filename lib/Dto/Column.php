@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Dto;
+namespace OCA\TablesPro\Dto;
 
 class Column {
 	public function __construct(

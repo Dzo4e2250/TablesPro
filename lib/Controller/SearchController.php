@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Service\SearchService;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Service\SearchService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;

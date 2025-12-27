@@ -6,7 +6,7 @@
 	<div>
 		<DialogConfirmation :show-modal="columnToDelete !== null"
 			confirm-class="error"
-			:title="t('tables', 'Delete column')"
+			:title="t('tablespro', 'Delete column')"
 			:description="deleteDescription"
 			@confirm="deleteColumn"
 			@cancel="$emit('cancel')" />
@@ -43,7 +43,7 @@ export default {
 	},
 	computed: {
 		deleteDescription() {
-			return t('tables', 'Are you sure you want to delete column "{column}"?', { column: this.columnToDelete.title })
+			return t('tablespro', 'Are you sure you want to delete column "{column}"?', { column: this.columnToDelete.title })
 		},
 	},
 	methods: {
@@ -57,7 +57,7 @@ export default {
 			})
 
 			if (!res) {
-				showError(t('tables', 'Error occurred while deleting column "{column}".', { column: this.columnToDelete.title }))
+				showError(t('tablespro', 'Error occurred while deleting column "{column}".', { column: this.columnToDelete.title }))
 			}
 			if (!this.isView) {
 				await this.reloadViewsOfTable({ tableId: this.elementId })

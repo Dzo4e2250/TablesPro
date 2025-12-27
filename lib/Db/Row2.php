@@ -5,12 +5,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
 use JsonSerializable;
-use OCA\Tables\Model\Public\Row;
-use OCA\Tables\Model\RowDataInput;
-use OCA\Tables\ResponseDefinitions;
+use OCA\TablesPro\Model\Public\Row;
+use OCA\TablesPro\Model\RowDataInput;
+use OCA\TablesPro\ResponseDefinitions;
 
 /**
  * @psalm-import-type TablesRow from ResponseDefinitions

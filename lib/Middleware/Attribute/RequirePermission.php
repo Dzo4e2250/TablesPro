@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Middleware\Attribute;
+namespace OCA\TablesPro\Middleware\Attribute;
 
 use Attribute;
 

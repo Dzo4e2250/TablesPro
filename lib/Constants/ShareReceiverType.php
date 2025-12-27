@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Constants;
+namespace OCA\TablesPro\Constants;
 
 /**
  * Constants for share receiver types

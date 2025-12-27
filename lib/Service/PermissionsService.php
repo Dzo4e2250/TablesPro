@@ -5,23 +5,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
-use OCA\Tables\AppInfo\Application;
-use OCA\Tables\Db\Context;
-use OCA\Tables\Db\ContextMapper;
-use OCA\Tables\Db\Share;
-use OCA\Tables\Db\ShareMapper;
-use OCA\Tables\Db\Table;
-use OCA\Tables\Db\TableMapper;
-use OCA\Tables\Db\View;
-use OCA\Tables\Db\ViewMapper;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Helper\CircleHelper;
-use OCA\Tables\Helper\ConversionHelper;
-use OCA\Tables\Helper\UserHelper;
-use OCA\Tables\Model\Permissions;
+use OCA\TablesPro\AppInfo\Application;
+use OCA\TablesPro\Db\Context;
+use OCA\TablesPro\Db\ContextMapper;
+use OCA\TablesPro\Db\Share;
+use OCA\TablesPro\Db\ShareMapper;
+use OCA\TablesPro\Db\Table;
+use OCA\TablesPro\Db\TableMapper;
+use OCA\TablesPro\Db\View;
+use OCA\TablesPro\Db\ViewMapper;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Helper\CircleHelper;
+use OCA\TablesPro\Helper\ConversionHelper;
+use OCA\TablesPro\Helper\UserHelper;
+use OCA\TablesPro\Model\Permissions;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;

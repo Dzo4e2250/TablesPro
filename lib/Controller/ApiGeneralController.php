@@ -7,13 +7,13 @@
 
 /** @noinspection DuplicatedCode */
 
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
 use Exception;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\TableService;
-use OCA\Tables\Service\ViewService;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\TableService;
+use OCA\TablesPro\Service\ViewService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;

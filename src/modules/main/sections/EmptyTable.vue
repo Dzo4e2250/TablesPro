@@ -3,14 +3,14 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcEmptyContent :name="t('tables', 'No columns')"
-		:description="t('tables', 'We need at least one column, please be so kind and create one.')">
+	<NcEmptyContent :name="t('tablespro', 'No columns')"
+		:description="t('tablespro', 'We need at least one column, please be so kind and create one.')">
 		<template #icon>
 			{{ table.emoji }}
 		</template>
 		<template v-if="canManageTable(table)" #action>
 			<NcButton :aria-label="t('table', 'Create column')" type="primary" @click="createColumn()">
-				{{ t('tables', 'Create column') }}
+				{{ t('tablespro', 'Create column') }}
 			</NcButton>
 		</template>
 	</NcEmptyContent>

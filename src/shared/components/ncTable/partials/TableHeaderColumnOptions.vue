@@ -14,9 +14,9 @@
 					<template #icon>
 						<ChevronLeft :size="25" />
 					</template>
-					{{ t('tables', 'Back') }}
+					{{ t('tablespro', 'Back') }}
 				</NcActionButton>
-				<NcActionCaption :name="t('tables', 'Select operator')" />
+				<NcActionCaption :name="t('tablespro', 'Select operator')" />
 				<NcActionRadio
 					v-for="(op, index) in getOperators"
 					:key="index"
@@ -33,12 +33,12 @@
 					<template #icon>
 						<ChevronLeft :size="25" />
 					</template>
-					{{ t('tables', 'Back') }}
+					{{ t('tablespro', 'Back') }}
 				</NcActionButton>
-				<NcActionCaption :name="t('tables', 'Search for value')" />
+				<NcActionCaption :name="t('tablespro', 'Search for value')" />
 				<NcActionInput
 					:label-visible="false"
-					:label="t('tables', 'Keyword and submit')"
+					:label="t('tablespro', 'Keyword and submit')"
 					:value.sync="searchValue"
 					:show-trailing-button="true"
 					@submit="submitFilterInput">
@@ -48,7 +48,7 @@
 				</NcActionInput>
 				<NcActionCaption
 					v-if="getMagicFields.length > 0"
-					:name="t('tables', 'Or use magic values')" />
+					:name="t('tablespro', 'Or use magic values')" />
 				<NcActionButton
 					v-for="(magicField, index) in getMagicFields"
 					:key="'magic-field-' + index"
@@ -60,20 +60,20 @@
 				</NcActionButton>
 			</template>
 			<template v-else>
-				<NcActionCaption v-if="!hasPresetSorting && canSort" :name="t('tables', 'Sorting')" />
+				<NcActionCaption v-if="!hasPresetSorting && canSort" :name="t('tablespro', 'Sorting')" />
 				<NcActionButtonGroup v-if="!hasPresetSorting && canSort">
-					<NcActionButton :class="{ selected: getSortMode === 'ASC' }" :aria-label="t('tables', 'Sort asc')" @click="sort('ASC')">
+					<NcActionButton :class="{ selected: getSortMode === 'ASC' }" :aria-label="t('tablespro', 'Sort asc')" @click="sort('ASC')">
 						<template #icon>
 							<SortAsc :size="20" />
 						</template>
 					</NcActionButton>
-					<NcActionButton :class="{ selected: getSortMode === 'DESC' }" :aria-label="t('tables', 'Sort desc')" @click="sort('DESC')">
+					<NcActionButton :class="{ selected: getSortMode === 'DESC' }" :aria-label="t('tablespro', 'Sort desc')" @click="sort('DESC')">
 						<template #icon>
 							<SortDesc :size="20" />
 						</template>
 					</NcActionButton>
 				</NcActionButtonGroup>
-				<NcActionCaption v-if="showFilter && hasOperators" :name="t('tables', 'Filtering')" />
+				<NcActionCaption v-if="showFilter && hasOperators" :name="t('tablespro', 'Filtering')" />
 				<NcActionButton
 					v-if="showFilter && hasOperators"
 					:title="selectedOperator.label"
@@ -81,7 +81,7 @@
 					<template #icon>
 						<FilterCogOutline :size="25" />
 					</template>
-					{{ t('tables', 'Select Operator') }}
+					{{ t('tablespro', 'Select Operator') }}
 				</NcActionButton>
 				<NcActionButton
 					v-if="showFilter && hasOperators"
@@ -89,27 +89,27 @@
 					<template #icon>
 						<Magnify :size="25" />
 					</template>
-					{{ t('tables', 'Select value') }}
+					{{ t('tablespro', 'Select value') }}
 				</NcActionButton>
-				<NcActionCaption v-if="hasManageColumnEntries" :name="t('tables', 'Manage column')" />
-				<NcActionButtonGroup v-if="hasManageColumnEntries" :name="t('tables', 'Column manage actions')">
+				<NcActionCaption v-if="hasManageColumnEntries" :name="t('tablespro', 'Manage column')" />
+				<NcActionButtonGroup v-if="hasManageColumnEntries" :name="t('tablespro', 'Column manage actions')">
 					<NcActionButton
 						v-if="showHideColumn"
-						:aria-label="t('tables', 'Hide column')"
+						:aria-label="t('tablespro', 'Hide column')"
 						@click="hideColumn()">
 						<template #icon>
 							<EyeOffOutline :size="25" />
 						</template>
 					</NcActionButton>
 					<NcActionButton v-if="showEditColumn"
-						:aria-label="t('tables', 'Edit column')"
+						:aria-label="t('tablespro', 'Edit column')"
 						@click="editColumn()">
 						<template #icon>
 							<PencilOutline :size="25" />
 						</template>
 					</NcActionButton>
 					<NcActionButton v-if="showDeleteColumn"
-						:aria-label="t('tables', 'Delete column')"
+						:aria-label="t('tablespro', 'Delete column')"
 						data-cy="deleteColumnActionBtn"
 						@click="deleteColumn()">
 						<template #icon>

@@ -5,14 +5,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Controller;
+namespace OCA\TablesPro\Controller;
 
 use Closure;
 use InvalidArgumentException;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 

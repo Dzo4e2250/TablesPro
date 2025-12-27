@@ -69,9 +69,9 @@ export default {
 			const url = generateUrl('/apps/tables/')
 
 			try {
-				if (loadState('tables', 'contextId', undefined)) {
+				if (loadState('tablespro', 'contextId', undefined)) {
 					// prepare route, when Context is opened from navigation bar
-					const contextId = loadState('tables', 'contextId', undefined)
+					const contextId = loadState('tablespro', 'contextId', undefined)
 					const originalUrl = window.location.href
 					this.$router.replace('/application/' + contextId).catch(() => {})
 					// reverts turning /apps/tables/app/28 into /apps/tables/app/28#/application/28
@@ -88,7 +88,7 @@ export default {
 			}
 			if (currentRoute.path.startsWith('/table/')) {
 				this.setActiveTableId(parseInt(currentRoute.params.tableId))
-				const tableName = this.activeTable?.title || t('tables', 'Table')
+				const tableName = this.activeTable?.title || t('tablespro', 'Table')
 				this.setPageTitle(tableName)
 				if (!currentRoute.path.includes('/row/')) {
 					const targetElement = document.querySelector(`header .header-start .app-menu a[href="${url}"]`)
@@ -97,7 +97,7 @@ export default {
 				}
 			} else if (currentRoute.path.startsWith('/view/')) {
 				this.setActiveViewId(parseInt(currentRoute.params.viewId))
-				const viewName = this.activeView?.title || t('tables', 'View')
+				const viewName = this.activeView?.title || t('tablespro', 'View')
 				this.setPageTitle(viewName)
 				if (!currentRoute.path.includes('/row/')) {
 					const targetElement = document.querySelector(`header .header-start .app-menu a[href="${url}"]`)
@@ -107,7 +107,7 @@ export default {
 			} else if (currentRoute.path.startsWith('/application/')) {
 				const contextId = parseInt(currentRoute.params.contextId)
 				this.setActiveContextId(contextId)
-				const contextName = this.activeContext?.name || t('tables', 'Tables')
+				const contextName = this.activeContext?.name || t('tablespro', 'Tables')
 				this.setPageTitle(contextName)
 
 				// This breaks if there are multiple contexts with the same name or another app has the same name. We need a better way to identify the correct element.
@@ -135,7 +135,7 @@ export default {
 		},
 		setPageTitle(title) {
 			if (this.defaultPageTitle === false) {
-				const appTitle = t('tables', 'Tables')
+				const appTitle = t('tablespro', 'Tables')
 				this.defaultPageTitle = window.document.title
 				if (this.defaultPageTitle.indexOf(` - ${appTitle} - `) !== -1) {
 					this.defaultPageTitle = this.defaultPageTitle.substring(this.defaultPageTitle.indexOf(` - ${appTitle} - `) + 3)

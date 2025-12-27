@@ -5,11 +5,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
-use OCA\Tables\Constants\UsergroupType;
-use OCA\Tables\Helper\CircleHelper;
-use OCA\Tables\Helper\GroupHelper;
+use OCA\TablesPro\Constants\UsergroupType;
+use OCA\TablesPro\Helper\CircleHelper;
+use OCA\TablesPro\Helper\GroupHelper;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\IUserSession;

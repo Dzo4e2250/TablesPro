@@ -27,15 +27,15 @@
 			<div class="link-input">
 				<NcTextField v-if="isPlainUrl"
 					v-model="plainLink"
-					:placeholder="t('tables', 'URL')"
-					:aria-label="t('tables', 'URL')"
+					:placeholder="t('tablespro', 'URL')"
+					:aria-label="t('tablespro', 'URL')"
 					:disabled="localLoading || !canEditCell()" />
 				<NcSelect v-else
 					v-model="editValue"
 					:options="results"
 					:clearable="true"
 					label="title"
-					:aria-label-combobox="t('tables', 'Link providers')"
+					:aria-label-combobox="t('tablespro', 'Link providers')"
 					:loading="isLoadingResults || localLoading"
 					:disabled="localLoading || !canEditCell()"
 					style="width: 100%"
@@ -132,7 +132,7 @@ export default {
 			set(v) {
 				this.editValue = {
 					title: v,
-					subline: t('tables', 'URL'),
+					subline: t('tablespro', 'URL'),
 					providerId: 'url',
 					value: v,
 				}
@@ -225,7 +225,7 @@ export default {
 			} else if (this.value) {
 				this.editValue = {
 					title: this.value,
-					subline: t('tables', 'URL'),
+					subline: t('tablespro', 'URL'),
 					providerId: 'url',
 					value: this.value,
 				}
@@ -287,7 +287,7 @@ export default {
 			try {
 				res = await axios.get(generateOcsUrl('/search/providers/' + providerId + '/search?term=' + term))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load link provider results.'))
+				displayError(e, t('tablespro', 'Could not load link provider results.'))
 				this.setProviderLoading(providerId, false)
 				return
 			}
@@ -312,7 +312,7 @@ export default {
 		addUrlResult(term) {
 			this.results.push({
 				title: term,
-				subline: t('tables', 'Url'),
+				subline: t('tablespro', 'Url'),
 				providerId: 'url',
 				value: term,
 			})
@@ -328,7 +328,7 @@ export default {
 			}
 
 			if (this.hasInvalidProtocol) {
-				showError(t('tables', 'Invalid protocol. Allowed: {allowed}', { allowed: this.allowedProtocols.join(', ') }))
+				showError(t('tablespro', 'Invalid protocol. Allowed: {allowed}', { allowed: this.allowedProtocols.join(', ') }))
 				return
 			}
 

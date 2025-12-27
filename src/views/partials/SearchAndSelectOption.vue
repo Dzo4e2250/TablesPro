@@ -18,7 +18,7 @@
 					:user="owner"
 					:display-name="ownerDisplayName ?? owner" />&nbsp;
 				<NcCounterBubble v-if="rowsCount !== null">
-					{{ n('tables', '{nb} row', '{nb} rows', rowsCount, { nb: rowsCount}) }}
+					{{ n('tablespro', '{nb} row', '{nb} rows', rowsCount, { nb: rowsCount}) }}
 				</NcCounterBubble>
 				<div v-if="subline" class="subline p span">
 					{{ subline }}

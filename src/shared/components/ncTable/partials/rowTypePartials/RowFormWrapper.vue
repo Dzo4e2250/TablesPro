@@ -7,7 +7,7 @@
 		<div :class="{ 'fix-col-3': hasHeadSlot, 'fix-col-4': !hasHeadSlot }">
 			<div class="row">
 				<div class="title fix-col-4">
-					{{ title }}<span v-if="mandatory" :title="t('tables', 'This field is mandatory')">*</span>
+					{{ title }}<span v-if="mandatory" :title="t('tablespro', 'This field is mandatory')">*</span>
 					<NcLoadingIcon v-if="loading" />
 				</div>
 				<p v-if="description" class="fix-col-4 span">

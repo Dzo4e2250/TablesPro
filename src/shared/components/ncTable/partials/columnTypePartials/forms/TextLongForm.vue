@@ -7,7 +7,7 @@
 		<!-- default -->
 		<div class="row">
 			<div class="fix-col-4">
-				{{ t('tables', 'Default') }}
+				{{ t('tablespro', 'Default') }}
 			</div>
 			<div class="fix-col-4 space-B">
 				<textarea v-model="mutableColumn.textDefault" />
@@ -17,7 +17,7 @@
 		<!-- max text length -->
 		<div class="row">
 			<div class="fix-col-4">
-				{{ t('tables', 'Maximum text length') }}
+				{{ t('tablespro', 'Maximum text length') }}
 			</div>
 			<div class="fix-col-4">
 				<input v-model="mutableColumn.textMaxLength"

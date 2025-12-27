@@ -5,24 +5,24 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
 use DateTimeImmutable;
 use LogicException;
 use OC\User\NoUserException;
-use OCA\Tables\Db\Column;
-use OCA\Tables\Dto\Column as ColumnDto;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Service\ColumnTypes\IColumnTypeBusiness;
-use OCA\Tables\Vendor\PhpOffice\PhpSpreadsheet\Cell\Cell;
-use OCA\Tables\Vendor\PhpOffice\PhpSpreadsheet\Cell\DataType;
-use OCA\Tables\Vendor\PhpOffice\PhpSpreadsheet\IOFactory;
-use OCA\Tables\Vendor\PhpOffice\PhpSpreadsheet\Shared\Date;
-use OCA\Tables\Vendor\PhpOffice\PhpSpreadsheet\Worksheet\Row;
-use OCA\Tables\Vendor\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Dto\Column as ColumnDto;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Service\ColumnTypes\IColumnTypeBusiness;
+use OCA\TablesPro\Vendor\PhpOffice\PhpSpreadsheet\Cell\Cell;
+use OCA\TablesPro\Vendor\PhpOffice\PhpSpreadsheet\Cell\DataType;
+use OCA\TablesPro\Vendor\PhpOffice\PhpSpreadsheet\IOFactory;
+use OCA\TablesPro\Vendor\PhpOffice\PhpSpreadsheet\Shared\Date;
+use OCA\TablesPro\Vendor\PhpOffice\PhpSpreadsheet\Worksheet\Row;
+use OCA\TablesPro\Vendor\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
@@ -370,7 +370,7 @@ class ImportService extends SuperService {
 	 */
 	private function parseValueByColumnType(string $value, Column $column): string {
 		try {
-			$businessClassName = 'OCA\Tables\Service\ColumnTypes\\';
+			$businessClassName = 'OCA\TablesPro\Service\ColumnTypes\\';
 			$businessClassName .= ucfirst($column->getType()) . ucfirst($column->getSubtype()) . 'Business';
 			/** @var IColumnTypeBusiness $columnBusiness */
 			$columnBusiness = Server::get($businessClassName);

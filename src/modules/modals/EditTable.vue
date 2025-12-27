@@ -4,19 +4,19 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Edit table')"
+		:name="t('tablespro', 'Edit table')"
 		size="normal"
 		@closing="actionCancel">
 		<div class="modal__content" data-cy="editTableModal">
 			<div class="row">
 				<div class="col-4 mandatory">
-					{{ t('tables', 'Title') }}
+					{{ t('tablespro', 'Title') }}
 				</div>
 				<div class="col-3 content-emoji">
 					<NcEmojiPicker :close-on-select="true" @select="emoji => icon = emoji">
 						<NcButton type="tertiary"
-							:aria-label="t('tables', 'Select emoji for table')"
-							:title="t('tables', 'Select emoji')"
+							:aria-label="t('tablespro', 'Select emoji for table')"
+							:title="t('tablespro', 'Select emoji')"
 							@click.prevent>
 							{{ icon ? icon : '...' }}
 						</NcButton>
@@ -25,12 +25,12 @@
 						:class="{missing: errorTitle}"
 						type="text"
 						data-cy="editTableTitleInput"
-						:placeholder="t('tables', 'Title of the new table')">
+						:placeholder="t('tablespro', 'Title of the new table')">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-4 space-T mandatory">
-					{{ t('tables', 'Description') }}
+					{{ t('tablespro', 'Description') }}
 				</div>
 				<div class="col-4">
 					<TableDescription :description.sync="localTable.description" />
@@ -38,7 +38,7 @@
 			</div>
 			<div class="row">
 				<div class="col-4 mandatory space-T">
-					{{ t('tables', 'Owner') }}
+					{{ t('tablespro', 'Owner') }}
 				</div>
 				<div class="col-3 inline space-T-small">
 					<NcUserBubble
@@ -50,21 +50,21 @@
 				<div class="row">
 					<div class="fix-col-4 space-T justify-between">
 						<NcButton v-if="!prepareDeleteTable" type="error" data-cy="editTableDeleteBtn" @click="prepareDeleteTable = true">
-							{{ t('tables', 'Delete') }}
+							{{ t('tablespro', 'Delete') }}
 						</NcButton>
 						<NcButton v-if="prepareDeleteTable"
 							:wide="true"
 							type="error"
 							data-cy="editTableConfirmDeleteBtn"
 							@click="actionDeleteTable">
-							{{ t('tables', 'I really want to delete this table!') }}
+							{{ t('tablespro', 'I really want to delete this table!') }}
 						</NcButton>
 						<div class="right-additional-button">
 							<NcButton v-if="ownsTable(localTable)" @click="actionTransfer">
-								{{ t('tables', 'Change owner') }}
+								{{ t('tablespro', 'Change owner') }}
 							</NcButton>
 							<NcButton type="primary" data-cy="editTableSaveBtn" @click="submit">
-								{{ t('tables', 'Save') }}
+								{{ t('tablespro', 'Save') }}
 							</NcButton>
 						</div>
 					</div>
@@ -121,7 +121,7 @@ export default {
 	watch: {
 		title() {
 			if (this.title && this.title.length >= 200) {
-				showError(t('tables', 'The title character limit is 200 characters. Please use a shorter title.'))
+				showError(t('tablespro', 'The title character limit is 200 characters. Please use a shorter title.'))
 				this.title = this.title.slice(0, 199)
 			}
 		},
@@ -141,12 +141,12 @@ export default {
 		},
 		async submit() {
 			if (this.title === '') {
-				showError(t('tables', 'Cannot update table. Title is missing.'))
+				showError(t('tablespro', 'Cannot update table. Title is missing.'))
 				this.errorTitle = true
 			} else {
 				const res = await this.updateTable({ id: this.tableId, data: { title: this.title, emoji: this.icon, description: this.localTable.description } })
 				if (res) {
-					showSuccess(t('tables', 'Updated table "{emoji}{table}".', { emoji: this.icon ? this.icon + ' ' : '', table: this.title }))
+					showSuccess(t('tablespro', 'Updated table "{emoji}{table}".', { emoji: this.icon ? this.icon + ' ' : '', table: this.title }))
 					this.actionCancel()
 				}
 			}
@@ -164,7 +164,7 @@ export default {
 			this.prepareDeleteTable = false
 			const res = await this.removeTable({ tableId: this.tableId })
 			if (res) {
-				showSuccess(t('tables', 'Table "{emoji}{table}" removed.', { emoji: this.icon ? this.icon + ' ' : '', table: this.title }))
+				showSuccess(t('tablespro', 'Table "{emoji}{table}" removed.', { emoji: this.icon ? this.icon + ' ' : '', table: this.title }))
 
 				// if the actual table was deleted, go to startpage
 				if (deleteId === activeTableId) {

@@ -5,28 +5,28 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
-use OCA\Tables\Activity\ActivityManager;
-use OCA\Tables\Db\Column;
-use OCA\Tables\Db\ColumnMapper;
-use OCA\Tables\Db\Row2;
-use OCA\Tables\Db\Row2Mapper;
-use OCA\Tables\Db\TableMapper;
-use OCA\Tables\Db\View;
-use OCA\Tables\Db\ViewMapper;
-use OCA\Tables\Errors\BadRequestError;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Event\RowAddedEvent;
-use OCA\Tables\Event\RowDeletedEvent;
-use OCA\Tables\Event\RowUpdatedEvent;
-use OCA\Tables\Helper\ColumnsHelper;
-use OCA\Tables\Model\RowDataInput;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\ColumnTypes\IColumnTypeBusiness;
-use OCA\Tables\Service\ValueObject\ViewColumnInformation;
+use OCA\TablesPro\Activity\ActivityManager;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Db\ColumnMapper;
+use OCA\TablesPro\Db\Row2;
+use OCA\TablesPro\Db\Row2Mapper;
+use OCA\TablesPro\Db\TableMapper;
+use OCA\TablesPro\Db\View;
+use OCA\TablesPro\Db\ViewMapper;
+use OCA\TablesPro\Errors\BadRequestError;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Event\RowAddedEvent;
+use OCA\TablesPro\Event\RowDeletedEvent;
+use OCA\TablesPro\Event\RowUpdatedEvent;
+use OCA\TablesPro\Helper\ColumnsHelper;
+use OCA\TablesPro\Model\RowDataInput;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\ColumnTypes\IColumnTypeBusiness;
+use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
@@ -820,7 +820,7 @@ class RowService extends SuperService {
 	}
 
 	private function getColumnBusiness(Column $column): IColumnTypeBusiness {
-		$businessClassName = 'OCA\Tables\Service\ColumnTypes\\';
+		$businessClassName = 'OCA\TablesPro\Service\ColumnTypes\\';
 		$businessClassName .= ucfirst($column->getType()) . ucfirst($column->getSubtype()) . 'Business';
 		/** @var IColumnTypeBusiness $columnBusiness */
 		$columnBusiness = Server::get($businessClassName);

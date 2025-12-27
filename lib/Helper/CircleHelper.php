@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Helper;
+namespace OCA\TablesPro\Helper;
 
 use OCA\Circles\CirclesManager;
 use OCA\Circles\Model\Circle;

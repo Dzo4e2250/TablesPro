@@ -4,20 +4,20 @@
 -->
 <template>
 	<NcDialog v-if="showModal"
-		:name="t('tables', 'Create table')"
+		:name="t('tablespro', 'Create table')"
 		data-cy="createTableModal"
 		size="normal"
 		@closing="actionCancel">
 		<div class="modal__content">
 			<div class="row space-T">
 				<div class="col-4 mandatory">
-					{{ t('tables', 'Title') }}
+					{{ t('tablespro', 'Title') }}
 				</div>
 				<div class="col-4 content-emoji">
 					<NcEmojiPicker class="content--emoji" :close-on-select="true" @select="setIcon">
 						<NcButton type="tertiary"
-							:aria-label="t('tables', 'Select emoji for table')"
-							:title="t('tables', 'Select emoji')"
+							:aria-label="t('tablespro', 'Select emoji for table')"
+							:title="t('tablespro', 'Select emoji')"
 							@click.prevent>
 							{{ icon }}
 						</NcButton>
@@ -26,13 +26,13 @@
 						v-model="title"
 						:class="{missing: errorTitle}"
 						type="text"
-						:placeholder="t('tables', 'Title of the new table')"
+						:placeholder="t('tablespro', 'Title of the new table')"
 						@input="titleChangedManually">
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-4 space-T mandatory">
-					{{ t('tables', 'Description') }}
+					{{ t('tablespro', 'Description') }}
 				</div>
 				<div class="col-4">
 					<TableDescription :description.sync="description" :read-only="false" />
@@ -41,16 +41,16 @@
 			<div class="row space-T">
 				<div class="col-2 block space-R space-B">
 					<NcTile
-						:title="t('tables', '🔧 Custom table')"
-						:body="t('tables', 'Custom table from scratch.')"
+						:title="t('tablespro', '🔧 Custom table')"
+						:body="t('tablespro', 'Custom table from scratch.')"
 						:active="templateChoice === 'custom'"
 						:tabbable="true"
 						@set-template="setTemplate('custom')" />
 				</div>
 				<div class="col-2 block space-R space-B">
 					<NcTile
-						:title="t('tables', '📄 Import table')"
-						:body="t('tables', 'Import table from file.')"
+						:title="t('tablespro', '📄 Import table')"
+						:body="t('tablespro', 'Import table from file.')"
 						:active="templateChoice === 'import'"
 						:tabbable="true"
 						@set-template="setTemplate('import')" />
@@ -65,8 +65,8 @@
 				</div>
 				<div class="col-2 block space-R space-B">
 					<NcTile
-						:title="t('tables', '📄 Import Scheme')"
-						:body="t('tables', 'Import Scheme from file.')"
+						:title="t('tablespro', '📄 Import Scheme')"
+						:body="t('tablespro', 'Import Scheme from file.')"
 						:active="templateChoice === 'scheme'"
 						:tabbable="true"
 						@set-template="setTemplate('scheme')" />
@@ -74,8 +74,8 @@
 			</div>
 			<div class="row space-R">
 				<div class="fix-col-4 end">
-					<NcButton type="primary" :aria-label="t('tables', 'Create table')" data-cy="createTableSubmitBtn" @click="submit">
-						{{ t('tables', 'Create table') }}
+					<NcButton type="primary" :aria-label="t('tablespro', 'Create table')" data-cy="createTableSubmitBtn" @click="submit">
+						{{ t('tablespro', 'Create table') }}
 					</NcButton>
 				</div>
 			</div>
@@ -128,7 +128,7 @@ export default {
 	watch: {
 		title() {
 			if (this.title.length >= 200) {
-				showError(t('tables', 'The title character limit is 200 characters. Please use a shorter title.'))
+				showError(t('tablespro', 'The title character limit is 200 characters. Please use a shorter title.'))
 				this.title = this.title.slice(0, 199)
 			}
 		},
@@ -185,7 +185,7 @@ export default {
 				return
 			}
 			if (this.title === '') {
-				showError(t('tables', 'Cannot create new table. Title is missing.'))
+				showError(t('tablespro', 'Cannot create new table. Title is missing.'))
 				this.errorTitle = true
 			} else {
 				const newTableId = await this.sendNewTableToBE(this.templateChoice)
@@ -209,7 +209,7 @@ export default {
 			if (res) {
 				return res.id
 			} else {
-				showError(t('tables', 'Could not create new table'))
+				showError(t('tablespro', 'Could not create new table'))
 			}
 		},
 		reset() {
@@ -225,7 +225,7 @@ export default {
 				const res = await axios.get(generateUrl('/apps/tables/table/templates'))
 				this.templates = res.data
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load templates.'))
+				displayError(e, t('tablespro', 'Could not load templates.'))
 			}
 		},
 	},

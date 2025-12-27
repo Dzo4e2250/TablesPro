@@ -4,9 +4,9 @@
 -->
 <template>
 	<div v-if="activeElement" class="integration">
-		<h3>{{ t('tables', 'API') }}</h3>
+		<h3>{{ t('tablespro', 'API') }}</h3>
 		<p>
-			{{ t('tables', 'This is your API endpoint for this view') }}
+			{{ t('tablespro', 'This is your API endpoint for this view') }}
 		</p>
 		<NcInputField id="urlTextField"
 			:value="apiEndpointUrl"
@@ -22,23 +22,23 @@
 			</template>
 		</NcInputField>
 		<h4>
-			{{ t('tables', 'Your permissions') }}
+			{{ t('tablespro', 'Your permissions') }}
 		</h4>
 		<ul>
 			<li :class="{'notPermitted': !canReadData(activeElement)}">
-				{{ canReadData(activeElement) ? '✓' : '' }} {{ t('tables', 'Read') }}
+				{{ canReadData(activeElement) ? '✓' : '' }} {{ t('tablespro', 'Read') }}
 			</li>
 			<li :class="{'notPermitted': !canCreateRowInElement(activeElement)}">
-				{{ canCreateRowInElement(activeElement) ? '✓' : '' }} {{ t('tables', 'Create') }}
+				{{ canCreateRowInElement(activeElement) ? '✓' : '' }} {{ t('tablespro', 'Create') }}
 			</li>
 			<li :class="{'notPermitted': !canUpdateData(activeElement)}">
-				{{ canUpdateData(activeElement) ? '✓' : '' }} {{ t('tables', 'Update') }}
+				{{ canUpdateData(activeElement) ? '✓' : '' }} {{ t('tablespro', 'Update') }}
 			</li>
 			<li :class="{'notPermitted': !canDeleteData(activeElement)}">
-				{{ canDeleteData(activeElement) ? '✓' : '' }} {{ t('tables', 'Delete') }}
+				{{ canDeleteData(activeElement) ? '✓' : '' }} {{ t('tablespro', 'Delete') }}
 			</li>
 			<li :class="{'notPermitted': !canManageElement(activeElement)}">
-				{{ canManageElement(activeElement) ? '✓' : '' }} {{ t('tables', 'Manage') }}
+				{{ canManageElement(activeElement) ? '✓' : '' }} {{ t('tablespro', 'Manage') }}
 			</li>
 		</ul>
 	</div>
@@ -70,12 +70,12 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tables', 'activeElement', 'isLoadingSomething', 'isView']),
+		...mapState(useTablesStore, ['tablespro', 'activeElement', 'isLoadingSomething', 'isView']),
 		apiEndpointUrl() {
 			const params = {
 				elementId: this.activeElement.id,
 			}
-			const url = '/apps/tables/api/1/' + (this.isView ? 'views' : 'tables') + '/{elementId}'
+			const url = '/apps/tables/api/1/' + (this.isView ? 'views' : 'tablespro') + '/{elementId}'
 			return window.location.protocol + '//' + window.location.host + generateUrl(url, params)
 		},
 	},

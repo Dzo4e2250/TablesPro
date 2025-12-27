@@ -5,21 +5,21 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
 use DateTime;
 use Exception;
-use OCA\Tables\Db\Column;
-use OCA\Tables\Db\ColumnMapper;
-use OCA\Tables\Db\TableMapper;
-use OCA\Tables\Db\View;
-use OCA\Tables\Dto\Column as ColumnDto;
-use OCA\Tables\Errors\InternalError;
-use OCA\Tables\Errors\NotFoundError;
-use OCA\Tables\Errors\PermissionError;
-use OCA\Tables\Helper\UserHelper;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\ValueObject\ViewColumnInformation;
+use OCA\TablesPro\Db\Column;
+use OCA\TablesPro\Db\ColumnMapper;
+use OCA\TablesPro\Db\TableMapper;
+use OCA\TablesPro\Db\View;
+use OCA\TablesPro\Dto\Column as ColumnDto;
+use OCA\TablesPro\Errors\InternalError;
+use OCA\TablesPro\Errors\NotFoundError;
+use OCA\TablesPro\Errors\PermissionError;
+use OCA\TablesPro\Helper\UserHelper;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;

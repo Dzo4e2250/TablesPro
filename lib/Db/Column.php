@@ -5,13 +5,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Db;
+namespace OCA\TablesPro\Db;
 
 use JsonSerializable;
 
-use OCA\Tables\Dto\Column as ColumnDto;
-use OCA\Tables\ResponseDefinitions;
-use OCA\Tables\Service\ValueObject\ViewColumnInformation;
+use OCA\TablesPro\Dto\Column as ColumnDto;
+use OCA\TablesPro\ResponseDefinitions;
+use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor

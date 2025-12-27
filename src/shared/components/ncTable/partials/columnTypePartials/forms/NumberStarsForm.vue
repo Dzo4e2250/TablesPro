@@ -7,10 +7,10 @@
 		<!-- default -->
 		<div class="row space-T">
 			<div class="fix-col-4">
-				{{ t('tables', 'Default') }}
+				{{ t('tablespro', 'Default') }}
 			</div>
 			<div class="fix-col-2 align-center">
-				<NcButton type="tertiary" :aria-label="t('tables', 'Reduce stars')" @click="less">
+				<NcButton type="tertiary" :aria-label="t('tablespro', 'Reduce stars')" @click="less">
 					<template #icon>
 						<Minus :size="20" />
 					</template>
@@ -18,7 +18,7 @@
 				<div class="stars">
 					{{ getStars }}
 				</div>
-				<NcButton type="tertiary" :aria-label="t('tables', 'Increase stars')" @click="more">
+				<NcButton type="tertiary" :aria-label="t('tablespro', 'Increase stars')" @click="more">
 					<template #icon>
 						<Plus :size="20" />
 					</template>

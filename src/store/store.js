@@ -138,7 +138,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				res = (await axios.post(generateOcsUrl('/apps/tables/api/2/tables'), data)).data.ocs
 			} catch (e) {
-				displayError(e, t('tables', 'Could not insert table.'))
+				displayError(e, t('tablespro', 'Could not insert table.'))
 				return false
 			}
 			const tables = this.tables
@@ -148,7 +148,7 @@ export const useTablesStore = defineStore('store', {
 		},
 
 		async loadTablesFromBE() {
-			this.setLoading({ key: 'tables', value: true })
+			this.setLoading({ key: 'tablespro', value: true })
 
 			try {
 				const res = await axios.get(generateUrl('/apps/tables/table'))
@@ -158,11 +158,11 @@ export const useTablesStore = defineStore('store', {
 					if (table.views) this.views = this.views.concat(table.views)
 				})
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load tables.'))
-				showError(t('tables', 'Could not fetch tables'))
+				displayError(e, t('tablespro', 'Could not load tables.'))
+				showError(t('tablespro', 'Could not fetch tables'))
 			}
 
-			this.setLoading({ key: 'tables', value: false })
+			this.setLoading({ key: 'tablespro', value: false })
 			return true
 		},
 
@@ -177,8 +177,8 @@ export const useTablesStore = defineStore('store', {
 					}
 				})
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load shared views.'))
-				showError(t('tables', 'Could not load shared views'))
+				displayError(e, t('tablespro', 'Could not load shared views.'))
+				showError(t('tablespro', 'Could not load shared views'))
 			}
 
 			this.setLoading({ key: 'viewsShared', value: false })
@@ -190,8 +190,8 @@ export const useTablesStore = defineStore('store', {
 				const res = await axios.get(generateUrl('/apps/tables/table/templates'))
 				this.templates = res.data
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load templates.'))
-				showError(t('tables', 'Could not fetch templates'))
+				displayError(e, t('tablespro', 'Could not load templates.'))
+				showError(t('tablespro', 'Could not fetch templates'))
 			}
 		},
 
@@ -200,7 +200,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				res = await axios.post(generateUrl('/apps/tables/view'), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not insert view.'))
+				displayError(e, t('tablespro', 'Could not insert view.'))
 				return false
 			}
 
@@ -219,7 +219,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				res = await axios.put(generateUrl('/apps/tables/view/' + id), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not update view.'))
+				displayError(e, t('tablespro', 'Could not update view.'))
 				return false
 			}
 
@@ -235,7 +235,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.delete(generateUrl('/apps/tables/view/' + viewId))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove view.'))
+				displayError(e, t('tablespro', 'Could not remove view.'))
 				return false
 			}
 
@@ -257,7 +257,7 @@ export const useTablesStore = defineStore('store', {
 					set(this.views, index, view)
 				})
 			} catch (e) {
-				displayError(e, t('tables', 'Could not reload view.'))
+				displayError(e, t('tablespro', 'Could not reload view.'))
 				return false
 			}
 			return true
@@ -269,7 +269,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				res = (await axios.put(generateOcsUrl('/apps/tables/api/2/tables/' + id), data)).data.ocs
 			} catch (e) {
-				displayError(e, t('tables', 'Could not update table.'))
+				displayError(e, t('tablespro', 'Could not update table.'))
 				return false
 			}
 
@@ -284,7 +284,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.post(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_VIEW}/${id}`))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not mark view as favorite'))
+				displayError(e, t('tablespro', 'Could not mark view as favorite'))
 				return false
 			}
 
@@ -300,7 +300,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.delete(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_VIEW}/${id}`))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove view from favorites'))
+				displayError(e, t('tablespro', 'Could not remove view from favorites'))
 				return false
 			}
 
@@ -316,7 +316,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.post(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_TABLE}/${id}`))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not mark table as favorite'))
+				displayError(e, t('tablespro', 'Could not mark table as favorite'))
 				return false
 			}
 
@@ -332,7 +332,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.delete(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_TABLE}/${id}`))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove table from favorites'))
+				displayError(e, t('tablespro', 'Could not remove table from favorites'))
 				return false
 			}
 
@@ -368,7 +368,7 @@ export const useTablesStore = defineStore('store', {
 					}
 				}
 			} catch (e) {
-				displayError(e, t('tables', 'Could not add application share.'))
+				displayError(e, t('tablespro', 'Could not add application share.'))
 			}
 			try {
 				// If there's a previous share that wasn't maintained, delete it
@@ -385,7 +385,7 @@ export const useTablesStore = defineStore('store', {
 					}
 				}
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove application share.'))
+				displayError(e, t('tablespro', 'Could not remove application share.'))
 			}
 		},
 
@@ -393,7 +393,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.put(generateUrl('/apps/tables/share/' + shareId + '/display-mode'), { displayMode, target })
 			} catch (e) {
-				displayError(e, t('tables', 'Could not update display mode.'))
+				displayError(e, t('tablespro', 'Could not update display mode.'))
 			}
 		},
 
@@ -408,7 +408,7 @@ export const useTablesStore = defineStore('store', {
 					await this.shareContext({ id, previousReceivers: [], receivers, displayMode })
 				}
 			} catch (e) {
-				displayError(e, t('tables', 'Could not insert application.'))
+				displayError(e, t('tablespro', 'Could not insert application.'))
 				return false
 			}
 			const contexts = this.contexts
@@ -425,7 +425,7 @@ export const useTablesStore = defineStore('store', {
 				res = await axios.put(generateOcsUrl('/apps/tables/api/2/contexts/' + id), data)
 				await this.shareContext({ id, previousReceivers, receivers, displayMode })
 			} catch (e) {
-				displayError(e, t('tables', 'Could not update application.'))
+				displayError(e, t('tablespro', 'Could not update application.'))
 				return false
 			}
 
@@ -440,7 +440,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.put(generateOcsUrl('/apps/tables/api/2/tables/' + id + '/transfer'), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not transfer table.'))
+				displayError(e, t('tablespro', 'Could not transfer table.'))
 				return false
 			}
 
@@ -458,8 +458,8 @@ export const useTablesStore = defineStore('store', {
 				this.contexts = res.data.ocs.data
 				await this.getContextsTablesAndViews()
 			} catch (e) {
-				displayError(e, t('tables', 'Could not load applications.'))
-				showError(t('tables', 'Could not fetch applications'))
+				displayError(e, t('tablespro', 'Could not load applications.'))
+				showError(t('tablespro', 'Could not fetch applications'))
 			}
 			this.setLoading({ key: 'contexts', value: false })
 			return true
@@ -473,8 +473,8 @@ export const useTablesStore = defineStore('store', {
 				if (e?.response?.status === 404) {
 					throw new Error('NOT_FOUND')
 				}
-				displayError(e, t('tables', 'Could not load application.'))
-				showError(t('tables', 'Could not fetch application'))
+				displayError(e, t('tablespro', 'Could not load application.'))
+				showError(t('tablespro', 'Could not fetch application'))
 				throw e
 			}
 			return true
@@ -509,8 +509,8 @@ export const useTablesStore = defineStore('store', {
 				if (e?.response?.status === 404) {
 					throw new Error('NOT_FOUND')
 				}
-				displayError(e, t('tables', 'Could not load table.'))
-				showError(t('tables', 'Could not fetch table'))
+				displayError(e, t('tablespro', 'Could not load table.'))
+				showError(t('tablespro', 'Could not fetch table'))
 				throw e
 			}
 			return res?.data.ocs.data
@@ -532,8 +532,8 @@ export const useTablesStore = defineStore('store', {
 				if (e?.response?.status === 404) {
 					throw new Error('NOT_FOUND')
 				}
-				displayError(e, t('tables', 'Could not load view'))
-				showError(t('tables', 'Could not fetch view'))
+				displayError(e, t('tablespro', 'Could not load view'))
+				showError(t('tablespro', 'Could not fetch view'))
 				throw e
 			}
 			return res?.data
@@ -543,7 +543,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.put(generateOcsUrl('/apps/tables/api/2/contexts/' + id + '/transfer'), data)
 			} catch (e) {
-				displayError(e, t('tables', 'Could not transfer application.'))
+				displayError(e, t('tablespro', 'Could not transfer application.'))
 				return false
 			}
 
@@ -558,7 +558,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.delete(generateOcsUrl('/apps/tables/api/2/contexts/' + context.id))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove application.'))
+				displayError(e, t('tablespro', 'Could not remove application.'))
 				return false
 			}
 			const contexts = this.contexts
@@ -572,7 +572,7 @@ export const useTablesStore = defineStore('store', {
 			try {
 				await axios.delete(generateUrl('/apps/tables/table/' + tableId))
 			} catch (e) {
-				displayError(e, t('tables', 'Could not remove table.'))
+				displayError(e, t('tablespro', 'Could not remove table.'))
 				return false
 			}
 

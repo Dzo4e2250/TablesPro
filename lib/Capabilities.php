@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables;
+namespace OCA\TablesPro;
 
-use OCA\Tables\Helper\CircleHelper;
+use OCA\TablesPro\Helper\CircleHelper;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\IConfig;
@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Class Capabilities
  *
- * @package OCA\Tables
+ * @package OCA\TablesPro
  */
 class Capabilities implements ICapability {
 	private IAppManager $appManager;

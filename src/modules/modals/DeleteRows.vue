@@ -6,8 +6,8 @@
 	<div>
 		<DialogConfirmation :show-modal="rowsToDelete !== null"
 			confirm-class="error"
-			:title="n('tables', 'Delete row', 'Delete rows', rowsToDelete.length, {})"
-			:description="n('tables', 'Are you sure you want to delete the selected row?', 'Are you sure you want to delete the %n selected rows?', rowsToDelete.length, {})"
+			:title="n('tablespro', 'Delete row', 'Delete rows', rowsToDelete.length, {})"
+			:description="n('tablespro', 'Are you sure you want to delete the selected row?', 'Are you sure you want to delete the %n selected rows?', rowsToDelete.length, {})"
 			@confirm="deleteRows"
 			@cancel="$emit('cancel')" />
 	</div>
@@ -56,7 +56,7 @@ export default {
 				}
 			})
 			if (error) {
-				showError(t('tables', 'Error occurred while deleting rows.'))
+				showError(t('tablespro', 'Error occurred while deleting rows.'))
 			}
 			emit('tables:selected-rows:deselect', { elementId: this.elementId, isView: this.isView })
 			this.$emit('cancel')

@@ -34,7 +34,7 @@
 				<template #icon>
 					<PlaylistEdit :size="20" />
 				</template>
-				{{ t('tables', 'Edit view') }}
+				{{ t('tablespro', 'Edit view') }}
 			</NcActionButton>
 
 			<!-- DUPLICATE -->
@@ -44,7 +44,7 @@
 				<template #icon>
 					<PlaylistPlay :size="20" decorative />
 				</template>
-				{{ t('tables', 'Duplicate view') }}
+				{{ t('tablespro', 'Duplicate view') }}
 			</NcActionButton>
 
 			<!-- SHARE -->
@@ -52,14 +52,14 @@
 				icon="icon-share"
 				:close-after-click="true"
 				@click="actionShowShare">
-				{{ t('tables', 'Share') }}
+				{{ t('tablespro', 'Share') }}
 			</NcActionButton>
 
 			<!-- IMPORT -->
 			<NcActionButton v-if="canCreateRowInElement(view)"
 				:close-after-click="true"
 				@click="actionShowImport(view)">
-				{{ t('tables', 'Import') }}
+				{{ t('tablespro', 'Import') }}
 				<template #icon>
 					<Import :size="20" />
 				</template>
@@ -69,7 +69,7 @@
 			<NcActionButton
 				:close-after-click="true"
 				@click="actionShowIntegration">
-				{{ t('tables', 'Integration') }}
+				{{ t('tablespro', 'Integration') }}
 				<template #icon>
 					<Connection :size="20" />
 				</template>
@@ -79,7 +79,7 @@
 			<NcActionButton v-if="!view.favorite"
 				:close-after-click="true"
 				@click="toggleFavoriteView(true)">
-				{{ t('tables', 'Add to favorites') }}
+				{{ t('tablespro', 'Add to favorites') }}
 				<template #icon>
 					<Star :size="20" />
 				</template>
@@ -89,7 +89,7 @@
 			<NcActionButton v-if="view.favorite"
 				:close-after-click="true"
 				@click="toggleFavoriteView(false)">
-				{{ t('tables', 'Remove from favorites') }}
+				{{ t('tablespro', 'Remove from favorites') }}
 				<template #icon>
 					<StarOutline :size="20" />
 				</template>
@@ -99,7 +99,7 @@
 			<NcActionButton v-if="canManageElement(view)"
 				:close-after-click="true"
 				@click="emit('tables:view:delete', view)">
-				{{ t('tables', 'Delete view') }}
+				{{ t('tablespro', 'Delete view') }}
 				<template #icon>
 					<DeleteOutline :size="20" />
 				</template>
@@ -177,7 +177,7 @@ export default {
 	computed: {
 		...mapState(useTablesStore, ['activeView']),
 		getTranslatedDescription() {
-			return t('tables', 'Do you really want to delete the view "{view}"?', { view: this.view.title })
+			return t('tablespro', 'Do you really want to delete the view "{view}"?', { view: this.view.title })
 		},
 		userId() {
 			return getCurrentUser().uid
@@ -203,7 +203,7 @@ export default {
 		async cloneView() {
 			let data = {
 				tableId: this.view.tableId,
-				title: this.view.title + ' ' + t('tables', 'Copy'),
+				title: this.view.title + ' ' + t('tablespro', 'Copy'),
 				emoji: this.view.emoji,
 			}
 			const newViewId = await this.insertNewView({ data })
@@ -219,10 +219,10 @@ export default {
 				if (res) {
 					await this.$router.push('/view/' + newViewId)
 				} else {
-					showError(t('tables', 'Could not configure new view'))
+					showError(t('tablespro', 'Could not configure new view'))
 				}
 			} else {
-				showError(t('tables', 'Could not create new view'))
+				showError(t('tablespro', 'Could not create new view'))
 			}
 		},
 		async toggleFavoriteView(favorite) {

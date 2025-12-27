@@ -5,10 +5,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Tables\Service;
+namespace OCA\TablesPro\Service;
 
-use OCA\Tables\Db\View;
-use OCA\Tables\Errors\PermissionError;
+use OCA\TablesPro\Db\View;
+use OCA\TablesPro\Errors\PermissionError;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use Psr\Log\LoggerInterface;
 

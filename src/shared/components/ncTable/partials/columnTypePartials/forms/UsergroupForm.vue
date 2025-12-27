@@ -14,13 +14,13 @@
 					name="usergroupTypeSelection"
 					:data-cy="`${selectOptions[key].toLowerCase()}Switch`"
 					:disabled="isOnlyChecked(key)">
-					{{ t('tables', selectOptions[key]) }}
+					{{ t('tablespro', selectOptions[key]) }}
 				</NcCheckboxRadioSwitch>
 			</div>
 
 			<div class="row space-T">
 				<div class="fix-col-4">
-					{{ t('tables', 'Default') }}
+					{{ t('tablespro', 'Default') }}
 				</div>
 				<div class="fix-col-4 space-B">
 					<NcSelect v-model="value" style="width: 100%;" :loading="loading" :options="options"
@@ -35,7 +35,7 @@
 				</div>
 				<div class="row ">
 					<div class="fix-col-4 title">
-						{{ t('tables', 'Select multiple items') }}
+						{{ t('tablespro', 'Select multiple items') }}
 					</div>
 					<div class="fix-col-4 space-L-small">
 						<NcCheckboxRadioSwitch type="switch" :checked.sync="mutableColumn.usergroupMultipleItems" data-cy="usergroupMultipleSwitch" />
@@ -44,7 +44,7 @@
 			</div>
 			<div v-if="selectUsers" class="row">
 				<div class="fix-col-4 title">
-					{{ t('tables', 'Show user status') }}
+					{{ t('tablespro', 'Show user status') }}
 				</div>
 				<div class="fix-col-4 space-L-small">
 					<NcCheckboxRadioSwitch type="switch" :checked.sync="mutableColumn.showUserStatus" />
