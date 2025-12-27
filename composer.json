@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "OCA\\Tables\\": "lib/"
+      "OCA\\TablesPro\\": "lib/"
     }
   },
   "require-dev": {

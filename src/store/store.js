@@ -15,7 +15,7 @@ import { set } from 'vue'
 export const useTablesStore = defineStore('store', {
 	state: () => ({
 		loading: {
-			tables: true,
+			tablespro: true,
 			viewsShared: true,
 			contexts: true,
 		},
@@ -136,7 +136,7 @@ export const useTablesStore = defineStore('store', {
 			let res = null
 
 			try {
-				res = (await axios.post(generateOcsUrl('/apps/tables/api/2/tables'), data)).data.ocs
+				res = (await axios.post(generateOcsUrl('/apps/tablespro/api/2/tables'), data)).data.ocs
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not insert table.'))
 				return false
@@ -151,7 +151,7 @@ export const useTablesStore = defineStore('store', {
 			this.setLoading({ key: 'tablespro', value: true })
 
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/table'))
+				const res = await axios.get(generateUrl('/apps/tablespro/table'))
 				this.setTables(res.data)
 				this.views = []
 				res.data.forEach(table => {
@@ -170,7 +170,7 @@ export const useTablesStore = defineStore('store', {
 			this.setLoading({ key: 'viewsShared', value: true })
 
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/view'))
+				const res = await axios.get(generateUrl('/apps/tablespro/view'))
 				res.data.forEach(view => {
 					if (this.views.filter(v => v.id === view.id).length === 0) {
 						this.views.push(view)
@@ -187,7 +187,7 @@ export const useTablesStore = defineStore('store', {
 
 		async loadTemplatesFromBE() {
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/table/templates'))
+				const res = await axios.get(generateUrl('/apps/tablespro/table/templates'))
 				this.templates = res.data
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not load templates.'))
@@ -198,7 +198,7 @@ export const useTablesStore = defineStore('store', {
 		async insertNewView({ data }) {
 			let res = null
 			try {
-				res = await axios.post(generateUrl('/apps/tables/view'), data)
+				res = await axios.post(generateUrl('/apps/tablespro/view'), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not insert view.'))
 				return false
@@ -217,7 +217,7 @@ export const useTablesStore = defineStore('store', {
 			let res = null
 
 			try {
-				res = await axios.put(generateUrl('/apps/tables/view/' + id), data)
+				res = await axios.put(generateUrl('/apps/tablespro/view/' + id), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not update view.'))
 				return false
@@ -233,7 +233,7 @@ export const useTablesStore = defineStore('store', {
 
 		async removeView({ viewId }) {
 			try {
-				await axios.delete(generateUrl('/apps/tables/view/' + viewId))
+				await axios.delete(generateUrl('/apps/tablespro/view/' + viewId))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove view.'))
 				return false
@@ -249,7 +249,7 @@ export const useTablesStore = defineStore('store', {
 		async reloadViewsOfTable({ tableId }) {
 			let res = null
 			try {
-				res = await axios.get(generateUrl('/apps/tables/view/table/' + tableId))
+				res = await axios.get(generateUrl('/apps/tablespro/view/table/' + tableId))
 				// Set Views
 				const views = this.views
 				res.data.forEach(view => {
@@ -267,7 +267,7 @@ export const useTablesStore = defineStore('store', {
 			let res = null
 
 			try {
-				res = (await axios.put(generateOcsUrl('/apps/tables/api/2/tables/' + id), data)).data.ocs
+				res = (await axios.put(generateOcsUrl('/apps/tablespro/api/2/tables/' + id), data)).data.ocs
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not update table.'))
 				return false
@@ -282,7 +282,7 @@ export const useTablesStore = defineStore('store', {
 
 		async favoriteView({ id }) {
 			try {
-				await axios.post(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_VIEW}/${id}`))
+				await axios.post(generateOcsUrl(`/apps/tablespro/api/2/favorites/${NODE_TYPE_VIEW}/${id}`))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not mark view as favorite'))
 				return false
@@ -298,7 +298,7 @@ export const useTablesStore = defineStore('store', {
 
 		async removeFavoriteView({ id }) {
 			try {
-				await axios.delete(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_VIEW}/${id}`))
+				await axios.delete(generateOcsUrl(`/apps/tablespro/api/2/favorites/${NODE_TYPE_VIEW}/${id}`))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove view from favorites'))
 				return false
@@ -314,7 +314,7 @@ export const useTablesStore = defineStore('store', {
 
 		async favoriteTable({ id }) {
 			try {
-				await axios.post(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_TABLE}/${id}`))
+				await axios.post(generateOcsUrl(`/apps/tablespro/api/2/favorites/${NODE_TYPE_TABLE}/${id}`))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not mark table as favorite'))
 				return false
@@ -330,7 +330,7 @@ export const useTablesStore = defineStore('store', {
 
 		async removeFavoriteTable({ id }) {
 			try {
-				await axios.delete(generateOcsUrl(`/apps/tables/api/2/favorites/${NODE_TYPE_TABLE}/${id}`))
+				await axios.delete(generateOcsUrl(`/apps/tablespro/api/2/favorites/${NODE_TYPE_TABLE}/${id}`))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove table from favorites'))
 				return false
@@ -357,7 +357,7 @@ export const useTablesStore = defineStore('store', {
 					// Avoid duplicate shares by checking if share exists first
 					const existingShare = previousReceivers.find((p) => p.receiver === share.receiver && p.receiver_type === share.receiverType)
 					if (!existingShare) {
-						const createdShare = await axios.post(generateUrl('/apps/tables/share'), share)
+						const createdShare = await axios.post(generateUrl('/apps/tablespro/share'), share)
 						if (createdShare?.data && createdShare?.data?.id) {
 							const shareId = createdShare.data.id
 							await this.updateDisplayMode({ shareId, displayMode, target: 'default' })
@@ -378,7 +378,7 @@ export const useTablesStore = defineStore('store', {
 						return r.id === previousReceiver.receiver && receiverType === previousReceiver.receiver_type
 					})
 					if (!currentShare) {
-						await axios.delete(generateUrl('/apps/tables/share/' + previousReceiver.share_id))
+						await axios.delete(generateUrl('/apps/tablespro/share/' + previousReceiver.share_id))
 					} else {
 						const shareId = previousReceiver.share_id
 						await this.updateDisplayMode({ shareId, displayMode, target: 'default' })
@@ -391,7 +391,7 @@ export const useTablesStore = defineStore('store', {
 
 		async updateDisplayMode({ shareId, displayMode, target }) {
 			try {
-				await axios.put(generateUrl('/apps/tables/share/' + shareId + '/display-mode'), { displayMode, target })
+				await axios.put(generateUrl('/apps/tablespro/share/' + shareId + '/display-mode'), { displayMode, target })
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not update display mode.'))
 			}
@@ -402,7 +402,7 @@ export const useTablesStore = defineStore('store', {
 			let res = null
 
 			try {
-				res = await axios.post(generateOcsUrl('/apps/tables/api/2/contexts'), data)
+				res = await axios.post(generateOcsUrl('/apps/tablespro/api/2/contexts'), data)
 				const id = res?.data?.ocs?.data?.id
 				if (id) {
 					await this.shareContext({ id, previousReceivers: [], receivers, displayMode })
@@ -422,7 +422,7 @@ export const useTablesStore = defineStore('store', {
 		async updateContext({ id, data, previousReceivers, receivers, displayMode }) {
 			let res = null
 			try {
-				res = await axios.put(generateOcsUrl('/apps/tables/api/2/contexts/' + id), data)
+				res = await axios.put(generateOcsUrl('/apps/tablespro/api/2/contexts/' + id), data)
 				await this.shareContext({ id, previousReceivers, receivers, displayMode })
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not update application.'))
@@ -438,7 +438,7 @@ export const useTablesStore = defineStore('store', {
 
 		async transferTable({ id, data }) {
 			try {
-				await axios.put(generateOcsUrl('/apps/tables/api/2/tables/' + id + '/transfer'), data)
+				await axios.put(generateOcsUrl('/apps/tablespro/api/2/tables/' + id + '/transfer'), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not transfer table.'))
 				return false
@@ -454,7 +454,7 @@ export const useTablesStore = defineStore('store', {
 		async getAllContexts() {
 			this.setLoading({ key: 'contexts', value: true })
 			try {
-				const res = await axios.get(generateOcsUrl('/apps/tables/api/2/contexts'))
+				const res = await axios.get(generateOcsUrl('/apps/tablespro/api/2/contexts'))
 				this.contexts = res.data.ocs.data
 				await this.getContextsTablesAndViews()
 			} catch (e) {
@@ -467,7 +467,7 @@ export const useTablesStore = defineStore('store', {
 
 		async loadContext({ id }) {
 			try {
-				const res = await axios.get(generateOcsUrl('/apps/tables/api/2/contexts/' + id))
+				const res = await axios.get(generateOcsUrl('/apps/tablespro/api/2/contexts/' + id))
 				this.setContext(res.data.ocs.data)
 			} catch (e) {
 				if (e?.response?.status === 404) {
@@ -501,7 +501,7 @@ export const useTablesStore = defineStore('store', {
 			}
 			let res
 			try {
-				res = await axios.get(generateOcsUrl('/apps/tables/api/2/tables/' + id))
+				res = await axios.get(generateOcsUrl('/apps/tablespro/api/2/tables/' + id))
 				const tables = this.tables
 				tables.push(res.data.ocs.data)
 				this.setTables([...tables])
@@ -524,7 +524,7 @@ export const useTablesStore = defineStore('store', {
 			}
 			let res
 			try {
-				res = await axios.get(generateUrl('/apps/tables/view/' + id))
+				res = await axios.get(generateUrl('/apps/tablespro/view/' + id))
 				const views = this.views
 				views.push(res.data)
 				this.setViews([...views])
@@ -541,7 +541,7 @@ export const useTablesStore = defineStore('store', {
 
 		async transferContext({ id, data }) {
 			try {
-				await axios.put(generateOcsUrl('/apps/tables/api/2/contexts/' + id + '/transfer'), data)
+				await axios.put(generateOcsUrl('/apps/tablespro/api/2/contexts/' + id + '/transfer'), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not transfer application.'))
 				return false
@@ -556,7 +556,7 @@ export const useTablesStore = defineStore('store', {
 
 		async removeContext({ context }) {
 			try {
-				await axios.delete(generateOcsUrl('/apps/tables/api/2/contexts/' + context.id))
+				await axios.delete(generateOcsUrl('/apps/tablespro/api/2/contexts/' + context.id))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove application.'))
 				return false
@@ -570,7 +570,7 @@ export const useTablesStore = defineStore('store', {
 
 		async removeTable({ tableId }) {
 			try {
-				await axios.delete(generateUrl('/apps/tables/table/' + tableId))
+				await axios.delete(generateUrl('/apps/tablespro/table/' + tableId))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove table.'))
 				return false

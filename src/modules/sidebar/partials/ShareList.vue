@@ -179,7 +179,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tablespro', 'showSidebar', 'isLoadingSomething', 'activeElement', 'isView']),
+		...mapState(useTablesStore, ['tables', 'showSidebar', 'isLoadingSomething', 'activeElement', 'isView']),
 		sortedShares() {
 			return [...this.userShares, ...this.groupShares].slice()
 				.sort(this.sortByDisplayName)

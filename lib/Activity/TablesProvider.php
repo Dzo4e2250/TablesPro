@@ -24,7 +24,7 @@ class TablesProvider implements IProvider {
 	}
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
-		if ($event->getApp() !== 'tables') {
+		if ($event->getApp() !== 'tablespro') {
 			throw new \InvalidArgumentException();
 		}
 
@@ -123,7 +123,7 @@ class TablesProvider implements IProvider {
 	}
 
 	private function setIcon(IEvent $event) {
-		$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('tables', 'app-dark.svg')));
+		$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('tablespro', 'app-dark.svg')));
 
 		if (str_contains($event->getSubject(), '_update')) {
 			$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('files', 'change.svg')));
@@ -141,7 +141,7 @@ class TablesProvider implements IProvider {
 	}
 
 	private function tablesUrl(string $endpoint) {
-		return $this->urlGenerator->linkToRouteAbsolute('tables.page.index') . '#/' . trim($endpoint, '/');
+		return $this->urlGenerator->linkToRouteAbsolute('tablespro.page.index') . '#/' . trim($endpoint, '/');
 	}
 
 	private function setSubjects(IEvent $event, $subject, array $parameters) {

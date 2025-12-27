@@ -288,7 +288,7 @@ export default {
 		async previewImportFromPath() {
 			this.loading = true
 			try {
-				const res = await axios.post(generateUrl('/apps/tables/import-preview/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id), { path: this.path })
+				const res = await axios.post(generateUrl('/apps/tablespro/import-preview/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id), { path: this.path })
 				if (res.status === 200) {
 					this.preview = res.data
 					this.loading = false
@@ -306,7 +306,7 @@ export default {
 		async previewImportFromUploadFile() {
 			this.loading = true
 			try {
-				const url = generateUrl('/apps/tables/importupload-preview/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id)
+				const url = generateUrl('/apps/tablespro/importupload-preview/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id)
 				const formData = new FormData()
 				formData.append('uploadfile', this.selectedUploadFile)
 
@@ -379,7 +379,7 @@ export default {
 			this.loading = true
 			try {
 				const res = await axios.post(
-					generateUrl('/apps/tables/import/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id),
+					generateUrl('/apps/tablespro/import/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id),
 					{ path: this.path, createMissingColumns: this.getCreateMissingColumns, columnsConfig: this.columnsConfig },
 				)
 				if (res.status === 200) {
@@ -396,7 +396,7 @@ export default {
 		async importFromUploadFile() {
 			this.loading = true
 			try {
-				const url = generateUrl('/apps/tables/importupload/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id)
+				const url = generateUrl('/apps/tablespro/importupload/' + (this.isElementView ? 'view' : 'table') + '/' + this.element.id)
 				const formData = new FormData()
 				formData.append('uploadfile', this.selectedUploadFile)
 				formData.append('createMissingColumns', this.getCreateMissingColumns)

@@ -46,7 +46,7 @@ export default {
 			if (!this.activeElement) {
 				return ''
 			}
-			const internalLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/tables/')
+			const internalLink = window.location.protocol + '//' + window.location.host + generateUrl('/apps/tablespro/')
 
 			if (this.isView) {
 				return `${internalLink}#/view/${this.activeElement.id}`

@@ -19,7 +19,7 @@ class SettingChanges extends ActivitySettings {
 	}
 
 	public function getGroupIdentifier() {
-		return 'tables';
+		return 'tablespro';
 	}
 
 	public function getGroupName() {
@@ -31,7 +31,7 @@ class SettingChanges extends ActivitySettings {
 	 * @since 20.0.0
 	 */
 	public function getIdentifier(): string {
-		return 'tables';
+		return 'tablespro';
 	}
 
 	/**

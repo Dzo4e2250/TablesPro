@@ -39,11 +39,10 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function index(): TemplateResponse {
-		Util::addScript(Application::APP_ID, 'tables-main');
+		Util::addScript(Application::APP_ID, 'tablespro-main');
 		Util::addStyle(Application::APP_ID, 'grid');
 		Util::addStyle(Application::APP_ID, 'modal');
 		Util::addStyle(Application::APP_ID, 'tiptap');
-		Util::addStyle(Application::APP_ID, 'tables-style');
 
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());

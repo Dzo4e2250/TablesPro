@@ -59,7 +59,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tablespro', 'showSidebar', 'isLoadingSomething']),
+		...mapState(useTablesStore, ['tables', 'showSidebar', 'isLoadingSomething']),
 
 		shareHeading() {
 			return this.isCirclesEnabled

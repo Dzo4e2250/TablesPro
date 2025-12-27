@@ -34,22 +34,22 @@ class DbRowSleeveSequence implements IRepairStep {
 	 * @inheritDoc
 	 */
 	public function run(IOutput $output) {
-		$legacyRowTransferRunComplete = $this->config->getAppValue('tables', 'legacyRowTransferRunComplete', 'false') === 'true';
-		$sequenceRepairComplete = $this->config->getAppValue('tables', 'sequenceRepairComplete', 'false') === 'true';
+		$legacyRowTransferRunComplete = $this->config->getAppValue('tablespro', 'legacyRowTransferRunComplete', 'false') === 'true';
+		$sequenceRepairComplete = $this->config->getAppValue('tablespro', 'sequenceRepairComplete', 'false') === 'true';
 		if (!$legacyRowTransferRunComplete || $sequenceRepairComplete) {
 			return;
 		}
 
 		$platform = $this->db->getDatabasePlatform();
 		if (!$platform->supportsSequences()) {
-			$this->config->setAppValue('tables', 'sequenceRepairComplete', 'true');
+			$this->config->setAppValue('tablespro', 'sequenceRepairComplete', 'true');
 			return;
 		}
 
 		$newSequenceOffset = $this->getNewOffset();
 		if ($newSequenceOffset === null) {
 			// no data, no op
-			$this->config->setAppValue('tables', 'sequenceRepairComplete', 'true');
+			$this->config->setAppValue('tablespro', 'sequenceRepairComplete', 'true');
 			return;
 		}
 
@@ -68,14 +68,14 @@ class DbRowSleeveSequence implements IRepairStep {
 			throw new \LogicException('Failed to find the correct sequence.');
 		} elseif (count($candidates) === 0) {
 			// 🤷
-			$this->config->setAppValue('tables', 'sequenceRepairComplete', 'true');
+			$this->config->setAppValue('tablespro', 'sequenceRepairComplete', 'true');
 			return;
 		}
 		/** @var Sequence $sequence */
 		$sequence = $candidates[array_key_first($candidates)];
 
 		$this->db->executeStatement(sprintf('ALTER SEQUENCE %s RESTART START WITH %d', $sequence->getName(), $newSequenceOffset));
-		$this->config->setAppValue('tables', 'sequenceRepairComplete', 'true');
+		$this->config->setAppValue('tablespro', 'sequenceRepairComplete', 'true');
 	}
 
 	protected function getNewOffset(): ?int {

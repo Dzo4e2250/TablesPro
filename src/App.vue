@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcContent app-name="tables">
+	<NcContent app-name="tablespro">
 		<Navigation />
 		<NcAppContent>
 			<div v-if="isLoadingSomething" class="icon-loading" />
@@ -66,7 +66,7 @@ export default {
 	methods: {
 		...mapActions(useTablesStore, ['loadTablesFromBE', 'getAllContexts', 'loadViewsSharedWithMeFromBE', 'loadTemplatesFromBE', 'setActiveRowId', 'setActiveTableId', 'setActiveViewId', 'setActiveContextId']),
 		routing(currentRoute) {
-			const url = generateUrl('/apps/tables/')
+			const url = generateUrl('/apps/tablespro/')
 
 			try {
 				if (loadState('tablespro', 'contextId', undefined)) {
@@ -74,7 +74,7 @@ export default {
 					const contextId = loadState('tablespro', 'contextId', undefined)
 					const originalUrl = window.location.href
 					this.$router.replace('/application/' + contextId).catch(() => {})
-					// reverts turning /apps/tables/app/28 into /apps/tables/app/28#/application/28
+					// reverts turning /apps/tablespro/app/28 into /apps/tablespro/app/28#/application/28
 					history.replaceState({}, undefined, originalUrl)
 				}
 			} catch (e) {

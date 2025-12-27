@@ -222,7 +222,7 @@ export default {
 		},
 		async loadTemplatesFromBE() {
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/table/templates'))
+				const res = await axios.get(generateUrl('/apps/tablespro/table/templates'))
 				this.templates = res.data
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not load templates.'))

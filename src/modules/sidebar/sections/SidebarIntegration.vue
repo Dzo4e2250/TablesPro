@@ -70,12 +70,12 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tablespro', 'activeElement', 'isLoadingSomething', 'isView']),
+		...mapState(useTablesStore, ['tables', 'activeElement', 'isLoadingSomething', 'isView']),
 		apiEndpointUrl() {
 			const params = {
 				elementId: this.activeElement.id,
 			}
-			const url = '/apps/tables/api/1/' + (this.isView ? 'views' : 'tablespro') + '/{elementId}'
+			const url = '/apps/tablespro/api/1/' + (this.isView ? 'views' : 'tablespro') + '/{elementId}'
 			return window.location.protocol + '//' + window.location.host + generateUrl(url, params)
 		},
 	},

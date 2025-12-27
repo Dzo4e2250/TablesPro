@@ -4,7 +4,7 @@
  */
 
 export type paths = {
-    readonly "/index.php/apps/tables/api/1/tables": {
+    readonly "/index.php/apps/tablespro/api/1/tables": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -28,7 +28,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -56,7 +56,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}/scheme": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}/scheme": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -76,7 +76,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}/views": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}/views": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -100,7 +100,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/views/{viewId}": {
+    readonly "/index.php/apps/tablespro/api/1/views/{viewId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -128,7 +128,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/shares/{shareId}": {
+    readonly "/index.php/apps/tablespro/api/1/shares/{shareId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -156,7 +156,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/views/{viewId}/shares": {
+    readonly "/index.php/apps/tablespro/api/1/views/{viewId}/shares": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -176,7 +176,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}/shares": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}/shares": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -200,7 +200,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/shares": {
+    readonly "/index.php/apps/tablespro/api/1/shares": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -220,7 +220,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/shares/{shareId}/display-mode": {
+    readonly "/index.php/apps/tablespro/api/1/shares/{shareId}/display-mode": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -240,7 +240,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}/columns": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}/columns": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -264,7 +264,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/views/{viewId}/columns": {
+    readonly "/index.php/apps/tablespro/api/1/views/{viewId}/columns": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -284,7 +284,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/columns": {
+    readonly "/index.php/apps/tablespro/api/1/columns": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -304,7 +304,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/columns/{columnId}": {
+    readonly "/index.php/apps/tablespro/api/1/columns/{columnId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -332,7 +332,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}/rows/simple": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}/rows/simple": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -352,7 +352,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/tables/{tableId}/rows": {
+    readonly "/index.php/apps/tablespro/api/1/tables/{tableId}/rows": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -376,7 +376,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/views/{viewId}/rows": {
+    readonly "/index.php/apps/tablespro/api/1/views/{viewId}/rows": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -400,7 +400,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/rows/{rowId}": {
+    readonly "/index.php/apps/tablespro/api/1/rows/{rowId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -428,7 +428,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/views/{viewId}/rows/{rowId}": {
+    readonly "/index.php/apps/tablespro/api/1/views/{viewId}/rows/{rowId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -448,7 +448,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/import/table/{tableId}": {
+    readonly "/index.php/apps/tablespro/api/1/import/table/{tableId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -468,7 +468,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/index.php/apps/tables/api/1/import/views/{viewId}": {
+    readonly "/index.php/apps/tablespro/api/1/import/views/{viewId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -488,7 +488,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/init": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/init": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -508,7 +508,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/tables": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/tables": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -526,7 +526,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/tables/{id}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/tables/{id}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -545,7 +545,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/tables/scheme/{id}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/tables/scheme/{id}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -562,7 +562,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/tables/scheme": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/tables/scheme": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -579,7 +579,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/tables/{id}/transfer": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/tables/{id}/transfer": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -599,7 +599,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/{nodeType}/{nodeId}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/{nodeType}/{nodeId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -619,7 +619,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/{id}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/{id}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -636,7 +636,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/number": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/number": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -656,7 +656,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/text": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/text": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -676,7 +676,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/selection": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/selection": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -696,7 +696,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/datetime": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/datetime": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -716,7 +716,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/columns/usergroup": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/columns/usergroup": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -733,7 +733,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/favorites/{nodeType}/{nodeId}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/favorites/{nodeType}/{nodeId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -751,7 +751,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/contexts": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/contexts": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -772,7 +772,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/contexts/{contextId}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/contexts/{contextId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -791,7 +791,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/contexts/{contextId}/transfer": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/contexts/{contextId}/transfer": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -808,7 +808,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/contexts/{contextId}/pages/{pageId}": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/contexts/{contextId}/pages/{pageId}": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;
@@ -825,7 +825,7 @@ export type paths = {
         readonly patch?: never;
         readonly trace?: never;
     };
-    readonly "/ocs/v2.php/apps/tables/api/2/{nodeCollection}/{nodeId}/rows": {
+    readonly "/ocs/v2.php/apps/tablespro/api/2/{nodeCollection}/{nodeId}/rows": {
         readonly parameters: {
             readonly query?: never;
             readonly header?: never;

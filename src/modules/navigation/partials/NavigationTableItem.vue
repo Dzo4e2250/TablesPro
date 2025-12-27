@@ -271,7 +271,7 @@ export default {
 		exportFile() {
 			const form = document.createElement('form')
 			form.method = 'GET'
-			form.action = generateUrl(`/apps/tables/api/1/tables/${this.table.id}/scheme`)
+			form.action = generateUrl(`/apps/tablespro/api/1/tables/${this.table.id}/scheme`)
 
 			const token = document.createElement('input')
 			token.type = 'hidden'

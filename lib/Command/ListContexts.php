@@ -60,7 +60,7 @@ class ListContexts extends Base {
 			$output->writeln('Error while reading contexts from DB.');
 			$this->logger->warning('Following error occurred during executing occ command "{class}"',
 				[
-					'app' => 'tables',
+					'app' => 'tablespro',
 					'class' => self::class,
 					'exception' => $e,
 				]

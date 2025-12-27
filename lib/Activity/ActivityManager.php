@@ -114,7 +114,7 @@ class ActivityManager {
 		 * Automatically fetch related details for subject parameters
 		 * depending on the subject
 		 */
-		$eventType = 'tables';
+		$eventType = 'tablespro';
 		$subjectParams = [
 			'author' => $author === null ? $this->userId : $author,
 			'table' => $table
@@ -167,7 +167,7 @@ class ActivityManager {
 		}
 
 		$event = $this->manager->generateEvent();
-		$event->setApp('tables')
+		$event->setApp('tablespro')
 			->setType($eventType)
 			->setAuthor($subjectParams['author'])
 			->setObject($objectType, (int)$object->getId(), $objectTitle)

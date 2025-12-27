@@ -10,7 +10,7 @@
 				<div v-if="hasRightHiddenNeighbor(-1)" class="hidden-indicator-first" @click="unhide(-1)" />
 			</div>
 		</th>
-		<th v-for="col in visibleColumns" :key="col.id" :style="getColumnWidthStyle(col)">
+		<th v-for="col in visibleColumns" :key="col.id" :style="getColumnStyle(col)" class="resizable-column">
 			<div class="cell-wrapper">
 				<div class="cell-options-wrapper">
 					<div class="cell">
@@ -36,6 +36,7 @@
 				</div>
 				<div v-if="hasRightHiddenNeighbor(col.id)" class="hidden-indicator" @click="unhide(col.id)" />
 			</div>
+			<div class="resize-handle" @mousedown.prevent="startResize($event, col)" />
 		</th>
 		<th v-if="config.showActions" data-cy="customTableAction" :class="{sticky: config.showActions}">
 			<slot name="actions" />
@@ -85,6 +86,12 @@ export default {
 		return {
 			openedColumnHeaderMenus: {},
 			localViewSetting: this.viewSetting,
+			// Column resize state
+			resizing: false,
+			resizeColumnId: null,
+			resizeStartX: 0,
+			resizeStartWidth: 0,
+			columnWidths: {},
 		}
 	},
 
@@ -109,9 +116,94 @@ export default {
 		},
 	},
 
+	mounted() {
+		// Initialize column widths from viewSetting or column customSettings
+		this.initColumnWidths()
+	},
+
+	beforeDestroy() {
+		// Clean up event listeners
+		document.removeEventListener('mousemove', this.onResize)
+		document.removeEventListener('mouseup', this.stopResize)
+	},
+
 	methods: {
 		getFilterWithId,
 		getColumnWidthStyle,
+
+		initColumnWidths() {
+			const widths = {}
+			this.columns.forEach(col => {
+				// Priority: viewSetting > customSettings > default
+				const savedWidth = this.localViewSetting?.columnWidths?.[col.id]
+				const customWidth = col.customSettings?.width
+				if (savedWidth) {
+					widths[col.id] = savedWidth
+				} else if (customWidth) {
+					widths[col.id] = customWidth
+				}
+			})
+			this.columnWidths = widths
+		},
+
+		getColumnStyle(col) {
+			const width = this.columnWidths[col.id]
+			if (width) {
+				return {
+					width: `${width}px`,
+					minWidth: `${width}px`,
+					maxWidth: `${width}px`,
+				}
+			}
+			return getColumnWidthStyle(col)
+		},
+
+		startResize(event, column) {
+			this.resizing = true
+			this.resizeColumnId = column.id
+
+			// Get the th element
+			const th = event.target.closest('th')
+			this.resizeStartWidth = th.offsetWidth
+			this.resizeStartX = event.clientX
+
+			// Add listeners
+			document.addEventListener('mousemove', this.onResize)
+			document.addEventListener('mouseup', this.stopResize)
+
+			// Add resizing class to body for cursor
+			document.body.classList.add('column-resizing')
+		},
+
+		onResize(event) {
+			if (!this.resizing) return
+
+			const diff = event.clientX - this.resizeStartX
+			const newWidth = Math.max(50, this.resizeStartWidth + diff) // Min width 50px
+
+			this.$set(this.columnWidths, this.resizeColumnId, newWidth)
+		},
+
+		stopResize() {
+			if (!this.resizing) return
+
+			// Save the width to viewSetting
+			if (!this.localViewSetting.columnWidths) {
+				this.$set(this.localViewSetting, 'columnWidths', {})
+			}
+			this.$set(this.localViewSetting.columnWidths, this.resizeColumnId, this.columnWidths[this.resizeColumnId])
+
+			this.resizing = false
+			this.resizeColumnId = null
+
+			// Remove listeners
+			document.removeEventListener('mousemove', this.onResize)
+			document.removeEventListener('mouseup', this.stopResize)
+
+			// Remove resizing class
+			document.body.classList.remove('column-resizing')
+		},
+
 		updateOpenState(columnId) {
 			this.openedColumnHeaderMenus[columnId] = !this.openedColumnHeaderMenus[columnId]
 			this.openedColumnHeaderMenus = Object.assign({}, this.openedColumnHeaderMenus)
@@ -197,6 +289,37 @@ th {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+}
+
+// Column resize styles
+.resizable-column {
+	position: relative;
+}
+
+.resize-handle {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 6px;
+	cursor: col-resize;
+	background: transparent;
+	transition: background-color 0.15s ease;
+	z-index: 10;
+
+	&:hover {
+		background-color: var(--color-primary-element);
+	}
+}
+
+// Global style for resize cursor
+:global(body.column-resizing) {
+	cursor: col-resize !important;
+	user-select: none !important;
+}
+
+:global(body.column-resizing *) {
+	cursor: col-resize !important;
 }
 
 </style>

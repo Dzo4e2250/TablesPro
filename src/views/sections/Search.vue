@@ -93,7 +93,7 @@ export default {
 			this.loading = true
 
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/search/all?term=' + this.term))
+				const res = await axios.get(generateUrl('/apps/tablespro/search/all?term=' + this.term))
 				console.debug('res', res)
 				this.options = res.data
 			} catch (e) {

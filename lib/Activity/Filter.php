@@ -25,7 +25,7 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier(): string {
-		return 'tables';
+		return 'tablespro';
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath('tables', 'app-dark.svg');
+		return $this->urlGenerator->imagePath('tablespro', 'app-dark.svg');
 	}
 
 	/**
@@ -68,6 +68,6 @@ class Filter implements IFilter {
 	 * @since 11.0.0
 	 */
 	public function allowedApps(): array {
-		return ['tables'];
+		return ['tablespro'];
 	}
 }

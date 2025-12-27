@@ -128,7 +128,7 @@ export default {
 			}
 
 			const suffix = this.renderMode === 'content' ? '/content' : ''
-			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/tables/#/' + this.value?.type + '/' + this.value?.value + suffix)
+			return window.location.protocol + '//' + window.location.host + generateUrl('/apps/tablespro/#/' + this.value?.type + '/' + this.value?.value + suffix)
 		},
 	},
 
@@ -184,7 +184,7 @@ export default {
 			}
 
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/api/1/' + this.value.type + 's/' + this.value.value + '/columns'))
+				const res = await axios.get(generateUrl('/apps/tablespro/api/1/' + this.value.type + 's/' + this.value.value + '/columns'))
 				this.$set(this.richObject, 'columns', res.data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not fetch columns for content preview.'))
@@ -196,7 +196,7 @@ export default {
 			}
 
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/row/' + this.value.type + '/' + this.value.value))
+				const res = await axios.get(generateUrl('/apps/tablespro/row/' + this.value.type + '/' + this.value.value))
 				this.$set(this.richObject, 'rows', res.data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not fetch rows for content preview.'))

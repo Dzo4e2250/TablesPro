@@ -88,7 +88,8 @@
 					<!-- Group Summary -->
 					<GroupSummary
 						:columns="columns"
-						:rows="group.rows" />
+						:rows="group.rows"
+						:view-setting="localViewSetting" />
 				</template>
 			</tbody>
 
@@ -96,10 +97,11 @@
 			<tfoot v-if="!isGrouped && showSummary && hasSummaryColumns" class="summary-footer">
 				<tr class="summary-row">
 					<td class="sticky summary-label-cell">
-						<span class="summary-label">{{ t('tablespro', 'Summary') }}</span>
+						<span class="item-count">{{ getSearchedAndFilteredAndSortedRows.length }}</span>
 					</td>
-					<td v-for="column in columns" :key="'summary-' + column.id" class="summary-data-cell">
+					<td v-for="column in columns" :key="'summary-' + column.id" class="summary-data-cell" :style="getColumnStyle(column)">
 						<SummaryCell
+							v-if="hasSummary(column)"
 							:column="column"
 							:rows="getSearchedAndFilteredAndSortedRows" />
 					</td>
@@ -157,6 +159,7 @@ import AddItemRow from '../partials/AddItemRow.vue'
 import GroupBySelector from '../partials/GroupBySelector.vue'
 import { summaryMixin } from '../mixins/summaryMixin.js'
 import { groupingMixin } from '../mixins/groupingMixin.js'
+import { getColumnWidthStyle } from '../mixins/columnHandler.js'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { MagicFields } from '../mixins/magicFields.js'
 import { NcButton, useIsMobile, NcSelect } from '@nextcloud/vue'
@@ -423,6 +426,25 @@ export default {
 
 	methods: {
 		t,
+		isNumberColumn(column) {
+			return ['number', 'number-stars', 'number-progress'].includes(column.type)
+		},
+		hasSummary(column) {
+			// Show summary for number columns and selection columns
+			return ['number', 'number-stars', 'number-progress', 'selection', 'selection-multi'].includes(column.type)
+		},
+		getColumnStyle(col) {
+			// Check viewSetting.columnWidths first (for resized columns)
+			const resizedWidth = this.localViewSetting?.columnWidths?.[col.id]
+			if (resizedWidth) {
+				return {
+					width: `${resizedWidth}px`,
+					minWidth: `${resizedWidth}px`,
+					maxWidth: `${resizedWidth}px`,
+				}
+			}
+			return getColumnWidthStyle(col)
+		},
 		addMagicFieldsValues(filter) {
 			Object.values(MagicFields).forEach(field => {
 				const newFilterValue = filter.value.replace('@' + field.id, field.replace)
@@ -558,8 +580,9 @@ export default {
 	// white-space: nowrap;
 
 	td, th {
-		padding-inline-end: 8px;
+		padding: 4px 6px; // Compact padding matching summary
 		max-width: 500px;
+		vertical-align: middle;
 	}
 
 	td .showOnHover, th .showOnHover {
@@ -571,12 +594,13 @@ export default {
 	}
 
 	td:not(:first-child), th:not(:first-child) {
-		padding-inline: 8px;
+		padding-inline: 6px;
 	}
 
 	tr {
-		height: 51px;
+		// Auto height based on content - compact rows
 		background-color: var(--color-main-background);
+		transition: background-color 0.1s ease;
 	}
 
 	thead {
@@ -591,6 +615,13 @@ export default {
 				box-shadow: inset 0 -1px 0 var(--color-border); // use box-shadow instead of border to be compatible with sticky heads
 				background-color: var(--color-main-background-translucent);
 				z-index: 5;
+				// Vertical column separators
+				border-inline-end: 1px solid var(--color-border);
+
+				&.sticky:first-child,
+				&.sticky:last-child {
+					border-inline-end: none;
+				}
 			}
 		}
 	}
@@ -600,7 +631,14 @@ export default {
 		td {
 			text-align: start;
 			vertical-align: middle;
-			border: 1px solid var(--color-border-dark);
+			border-bottom: 1px solid var(--color-border-dark);
+			// Vertical column separators
+			border-inline-end: 1px solid var(--color-border);
+
+			&.sticky:first-child,
+			&.sticky:last-child {
+				border-inline-end: none;
+			}
 		}
 
 		td > div {
@@ -608,8 +646,15 @@ export default {
 			overflow-y: auto;
 		}
 
+		// Fix: Allow dropdowns in summary cells to overflow
+		td.group-summary-cell > div,
+		td.summary-data-cell > div {
+			overflow: visible;
+			max-height: none;
+		}
+
 		tr:active, tr:hover, tr:focus, tr:hover .editor-wrapper .editor {
-			background-color: var(--color-background-dark);
+			background-color: var(--color-primary-element-light);
 		}
 
 		.editor-wrapper .editor {
@@ -711,10 +756,13 @@ export default {
   transform: translateX(-1rem);
 }
 
-// Row group styles
+// Row group styles - Monday.com inspired
 :deep(.row-group) {
-	&:not(:last-child) {
-		margin-bottom: 8px;
+	// Visual separation between groups
+	&:not(:first-child) {
+		.group-header {
+			border-top: 8px solid transparent; // Visual gap between groups
+		}
 	}
 }
 
@@ -726,16 +774,29 @@ export default {
 
 	.summary-row {
 		background-color: var(--color-background-dark) !important;
-		border-top: 2px solid var(--color-border);
+		border-top: 1px solid var(--color-border);
 
 		td {
-			padding: 12px 8px;
+			padding: 4px 6px;
 			font-weight: 500;
-			vertical-align: top;
+			vertical-align: middle;
+			// Vertical column separators matching header
+			border-inline-end: 1px solid var(--color-border);
+
+			&.sticky:first-child,
+			&.sticky:last-child {
+				border-inline-end: none;
+			}
 		}
 
 		.summary-label-cell {
 			vertical-align: middle;
+		}
+
+		.item-count {
+			font-size: 11px;
+			color: var(--color-text-maxcontrast);
+			font-weight: 500;
 		}
 
 		.summary-label {

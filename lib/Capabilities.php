@@ -36,7 +36,7 @@ class Capabilities implements ICapability {
 
 	/**
 	 *
-	 * @return array{tables: array{enabled: bool, version: string, apiVersions: list<string>, features: list<string>, isCirclesEnabled: bool, column_types: list<string>}}
+	 * @return array{tablespro: array{enabled: bool, version: string, apiVersions: list<string>, features: list<string>, isCirclesEnabled: bool, column_types: list<string>}}
 	 *
 	 * @inheritDoc
 	 */
@@ -47,9 +47,9 @@ class Capabilities implements ICapability {
 		}
 
 		return [
-			'tables' => [
-				'enabled' => $this->appManager->isEnabledForUser('tables'),
-				'version' => $this->appManager->getAppVersion('tables'),
+			'tablespro' => [
+				'enabled' => $this->appManager->isEnabledForUser('tablespro'),
+				'version' => $this->appManager->getAppVersion('tablespro'),
 				'apiVersions' => [
 					'1.0',
 					'2.0',

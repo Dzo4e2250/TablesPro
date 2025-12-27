@@ -21,7 +21,7 @@ class LoadAdditionalListener implements IEventListener {
 		}
 
 		if (method_exists(Util::class, 'addInitScript')) {
-			Util::addInitScript(Application::APP_ID, 'tables-files');
+			Util::addInitScript(Application::APP_ID, 'tablespro-files');
 		}
 	}
 }

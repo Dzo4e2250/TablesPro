@@ -124,7 +124,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(useTablesStore, ['getContext', 'tablespro', 'views', 'activeContextId']),
+		...mapState(useTablesStore, ['getContext', 'tables', 'views', 'activeContextId']),
 		localContext() {
 			return this.getContext(this.contextId)
 		},

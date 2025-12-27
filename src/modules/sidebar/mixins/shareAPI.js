@@ -25,12 +25,12 @@ export default {
 				let res
 				let shares = []
 				if (this.isView) {
-					res = await axios.get(generateUrl('/apps/tables/share/view/' + this.activeElement.id))
+					res = await axios.get(generateUrl('/apps/tablespro/share/view/' + this.activeElement.id))
 					shares = shares.concat(res.data)
-					res = await axios.get(generateUrl('/apps/tables/share/table/' + this.activeElement.tableId))
+					res = await axios.get(generateUrl('/apps/tablespro/share/table/' + this.activeElement.tableId))
 					return shares.concat(res.data.filter(share => share.permissionManage))
 				} else {
-					res = await axios.get(generateUrl('/apps/tables/share/table/' + this.activeElement.id))
+					res = await axios.get(generateUrl('/apps/tablespro/share/table/' + this.activeElement.id))
 					return shares.concat(res.data)
 				}
 			} catch (e) {
@@ -58,7 +58,7 @@ export default {
 				permissionManage: false,
 			}
 			try {
-				await axios.post(generateUrl('/apps/tables/share'), data)
+				await axios.post(generateUrl('/apps/tablespro/share'), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not create share.'))
 				return false
@@ -80,7 +80,7 @@ export default {
 
 		async removeShareFromBE(shareId) {
 			try {
-				await axios.delete(generateUrl('/apps/tables/share/' + shareId))
+				await axios.delete(generateUrl('/apps/tablespro/share/' + shareId))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove share.'))
 			}
@@ -88,7 +88,7 @@ export default {
 
 		async updateShareToBE(shareId, data) {
 			try {
-				await axios.put(generateUrl('/apps/tables/share/' + shareId + '/permission'), data)
+				await axios.put(generateUrl('/apps/tablespro/share/' + shareId + '/permission'), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not update share.'))
 			}

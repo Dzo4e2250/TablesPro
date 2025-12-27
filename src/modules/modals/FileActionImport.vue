@@ -178,7 +178,7 @@ export default {
 	async mounted() {
 		this.loadingTables = true
 
-		const res = await axios.get(generateUrl('/apps/tables/table'))
+		const res = await axios.get(generateUrl('/apps/tablespro/table'))
 
 		if (res.data) {
 			res.data.forEach(table => this.existingTables.push({
@@ -247,7 +247,7 @@ async function importToExistingTable(tableId, file, createMissingColumns) {
 }
 
 async function insertTable(title, emoji) {
-	const res = await axios.post(generateUrl('/apps/tables/table'), {
+	const res = await axios.post(generateUrl('/apps/tablespro/table'), {
 		title,
 		emoji,
 		template: 'custom',
@@ -257,7 +257,7 @@ async function insertTable(title, emoji) {
 }
 
 async function updateTable(tableId, path, createMissingColumns) {
-	const res = await axios.post(generateUrl(`/apps/tables/import/table/${tableId}`), {
+	const res = await axios.post(generateUrl(`/apps/tablespro/import/table/${tableId}`), {
 		path,
 		createMissingColumns,
 	})

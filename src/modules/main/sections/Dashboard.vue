@@ -244,7 +244,7 @@ export default {
 		},
 		async getSharesForViewFromBE(viewId) {
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/share/view/' + viewId))
+				const res = await axios.get(generateUrl('/apps/tablespro/share/view/' + viewId))
 				return res.data
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not fetch shares.'))
@@ -253,7 +253,7 @@ export default {
 
 		async getSharesForTableFromBE(tableId) {
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/share/table/' + tableId))
+				const res = await axios.get(generateUrl('/apps/tablespro/share/table/' + tableId))
 				return res.data
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not fetch shares.'))

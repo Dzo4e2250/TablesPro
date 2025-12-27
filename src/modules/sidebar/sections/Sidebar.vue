@@ -101,7 +101,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(useTablesStore, ['tablespro', 'activeElement', 'isView']),
+		...mapState(useTablesStore, ['tables', 'activeElement', 'isView']),
 		elementTitle() {
 			if (this.activeElement) {
 				return this.activeElement.emoji + ' ' + this.activeElement.title

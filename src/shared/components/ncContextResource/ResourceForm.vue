@@ -69,7 +69,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tablespro', 'views']),
+		...mapState(useTablesStore, ['tables', 'views']),
 
 		isValidQuery() {
 			return this.query?.trim() && this.query.length >= this.minSearchStringLength

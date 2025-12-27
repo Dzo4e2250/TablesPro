@@ -13,7 +13,7 @@ import Context from './pages/Context.vue'
 Vue.use(Router)
 
 export default new Router({
-	base: generateUrl('/apps/tables/'),
+	base: generateUrl('/apps/tablespro/'),
 	linkActiveClass: 'active',
 	routes: [
 		{

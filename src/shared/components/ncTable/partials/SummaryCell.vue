@@ -3,12 +3,31 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="summary-cell">
-		<!-- Number columns: SUM -->
+	<div class="summary-cell" :class="{ 'has-dropdown': isNumberColumn }">
+		<!-- Number columns: Aggregation with dropdown -->
 		<template v-if="isNumberColumn">
-			<div class="number-summary">
-				<span class="sum-label">Σ</span>
-				<span class="sum-value">{{ formattedSum }}</span>
+			<div ref="triggerRef" class="number-summary" @click.stop="toggleDropdown">
+				<span class="func-label">{{ currentFunctionLabel }}</span>
+				<span class="sum-value">{{ formattedValue }}</span>
+				<ChevronDownIcon class="dropdown-icon" :size="14" />
+			</div>
+
+			<!-- Dropdown menu - position fixed to escape stacking context -->
+			<div
+				v-if="showDropdown"
+				v-click-outside="closeDropdown"
+				class="aggregation-dropdown"
+				:style="dropdownStyle">
+				<button
+					v-for="func in aggregationFunctions"
+					:key="func.id"
+					class="dropdown-item"
+					:class="{ active: selectedFunction === func.id }"
+					@click.stop="selectFunction(func.id)">
+					<span class="func-symbol">{{ func.symbol }}</span>
+					<span class="func-name">{{ func.name }}</span>
+					<CheckIcon v-if="selectedFunction === func.id" class="check-icon" :size="16" />
+				</button>
 			</div>
 		</template>
 
@@ -44,7 +63,7 @@
 
 		<!-- Other columns: empty -->
 		<template v-else>
-			<div class="empty-summary">-</div>
+			<div class="empty-summary" />
 		</template>
 	</div>
 </template>
@@ -52,9 +71,35 @@
 <script>
 import { translate as t } from '@nextcloud/l10n'
 import { DEFAULT_OPTION_COLOR } from '../../../constants.ts'
+import ChevronDownIcon from 'vue-material-design-icons/ChevronDown.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
 	name: 'SummaryCell',
+
+	components: {
+		ChevronDownIcon,
+		CheckIcon,
+	},
+
+	directives: {
+		'click-outside': {
+			bind(el, binding) {
+				el._clickOutside = (event) => {
+					if (!(el === event.target || el.contains(event.target))) {
+						binding.value(event)
+					}
+				}
+				// Delay to next tick to avoid catching the click that opened the dropdown
+				setTimeout(() => {
+					document.addEventListener('click', el._clickOutside)
+				}, 0)
+			},
+			unbind(el) {
+				document.removeEventListener('click', el._clickOutside)
+			},
+		},
+	},
 
 	props: {
 		column: {
@@ -67,7 +112,39 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			showDropdown: false,
+			selectedFunction: 'sum',
+			dropdownPosition: { top: 0, left: 0 },
+		}
+	},
+
 	computed: {
+		dropdownStyle() {
+			return {
+				position: 'fixed',
+				top: `${this.dropdownPosition.top}px`,
+				left: `${this.dropdownPosition.left}px`,
+			}
+		},
+
+		aggregationFunctions() {
+			return [
+				{ id: 'sum', symbol: 'Σ', name: t('tablespro', 'Sum') },
+				{ id: 'avg', symbol: 'x̄', name: t('tablespro', 'Average') },
+				{ id: 'min', symbol: '↓', name: t('tablespro', 'Minimum') },
+				{ id: 'max', symbol: '↑', name: t('tablespro', 'Maximum') },
+				{ id: 'count', symbol: '#', name: t('tablespro', 'Count') },
+				{ id: 'median', symbol: 'M̃', name: t('tablespro', 'Median') },
+			]
+		},
+
+		currentFunctionLabel() {
+			const func = this.aggregationFunctions.find(f => f.id === this.selectedFunction)
+			return func ? func.symbol : 'Σ'
+		},
+
 		isNumberColumn() {
 			return ['number', 'number-stars', 'number-progress'].includes(this.column.type)
 		},
@@ -84,16 +161,48 @@ export default {
 			return this.rows.length
 		},
 
-		sum() {
-			return this.rows.reduce((total, row) => {
-				const cell = row.data?.find(c => c.columnId === this.column.id)
-				const value = parseFloat(cell?.value) || 0
-				return total + value
-			}, 0)
+		numericValues() {
+			return this.rows
+				.map(row => {
+					const cell = row.data?.find(c => c.columnId === this.column.id)
+					return parseFloat(cell?.value)
+				})
+				.filter(v => !isNaN(v))
 		},
 
-		formattedSum() {
-			// Check if column has number settings for formatting
+		calculatedValue() {
+			const values = this.numericValues
+			if (values.length === 0) return 0
+
+			switch (this.selectedFunction) {
+			case 'sum':
+				return values.reduce((a, b) => a + b, 0)
+			case 'avg':
+				return values.reduce((a, b) => a + b, 0) / values.length
+			case 'min':
+				return Math.min(...values)
+			case 'max':
+				return Math.max(...values)
+			case 'count':
+				return values.length
+			case 'median': {
+				const sorted = [...values].sort((a, b) => a - b)
+				const mid = Math.floor(sorted.length / 2)
+				return sorted.length % 2 !== 0
+					? sorted[mid]
+					: (sorted[mid - 1] + sorted[mid]) / 2
+			}
+			default:
+				return values.reduce((a, b) => a + b, 0)
+			}
+		},
+
+		formattedValue() {
+			// Count doesn't need formatting
+			if (this.selectedFunction === 'count') {
+				return this.calculatedValue.toString()
+			}
+
 			const prefix = this.column.numberPrefix || ''
 			const suffix = this.column.numberSuffix || ''
 			const decimals = this.column.numberDecimals ?? 2
@@ -101,7 +210,7 @@ export default {
 			const formatted = new Intl.NumberFormat('sl-SI', {
 				minimumFractionDigits: 0,
 				maximumFractionDigits: decimals,
-			}).format(this.sum)
+			}).format(this.calculatedValue)
 
 			return `${prefix}${formatted}${suffix}`
 		},
@@ -143,40 +252,169 @@ export default {
 
 	methods: {
 		t,
+
+		toggleDropdown() {
+			if (this.showDropdown) {
+				this.showDropdown = false
+				return
+			}
+
+			// Calculate position based on trigger element
+			const trigger = this.$refs.triggerRef
+			if (trigger) {
+				const rect = trigger.getBoundingClientRect()
+				const dropdownHeight = 260 // Approximate height of dropdown
+				const viewportHeight = window.innerHeight
+
+				// Always open below if there's space, otherwise open above
+				if (rect.bottom + dropdownHeight < viewportHeight) {
+					// Show below the trigger (preferred for summary rows)
+					this.dropdownPosition = {
+						top: rect.bottom + 4,
+						left: rect.left,
+					}
+				} else {
+					// Show above the trigger if not enough space below
+					this.dropdownPosition = {
+						top: rect.top - dropdownHeight,
+						left: rect.left,
+					}
+				}
+			}
+
+			this.showDropdown = true
+		},
+
+		closeDropdown() {
+			this.showDropdown = false
+		},
+
+		selectFunction(funcId) {
+			this.selectedFunction = funcId
+			this.showDropdown = false
+			// Emit event for parent to save preference if needed
+			this.$emit('function-changed', { columnId: this.column.id, function: funcId })
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
 .summary-cell {
-	padding: 4px 0;
-	min-height: 24px;
+	padding: 1px 0;
+	min-height: 18px;
+	position: relative;
+
+	&.has-dropdown {
+		cursor: pointer;
+	}
 }
 
 .number-summary {
 	display: flex;
 	align-items: center;
-	gap: 6px;
+	gap: 4px;
 	font-weight: 600;
+	padding: 3px 6px;
+	border-radius: 4px;
+	background-color: var(--color-primary-element-light);
+	border: 1px solid var(--color-primary-element);
+	cursor: pointer;
+	transition: all 0.15s ease;
+	font-size: 12px;
 
-	.sum-label {
-		color: var(--color-text-maxcontrast);
-		font-size: 12px;
+	&:hover {
+		background-color: var(--color-primary-element);
+		color: white;
+
+		.func-label, .sum-value {
+			color: white;
+		}
+	}
+
+	.func-label {
+		color: var(--color-primary-element);
+		font-size: 10px;
+		font-weight: 700;
+		min-width: 12px;
+		text-align: center;
 	}
 
 	.sum-value {
 		color: var(--color-main-text);
+		flex: 1;
+	}
+
+	.dropdown-icon {
+		color: var(--color-text-maxcontrast);
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+
+	&:hover .dropdown-icon {
+		opacity: 1;
+	}
+}
+
+.aggregation-dropdown {
+	// Position is set via inline style (fixed positioning)
+	min-width: 160px;
+	background: var(--color-main-background);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+	z-index: 10000; // High z-index to appear above everything
+	padding: 4px;
+
+	.dropdown-item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		padding: 8px 12px;
+		border: none;
+		background: none;
+		cursor: pointer;
+		border-radius: 6px;
+		text-align: left;
+		transition: background-color 0.15s ease;
+
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
+
+		&.active {
+			background-color: var(--color-primary-element-light);
+		}
+
+		.func-symbol {
+			font-weight: 700;
+			font-size: 14px;
+			color: var(--color-primary-element);
+			min-width: 20px;
+			text-align: center;
+		}
+
+		.func-name {
+			flex: 1;
+			color: var(--color-main-text);
+			font-size: 13px;
+		}
+
+		.check-icon {
+			color: var(--color-primary-element);
+		}
 	}
 }
 
 .selection-summary {
 	.progress-bar {
 		display: flex;
-		height: 8px;
-		border-radius: 4px;
+		height: 6px;
+		border-radius: 3px;
 		overflow: hidden;
 		background: var(--color-background-dark);
-		margin-bottom: 4px;
+		margin-bottom: 2px;
 	}
 
 	.progress-segment {
@@ -186,20 +424,20 @@ export default {
 	.stats-tooltip {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
-		font-size: 11px;
+		gap: 6px;
+		font-size: 10px;
 		color: var(--color-text-maxcontrast);
 	}
 
 	.stat-item {
 		display: flex;
 		align-items: center;
-		gap: 4px;
+		gap: 3px;
 	}
 
 	.stat-dot {
-		width: 8px;
-		height: 8px;
+		width: 6px;
+		height: 6px;
 		border-radius: 50%;
 		flex-shrink: 0;
 	}
@@ -207,7 +445,7 @@ export default {
 
 .count-summary {
 	color: var(--color-text-maxcontrast);
-	font-size: 13px;
+	font-size: 11px;
 }
 
 .empty-summary {

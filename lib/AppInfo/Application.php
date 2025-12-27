@@ -41,7 +41,7 @@ use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'tables';
+	public const APP_ID = 'tablespro';
 
 	public const NODE_TYPE_TABLE = 0;
 	public const NODE_TYPE_VIEW = 1;

@@ -61,14 +61,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .cell-text-line {
     width: 100%;
 }
 
 .cell-text-line > div {
-    min-height: 20px;
     cursor: pointer;
+    line-height: 1.4;
+    // Truncate long text with ellipsis
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .inline-editing-container {

@@ -138,7 +138,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(useTablesStore, ['appNavCollapsed', 'tablespro', 'views', 'contexts', 'isLoadingSomething', 'isLoading']),
+		...mapState(useTablesStore, ['appNavCollapsed', 'tables', 'views', 'contexts', 'isLoadingSomething', 'isLoading']),
 		getAllNodes() {
 			return [...this.getFilteredTables, ...this.getOwnViews, ...this.getSharedViews]
 		},

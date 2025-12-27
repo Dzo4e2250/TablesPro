@@ -50,7 +50,7 @@ class NewDbStructureRepairStep implements IRepairStep {
 	 * @param IOutput $output
 	 */
 	public function run(IOutput $output) {
-		$legacyRowTransferRunComplete = $this->config->getAppValue('tables', 'legacyRowTransferRunComplete', 'false');
+		$legacyRowTransferRunComplete = $this->config->getAppValue('tablespro', 'legacyRowTransferRunComplete', 'false');
 
 		if ($legacyRowTransferRunComplete === 'true') {
 			return;
@@ -65,7 +65,7 @@ class NewDbStructureRepairStep implements IRepairStep {
 			return;
 		}
 		$this->transferDataForTables($tables, $output);
-		$this->config->setAppValue('tables', 'legacyRowTransferRunComplete', 'true');
+		$this->config->setAppValue('tablespro', 'legacyRowTransferRunComplete', 'true');
 	}
 
 	/**

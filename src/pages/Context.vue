@@ -84,7 +84,7 @@ export default {
 	},
 
 	computed: {
-		...mapState(useTablesStore, ['tablespro', 'contexts', 'activeContextId', 'views', 'activeContext']),
+		...mapState(useTablesStore, ['tables', 'contexts', 'activeContextId', 'views', 'activeContext']),
 		rows() {
 			const rows = {}
 			if (this.context && this.context.nodes) {

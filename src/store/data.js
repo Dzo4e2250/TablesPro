@@ -50,13 +50,13 @@ export const useDataStore = defineStore('data', {
 
 			try {
 				if (tableId && viewId) {
-					res = await axios.get(generateUrl('/apps/tables/api/1/tables/' + tableId + '/columns') + '?viewId=' + viewId)
+					res = await axios.get(generateUrl('/apps/tablespro/api/1/tables/' + tableId + '/columns') + '?viewId=' + viewId)
 				} else if (tableId && !viewId) {
 					// Get all table columns without view. Table manage rights needed
-					res = await axios.get(generateUrl('/apps/tables/api/1/tables/' + tableId + '/columns'))
+					res = await axios.get(generateUrl('/apps/tablespro/api/1/tables/' + tableId + '/columns'))
 				} else if (!tableId && viewId) {
 					// Get all view columns.
-					res = await axios.get(generateUrl('/apps/tables/api/1/views/' + viewId + '/columns'))
+					res = await axios.get(generateUrl('/apps/tablespro/api/1/views/' + viewId + '/columns'))
 				}
 				if (!Array.isArray(res.data)) {
 					const e = new Error('Expected array, but is not')
@@ -102,7 +102,7 @@ export const useDataStore = defineStore('data', {
 			let res = null
 
 			try {
-				res = await axios.post(generateUrl('/apps/tables/api/1/columns'), data)
+				res = await axios.post(generateUrl('/apps/tablespro/api/1/columns'), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not insert column.'))
 				return false
@@ -121,7 +121,7 @@ export const useDataStore = defineStore('data', {
 			let res = null
 
 			try {
-				res = await axios.put(generateUrl('/apps/tables/api/1/columns/' + id), data)
+				res = await axios.put(generateUrl('/apps/tablespro/api/1/columns/' + id), data)
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not update column.'))
 				return false
@@ -139,7 +139,7 @@ export const useDataStore = defineStore('data', {
 
 		async removeColumn({ id, isView, elementId }) {
 			try {
-				await axios.delete(generateUrl('/apps/tables/api/1/columns/' + id))
+				await axios.delete(generateUrl('/apps/tablespro/api/1/columns/' + id))
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not remove column.'))
 				return false
@@ -162,9 +162,9 @@ export const useDataStore = defineStore('data', {
 
 			try {
 				if (viewId) {
-					res = await axios.get(generateUrl('/apps/tables/row/view/' + viewId))
+					res = await axios.get(generateUrl('/apps/tablespro/row/view/' + viewId))
 				} else {
-					res = await axios.get(generateUrl('/apps/tables/row/table/' + tableId))
+					res = await axios.get(generateUrl('/apps/tablespro/row/table/' + tableId))
 				}
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not load rows.'))
@@ -186,7 +186,7 @@ export const useDataStore = defineStore('data', {
 			const viewId = isView ? elementId : null
 
 			try {
-				res = await axios.put(generateUrl('/apps/tables/row/' + id), { viewId, data })
+				res = await axios.put(generateUrl('/apps/tablespro/row/' + id), { viewId, data })
 			} catch (e) {
 				console.debug(e?.response)
 				if (e?.response?.data?.message?.startsWith('User should not be able to access row')) {
@@ -213,9 +213,9 @@ export const useDataStore = defineStore('data', {
 			let res = null
 
 			try {
-				const collection = viewId == null ? 'tablespro' : 'views'
+				const collection = viewId == null ? 'tables' : 'views'
 				const nodeId = viewId == null ? tableId : viewId
-				res = await axios.post(generateOcsUrl('/apps/tables/api/2/' + collection + '/' + nodeId + '/rows'), { data })
+				res = await axios.post(generateOcsUrl('/apps/tablespro/api/2/' + collection + '/' + nodeId + '/rows'), { data })
 			} catch (e) {
 				displayError(e, t('tablespro', 'Could not insert row.'))
 				return false
@@ -236,9 +236,9 @@ export const useDataStore = defineStore('data', {
 			const viewId = isView ? elementId : null
 			try {
 				if (viewId) {
-					await axios.delete(generateUrl('/apps/tables/view/' + viewId + '/row/' + rowId))
+					await axios.delete(generateUrl('/apps/tablespro/view/' + viewId + '/row/' + rowId))
 				} else {
-					await axios.delete(generateUrl('/apps/tables/row/' + rowId))
+					await axios.delete(generateUrl('/apps/tablespro/row/' + rowId))
 				}
 			} catch (e) {
 				if (e?.response?.data?.message?.startsWith('User should not be able to access row')) {
@@ -260,7 +260,7 @@ export const useDataStore = defineStore('data', {
 
 		async checkRowInView({ rowId, viewId }) {
 			try {
-				const res = await axios.get(generateUrl('/apps/tables/view/{viewId}/row/{rowId}/present', { viewId, rowId }))
+				const res = await axios.get(generateUrl('/apps/tablespro/view/{viewId}/row/{rowId}/present', { viewId, rowId }))
 				return res.data.present
 			} catch (e) {
 				showError(t('tablespro', 'Could not verify row. View is reloaded'))

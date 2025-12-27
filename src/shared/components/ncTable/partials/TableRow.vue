@@ -8,7 +8,7 @@
 			<NcCheckboxRadioSwitch :checked="selected" @update:checked="v => $emit('update-row-selection', { rowId: row.id, value: v })" />
 		</td>
 		<td v-for="col in visibleColumns" :key="col.id"
-			:style="getColumnWidthStyle(col)"
+			:style="getColumnStyle(col)"
 			:class="{
 				'search-result': getCell(col.id)?.searchStringFound,
 				'filter-result': getCell(col.id)?.filterFound,
@@ -123,6 +123,19 @@ export default {
 	methods: {
 		t,
 		getColumnWidthStyle,
+		getColumnStyle(col) {
+			// Check viewSetting.columnWidths first (for resized columns)
+			const resizedWidth = this.viewSetting?.columnWidths?.[col.id]
+			if (resizedWidth) {
+				return {
+					width: `${resizedWidth}px`,
+					minWidth: `${resizedWidth}px`,
+					maxWidth: `${resizedWidth}px`,
+				}
+			}
+			// Fall back to original function
+			return this.getColumnWidthStyle(col)
+		},
 		handleCellClick(column) {
 			// If the column type doesn't support inline editing, trigger the edit modal
 			if (this.nonInlineEditableColumnTypes.includes(column.type) && this.config.canEditRows) {

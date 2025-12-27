@@ -114,24 +114,43 @@ export default {
 
 .cell-display-mode {
 	cursor: pointer;
-	min-height: 24px;
 	border: 2px solid transparent;
 	position: relative;
+	// Compact display - truncate content
+	max-height: 40px;
+	overflow: hidden;
 
 	:deep(.content-wrapper) {
-		padding-left: 22px;
+		padding-left: 0;
+	}
+
+	:deep(.text-editor__wrapper) {
+		// Remove padding for compact view
+		padding: 0 !important;
+
+		.ProseMirror {
+			padding: 0 !important;
+			min-height: auto !important;
+
+			p {
+				margin: 0 !important;
+				// Single line truncation
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
 	}
 }
 
 .cell-display-mode,
 :deep(.rich-editor-edit-mode) {
 	width: 100%;
-	min-height: 24px;
 }
 
 :deep(.text-editor__wrapper div.ProseMirror) {
-	padding: 8px;
-	min-height: 24px;
+	padding: 4px;
+	min-height: auto;
 }
 
 :deep(div[contenteditable='false']) {
