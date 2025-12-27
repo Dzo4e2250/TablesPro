@@ -8,8 +8,14 @@
 			<div class="col-4 title">
 				{{ t('tablespro', 'Options') }}
 			</div>
-			<div v-for="opt in mutableColumn.selectionOptions" :key="opt.id" class="col-4 inline" data-cy="selectionOption">
+			<div v-for="opt in mutableColumn.selectionOptions" :key="opt.id" class="col-4 inline option-row" data-cy="selectionOption">
 				<NcCheckboxRadioSwitch :value="'' + opt.id" type="radio" :checked.sync="mutableColumn.selectionDefault" />
+				<input
+					type="color"
+					:value="opt.color || DEFAULT_OPTION_COLOR"
+					class="color-picker"
+					:title="t('tablespro', 'Choose color')"
+					@input="updateColor(opt.id, $event)">
 				<input :value="opt.label" data-cy="selectionOptionLabel" @input="updateLabel(opt.id, $event)">
 				<NcButton type="tertiary" :aria-label="t('tablespro', 'Delete option')" @click="deleteOption(opt.id)">
 					<template #icon>
@@ -32,6 +38,7 @@
 import { NcCheckboxRadioSwitch, NcButton } from '@nextcloud/vue'
 import DeleteOutline from 'vue-material-design-icons/TrashCanOutline.vue'
 import { translate as t } from '@nextcloud/l10n'
+import { COLOR_PRESETS, DEFAULT_OPTION_COLOR } from '../../../../../constants.ts'
 
 export default {
 	name: 'SelectionForm',
@@ -53,6 +60,8 @@ export default {
 	data() {
 		return {
 			mutableColumn: this.column,
+			DEFAULT_OPTION_COLOR,
+			COLOR_PRESETS,
 		}
 	},
 	watch: {
@@ -72,10 +81,12 @@ export default {
 				{
 					id: 0,
 					label: t('tablespro', 'First option'),
+					color: COLOR_PRESETS[0],
 				},
 				{
 					id: 1,
 					label: t('tablespro', 'Second option'),
+					color: COLOR_PRESETS[9],
 				},
 			]
 			return options
@@ -86,11 +97,18 @@ export default {
 			tmp[i].label = e.target.value
 			this.mutableColumn.selectionOptions = tmp
 		},
+		updateColor(id, e) {
+			const i = this.mutableColumn.selectionOptions.findIndex((obj) => obj.id === id)
+			const tmp = this.mutableColumn.selectionOptions
+			tmp[i].color = e.target.value
+			this.mutableColumn.selectionOptions = tmp
+		},
 		addOption() {
 			const nextId = this.getNextId()
 			this.mutableColumn.selectionOptions.push({
 				id: nextId,
 				label: '',
+				color: DEFAULT_OPTION_COLOR,
 			})
 		},
 		getNextId() {
@@ -124,6 +142,35 @@ input {
 
 .col-4.inline {
 	margin-inline-start: calc(var(--default-grid-baseline) * 3);
+}
+
+.option-row {
+	align-items: center;
+	gap: 4px;
+}
+
+.color-picker {
+	width: 32px;
+	height: 32px;
+	padding: 2px;
+	border: 1px solid var(--color-border);
+	border-radius: 4px;
+	cursor: pointer;
+	background: transparent;
+
+	&::-webkit-color-swatch-wrapper {
+		padding: 0;
+	}
+
+	&::-webkit-color-swatch {
+		border: none;
+		border-radius: 2px;
+	}
+
+	&::-moz-color-swatch {
+		border: none;
+		border-radius: 2px;
+	}
 }
 
 </style>

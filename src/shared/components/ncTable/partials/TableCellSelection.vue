@@ -5,7 +5,17 @@
 <template>
 	<div class="cell-selection">
 		<div v-if="!isEditing" class="non-edit-mode" @click="handleStartEditing">
-			{{ column.getLabel(value) }}<span v-if="isDeleted()" :title="t('tablespro', 'This option is outdated.')">&nbsp;⚠️</span>
+			<span
+				v-if="value !== null"
+				class="status-badge"
+				:style="{
+					backgroundColor: getOptionColor,
+					color: getContrastTextColor
+				}">
+				{{ column.getLabel(value) }}
+			</span>
+			<span v-else class="empty-value">-</span>
+			<span v-if="isDeleted()" :title="t('tablespro', 'This option is outdated.')">&nbsp;⚠️</span>
 		</div>
 		<div v-else
 			ref="editingContainer"
@@ -17,7 +27,28 @@
 				:options="getAllNonDeletedOptions"
 				:aria-label-combobox="t('tablespro', 'Options')"
 				:disabled="localLoading || !canEditCell()"
-				style="width: 100%;" />
+				style="width: 100%;">
+				<template #option="{ label, color }">
+					<span
+						class="select-option-badge"
+						:style="{
+							backgroundColor: color || DEFAULT_OPTION_COLOR,
+							color: getContrastColor(color || DEFAULT_OPTION_COLOR)
+						}">
+						{{ label }}
+					</span>
+				</template>
+				<template #selected-option="{ label, color }">
+					<span
+						class="select-option-badge"
+						:style="{
+							backgroundColor: color || DEFAULT_OPTION_COLOR,
+							color: getContrastColor(color || DEFAULT_OPTION_COLOR)
+						}">
+						{{ label }}
+					</span>
+				</template>
+			</NcSelect>
 			<div v-if="localLoading" class="loading-indicator">
 				<div class="icon-loading-small icon-loading-inline" />
 			</div>
@@ -29,6 +60,7 @@
 import { NcSelect } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import cellEditMixin from '../mixins/cellEditMixin.js'
+import { DEFAULT_OPTION_COLOR, getContrastColor } from '../../../constants.ts'
 
 export default {
 	name: 'TableCellSelection',
@@ -59,6 +91,7 @@ export default {
 	data() {
 		return {
 			isInitialEditClick: false,
+			DEFAULT_OPTION_COLOR,
 		}
 	},
 
@@ -70,6 +103,13 @@ export default {
 			return this.getOptions.filter(item => {
 				return !item.deleted
 			})
+		},
+		getOptionColor() {
+			const option = this.getOptionObject(this.value)
+			return option?.color || DEFAULT_OPTION_COLOR
+		},
+		getContrastTextColor() {
+			return getContrastColor(this.getOptionColor)
 		},
 	},
 
@@ -92,6 +132,7 @@ export default {
 
 	methods: {
 		t,
+		getContrastColor,
 
 		handleStartEditing(event) {
 			this.isInitialEditClick = true
@@ -171,5 +212,19 @@ export default {
 
 span {
 	cursor: help;
+}
+
+.status-badge,
+.select-option-badge {
+	display: inline-block;
+	padding: 4px 12px;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.empty-value {
+	color: var(--color-text-maxcontrast);
 }
 </style>

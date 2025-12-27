@@ -51,3 +51,40 @@ export const USERGROUP_TYPE = {
 
 export const COLUMN_WIDTH_MIN = 50
 export const COLUMN_WIDTH_MAX = 1000
+
+// Status colors for selection options
+export const DEFAULT_OPTION_COLOR = '#607D8B'
+
+export const COLOR_PRESETS = [
+	'#4CAF50', // Green - Done, Approved
+	'#8BC34A', // Light Green
+	'#CDDC39', // Lime
+	'#F44336', // Red - Rejected, Blocked
+	'#E91E63', // Pink
+	'#FF5722', // Deep Orange
+	'#FF9800', // Orange - Pending
+	'#FFC107', // Amber
+	'#FFEB3B', // Yellow - Warning
+	'#2196F3', // Blue - In Progress
+	'#03A9F4', // Light Blue
+	'#00BCD4', // Cyan
+	'#9C27B0', // Purple - Review
+	'#673AB7', // Deep Purple
+	'#3F51B5', // Indigo
+	'#607D8B', // Blue Grey - Draft
+	'#9E9E9E', // Grey
+	'#795548', // Brown
+]
+
+/**
+ * Calculate contrast color (black or white) based on background color luminance
+ */
+export function getContrastColor(hexColor: string): string {
+	if (!hexColor) return '#000000'
+	const hex = hexColor.replace('#', '')
+	const r = parseInt(hex.substr(0, 2), 16)
+	const g = parseInt(hex.substr(2, 2), 16)
+	const b = parseInt(hex.substr(4, 2), 16)
+	const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+	return luminance > 0.5 ? '#000000' : '#FFFFFF'
+}

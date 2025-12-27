@@ -5,11 +5,18 @@
 <template>
 	<div class="cell-multi-selection" :style="{ opacity: !canEditCell() ? 0.6 : 1 }">
 		<div v-if="!isEditing" class="non-edit-mode" @click="handleStartEditing">
-			<ul>
-				<li v-for="v in getObjects()" :key="v.id">
+			<div class="badges-container">
+				<span
+					v-for="v in getObjects()"
+					:key="v.id"
+					class="status-badge"
+					:style="{
+						backgroundColor: v.color || DEFAULT_OPTION_COLOR,
+						color: getContrastColor(v.color || DEFAULT_OPTION_COLOR)
+					}">
 					{{ v.label }}<span v-if="v.deleted" :title="t('tablespro', 'This option is outdated.')">&nbsp;⚠️</span>
-				</li>
-			</ul>
+				</span>
+			</div>
 		</div>
 		<div v-else
 			ref="editingContainer"
@@ -24,7 +31,28 @@
 				:aria-label-combobox="t('tablespro', 'Options')"
 				:disabled="localLoading || !canEditCell()"
 				:clearable="true"
-				style="width: 100%;" />
+				style="width: 100%;">
+				<template #option="{ label, color }">
+					<span
+						class="select-option-badge"
+						:style="{
+							backgroundColor: color || DEFAULT_OPTION_COLOR,
+							color: getContrastColor(color || DEFAULT_OPTION_COLOR)
+						}">
+						{{ label }}
+					</span>
+				</template>
+				<template #selected-option="{ label, color }">
+					<span
+						class="select-option-badge"
+						:style="{
+							backgroundColor: color || DEFAULT_OPTION_COLOR,
+							color: getContrastColor(color || DEFAULT_OPTION_COLOR)
+						}">
+						{{ label }}
+					</span>
+				</template>
+			</NcSelect>
 			<div v-if="localLoading" class="loading-indicator">
 				<div class="icon-loading-small icon-loading-inline" />
 			</div>
@@ -36,6 +64,7 @@
 import { NcSelect } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import cellEditMixin from '../mixins/cellEditMixin.js'
+import { DEFAULT_OPTION_COLOR, getContrastColor } from '../../../constants.ts'
 
 export default {
 	name: 'TableCellMultiSelection',
@@ -67,6 +96,7 @@ export default {
 		return {
 			localEditValues: [],
 			isInitialEditClick: false,
+			DEFAULT_OPTION_COLOR,
 		}
 	},
 
@@ -114,6 +144,7 @@ export default {
 
 	methods: {
 		t,
+		getContrastColor,
 
 		handleStartEditing(event) {
 			this.isInitialEditClick = true
@@ -198,6 +229,22 @@ export default {
 	}
 }
 
+.badges-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.status-badge,
+.select-option-badge {
+	display: inline-block;
+	padding: 4px 12px;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
 .edit-mode {
 	.editor-buttons {
 		display: flex;
@@ -209,10 +256,5 @@ export default {
 	.icon-loading-inline {
 		margin-inline-start: 4px;
 	}
-}
-
-ul {
-	list-style-type: disc;
-	padding-inline-start: calc(var(--default-grid-baseline) * 3);
 }
 </style>

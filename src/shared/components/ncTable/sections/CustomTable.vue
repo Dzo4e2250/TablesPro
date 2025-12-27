@@ -18,11 +18,19 @@
 					@download-csv="data => $emit('download-csv', data)"
 					@select-all-rows="selectAllRows">
 					<template #actions>
+						<GroupBySelector
+							v-if="hasGroupableColumns"
+							:columns="columns"
+							:group-by="groupByColumnId"
+							@update:groupBy="setGroupBy" />
 						<slot name="actions" />
 					</template>
 				</TableHeader>
 			</thead>
+
+			<!-- NON-GROUPED VIEW -->
 			<transition-group
+				v-if="!isGrouped"
 				name="table-row"
 				tag="tbody"
 				:css="rowAnimation"
@@ -40,6 +48,64 @@
 					@update-row-selection="updateRowSelection"
 					@edit-row="rowId => $emit('edit-row', rowId)" />
 			</transition-group>
+
+			<!-- GROUPED VIEW -->
+			<tbody
+				v-for="group in groupedRows"
+				v-else
+				:key="'group-' + group.value"
+				class="row-group">
+				<!-- Group Header -->
+				<GroupHeader
+					:label="group.label"
+					:rows="group.rows"
+					:columns="columns"
+					:expanded="group.expanded"
+					:group-color="group.color"
+					@toggle="toggleGroup(group.value)" />
+
+				<!-- Group Rows (when expanded) -->
+				<template v-if="group.expanded">
+					<TableRow
+						v-for="row in group.rows"
+						:key="row.id"
+						data-cy="customTableRow"
+						:row="row"
+						:columns="columns"
+						:selected="isRowSelected(row?.id)"
+						:view-setting.sync="localViewSetting"
+						:config="config"
+						:element-id="elementId"
+						:is-view="isView"
+						@update-row-selection="updateRowSelection"
+						@edit-row="rowId => $emit('edit-row', rowId)" />
+
+					<!-- Add Item Button -->
+					<AddItemRow
+						:columns-count="columns.length"
+						@add-item="addItemToGroup(group.value)" />
+
+					<!-- Group Summary -->
+					<GroupSummary
+						:columns="columns"
+						:rows="group.rows" />
+				</template>
+			</tbody>
+
+			<!-- Summary Row (only for non-grouped view) -->
+			<tfoot v-if="!isGrouped && showSummary && hasSummaryColumns" class="summary-footer">
+				<tr class="summary-row">
+					<td class="sticky summary-label-cell">
+						<span class="summary-label">{{ t('tablespro', 'Summary') }}</span>
+					</td>
+					<td v-for="column in columns" :key="'summary-' + column.id" class="summary-data-cell">
+						<SummaryCell
+							:column="column"
+							:rows="getSearchedAndFilteredAndSortedRows" />
+					</td>
+					<td class="sticky" />
+				</tr>
+			</tfoot>
 		</table>
 		<div v-if="totalPages > 1" class="pagination-footer" :class="{'large-width': !appNavCollapsed || isMobile}">
 			<div class="pagination-items">
@@ -84,6 +150,13 @@ import PageFirstIcon from 'vue-material-design-icons/PageFirst.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import TableRow from '../partials/TableRow.vue'
+import SummaryCell from '../partials/SummaryCell.vue'
+import GroupHeader from '../partials/GroupHeader.vue'
+import GroupSummary from '../partials/GroupSummary.vue'
+import AddItemRow from '../partials/AddItemRow.vue'
+import GroupBySelector from '../partials/GroupBySelector.vue'
+import { summaryMixin } from '../mixins/summaryMixin.js'
+import { groupingMixin } from '../mixins/groupingMixin.js'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { MagicFields } from '../mixins/magicFields.js'
 import { NcButton, useIsMobile, NcSelect } from '@nextcloud/vue'
@@ -107,7 +180,14 @@ export default {
 		ChevronLeftIcon,
 		ChevronRightIcon,
 		NcSelect,
+		SummaryCell,
+		GroupHeader,
+		GroupSummary,
+		AddItemRow,
+		GroupBySelector,
 	},
+
+	mixins: [summaryMixin, groupingMixin],
 
 	props: {
 		rows: {
@@ -629,6 +709,47 @@ export default {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   transform: translateX(-1rem);
+}
+
+// Row group styles
+:deep(.row-group) {
+	&:not(:last-child) {
+		margin-bottom: 8px;
+	}
+}
+
+// Summary footer styles
+:deep(.summary-footer) {
+	position: sticky;
+	bottom: 0;
+	z-index: 5;
+
+	.summary-row {
+		background-color: var(--color-background-dark) !important;
+		border-top: 2px solid var(--color-border);
+
+		td {
+			padding: 12px 8px;
+			font-weight: 500;
+			vertical-align: top;
+		}
+
+		.summary-label-cell {
+			vertical-align: middle;
+		}
+
+		.summary-label {
+			font-size: 11px;
+			text-transform: uppercase;
+			color: var(--color-text-maxcontrast);
+			letter-spacing: 0.5px;
+			font-weight: 600;
+		}
+
+		.summary-data-cell {
+			border: none !important;
+		}
+	}
 }
 
 </style>
