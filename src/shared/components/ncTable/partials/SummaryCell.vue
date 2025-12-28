@@ -31,26 +31,18 @@
 			</div>
 		</template>
 
-		<!-- Selection columns: Progress bar -->
+		<!-- Selection columns: Full cell color bar -->
 		<template v-else-if="isSelectionColumn">
 			<div class="selection-summary">
-				<div class="progress-bar">
-					<div
-						v-for="stat in selectionStats"
-						:key="stat.id"
-						class="progress-segment"
-						:style="{
-							width: stat.percentage + '%',
-							backgroundColor: stat.color
-						}"
-						:title="`${stat.label}: ${stat.count} (${stat.percentage}%)`" />
-				</div>
-				<div class="stats-tooltip">
-					<span v-for="stat in selectionStats" :key="'label-' + stat.id" class="stat-item">
-						<span class="stat-dot" :style="{ backgroundColor: stat.color }" />
-						{{ stat.label }}: {{ stat.count }}
-					</span>
-				</div>
+				<div
+					v-for="stat in selectionStats"
+					:key="stat.id"
+					class="progress-segment"
+					:style="{
+						width: stat.percentage + '%',
+						backgroundColor: stat.color
+					}"
+					:title="`${stat.label}: ${stat.count} (${stat.percentage}%)`" />
 			</div>
 		</template>
 
@@ -115,9 +107,14 @@ export default {
 	data() {
 		return {
 			showDropdown: false,
-			selectedFunction: 'sum',
+			selectedFunction: this.getDefaultFunction(),
 			dropdownPosition: { top: 0, left: 0 },
 		}
+	},
+
+	created() {
+		// Set default function based on column type
+		this.selectedFunction = this.getDefaultFunction()
 	},
 
 	computed: {
@@ -147,6 +144,10 @@ export default {
 
 		isNumberColumn() {
 			return ['number', 'number-stars', 'number-progress'].includes(this.column.type)
+		},
+
+		isProgressColumn() {
+			return this.column.type === 'number-progress'
 		},
 
 		isSelectionColumn() {
@@ -203,6 +204,15 @@ export default {
 				return this.calculatedValue.toString()
 			}
 
+			// Progress columns always show percentage
+			if (this.isProgressColumn) {
+				const formatted = new Intl.NumberFormat('sl-SI', {
+					minimumFractionDigits: 0,
+					maximumFractionDigits: 0,
+				}).format(this.calculatedValue)
+				return `${formatted}%`
+			}
+
 			const prefix = this.column.numberPrefix || ''
 			const suffix = this.column.numberSuffix || ''
 			const decimals = this.column.numberDecimals ?? 2
@@ -253,6 +263,19 @@ export default {
 	methods: {
 		t,
 
+		getDefaultFunction() {
+			// Progress columns default to average
+			if (this.column.type === 'number-progress') {
+				return 'avg'
+			}
+			// Stars default to average
+			if (this.column.type === 'number-stars') {
+				return 'avg'
+			}
+			// Other number columns default to sum
+			return 'sum'
+		},
+
 		toggleDropdown() {
 			if (this.showDropdown) {
 				this.showDropdown = false
@@ -301,9 +324,11 @@ export default {
 
 <style lang="scss" scoped>
 .summary-cell {
-	padding: 1px 0;
-	min-height: 18px;
+	padding: 2px 0;
+	min-height: 24px;
 	position: relative;
+	display: flex;
+	justify-content: flex-end;
 
 	&.has-dropdown {
 		cursor: pointer;
@@ -311,38 +336,24 @@ export default {
 }
 
 .number-summary {
-	display: flex;
+	display: inline-flex;
 	align-items: center;
-	gap: 4px;
-	font-weight: 600;
-	padding: 3px 6px;
-	border-radius: 4px;
-	background-color: var(--color-primary-element-light);
-	border: 1px solid var(--color-primary-element);
+	gap: 8px;
 	cursor: pointer;
-	transition: all 0.15s ease;
-	font-size: 12px;
-
-	&:hover {
-		background-color: var(--color-primary-element);
-		color: white;
-
-		.func-label, .sum-value {
-			color: white;
-		}
-	}
+	margin-left: auto;
 
 	.func-label {
-		color: var(--color-primary-element);
-		font-size: 10px;
-		font-weight: 700;
-		min-width: 12px;
+		color: var(--color-text-maxcontrast);
+		font-size: 13px;
+		font-weight: 600;
+		min-width: 16px;
 		text-align: center;
 	}
 
 	.sum-value {
 		color: var(--color-main-text);
-		flex: 1;
+		font-size: 17px;
+		font-weight: 600;
 	}
 
 	.dropdown-icon {
@@ -353,6 +364,10 @@ export default {
 
 	&:hover .dropdown-icon {
 		opacity: 1;
+	}
+
+	&:hover .func-label {
+		color: var(--color-primary-element);
 	}
 }
 
@@ -408,44 +423,21 @@ export default {
 }
 
 .selection-summary {
-	.progress-bar {
-		display: flex;
-		height: 6px;
-		border-radius: 3px;
-		overflow: hidden;
-		background: var(--color-background-dark);
-		margin-bottom: 2px;
-	}
+	display: flex;
+	position: absolute;
+	inset: 0;
+	margin: -4px -6px;
 
 	.progress-segment {
+		height: 100%;
 		transition: width 0.3s ease;
-	}
-
-	.stats-tooltip {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px;
-		font-size: 10px;
-		color: var(--color-text-maxcontrast);
-	}
-
-	.stat-item {
-		display: flex;
-		align-items: center;
-		gap: 3px;
-	}
-
-	.stat-dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		flex-shrink: 0;
+		cursor: help;
 	}
 }
 
 .count-summary {
 	color: var(--color-text-maxcontrast);
-	font-size: 11px;
+	font-size: 13px;
 }
 
 .empty-summary {

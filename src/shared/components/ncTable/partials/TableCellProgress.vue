@@ -6,6 +6,7 @@
 	<div class="cell-progress" :style="{ opacity: !canEditCell() ? 0.6 : 1 }" @click="startEditingProgress">
 		<div v-if="!isEditing" class="progress-display">
 			<NcProgressBar :value="getValue" />
+			<span class="progress-percentage">{{ getValue }}%</span>
 		</div>
 		<div v-else class="inline-editing-container">
 			<input ref="input" v-model="editValue" type="number" min="0" max="100" :disabled="localLoading"
@@ -96,7 +97,6 @@ export default {
 	cursor: pointer;
 
 	div {
-		min-height: 20px;
         display: flex;
         align-items: center;
 	}
@@ -104,8 +104,17 @@ export default {
 
 .progress-display {
 	width: 100%;
-	min-height: 20px;
 	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.progress-percentage {
+	font-size: 0.85em;
+	color: var(--color-text-maxcontrast);
+	min-width: 36px;
+	text-align: right;
 }
 
 .empty-progress-placeholder {

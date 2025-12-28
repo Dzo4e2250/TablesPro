@@ -94,12 +94,16 @@
 			</tbody>
 
 			<!-- Summary Row (only for non-grouped view) -->
-			<tfoot v-if="!isGrouped && showSummary && hasSummaryColumns" class="summary-footer">
+			<tfoot v-if="!isGrouped && showSummary && hasSummaryColumns" class="summary-footer" :class="{ 'first-col-text': firstColumnIsText }">
 				<tr class="summary-row">
 					<td class="sticky summary-label-cell">
 						<span class="item-count">{{ getSearchedAndFilteredAndSortedRows.length }}</span>
 					</td>
-					<td v-for="column in columns" :key="'summary-' + column.id" class="summary-data-cell" :style="getColumnStyle(column)">
+					<td v-for="(column, index) in visibleColumns"
+						:key="'summary-' + column.id"
+						class="summary-data-cell"
+						:class="{ 'first-col': index === 0 }"
+						:style="getColumnStyle(column)">
 						<SummaryCell
 							v-if="hasSummary(column)"
 							:column="column"
@@ -238,6 +242,14 @@ export default {
 
 	computed: {
 		...mapState(useTablesStore, ['appNavCollapsed']),
+		visibleColumns() {
+			return this.columns.filter(col => !this.viewSetting?.hiddenColumns?.includes(col.id))
+		},
+		firstColumnIsText() {
+			const firstCol = this.visibleColumns[0]
+			if (!firstCol) return false
+			return ['text-line', 'text-long', 'text-rich', 'text-link'].includes(firstCol.type)
+		},
 		allPageNumbersArray() {
 			return Array.from(
 				{ length: this.totalPages },
@@ -584,7 +596,7 @@ export default {
 	// white-space: nowrap;
 
 	td, th {
-		padding: 4px 6px; // Compact padding matching summary
+		padding: 4px 6px;
 		max-width: 500px;
 		vertical-align: middle;
 	}
@@ -602,7 +614,6 @@ export default {
 	}
 
 	tr {
-		// Auto height based on content - compact rows
 		background-color: var(--color-main-background);
 		transition: background-color 0.1s ease;
 	}
@@ -631,11 +642,17 @@ export default {
 	}
 
 	tbody {
+		// Compact data rows - 20% thinner than default
+		tr {
+			height: 32px;
+		}
 
 		td {
 			text-align: start;
 			vertical-align: middle;
 			border-bottom: 1px solid var(--color-border-dark);
+			padding: 2px 6px !important;
+			line-height: 1.2;
 			// Vertical column separators
 			border-inline-end: 1px solid var(--color-border);
 
@@ -778,12 +795,14 @@ export default {
 
 	.summary-row {
 		background-color: var(--color-background-dark) !important;
-		border-top: 1px solid var(--color-border);
+		border-top: 8px solid var(--color-main-background);
+		box-shadow: inset 0 1px 0 var(--color-border);
 
 		td {
-			padding: 4px 6px;
+			padding: 6px 8px;
 			font-weight: 500;
 			vertical-align: middle;
+			font-size: 15px;
 			// Vertical column separators matching header
 			border-inline-end: 1px solid var(--color-border);
 
@@ -798,7 +817,7 @@ export default {
 		}
 
 		.item-count {
-			font-size: 11px;
+			font-size: 13px;
 			color: var(--color-text-maxcontrast);
 			font-weight: 500;
 		}
@@ -812,7 +831,40 @@ export default {
 		}
 
 		.summary-data-cell {
-			border: none !important;
+			border-inline-end: 1px solid var(--color-border-dark) !important;
+			border-left: 3px solid var(--color-main-background) !important;
+			border-top: 1px solid var(--color-border-dark) !important;
+			box-shadow: inset 1px 0 0 var(--color-border-dark);
+		}
+	}
+
+	// When first column is text, don't color the first cell and label cell
+	&.first-col-text {
+		.summary-row {
+			background-color: transparent !important;
+			box-shadow: none;
+		}
+
+		.summary-label-cell {
+			background-color: var(--color-main-background) !important;
+			border-top: none !important;
+		}
+
+		.summary-data-cell.first-col {
+			background-color: var(--color-main-background) !important;
+			border-top: none !important;
+			border-left: none !important;
+			box-shadow: none !important;
+		}
+
+		.summary-data-cell:not(.first-col) {
+			background-color: var(--color-background-dark) !important;
+			border-top: 1px solid var(--color-border-dark) !important;
+		}
+
+		td.sticky:last-child {
+			background-color: var(--color-background-dark) !important;
+			border-top: 1px solid var(--color-border-dark) !important;
 		}
 	}
 }

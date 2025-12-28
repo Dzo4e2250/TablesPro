@@ -3,70 +3,77 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="cell-selection">
-		<div v-if="!isEditing" class="non-edit-mode" @click="handleStartEditing">
-			<span
-				v-if="value !== null"
-				class="status-badge"
-				:style="{
-					backgroundColor: getOptionColor,
-					color: getContrastTextColor
-				}">
+	<div class="cell-selection"
+		ref="cellRef"
+		:class="{ 'has-value': value !== null }"
+		:style="value !== null ? {
+			backgroundColor: getOptionColor,
+			color: getContrastTextColor
+		} : {}"
+		@click.stop="toggleDropdown">
+		<div class="cell-content">
+			<span v-if="value !== null" class="status-label">
 				{{ column.getLabel(value) }}
 			</span>
 			<span v-else class="empty-value">-</span>
 			<span v-if="isDeleted()" :title="t('tablespro', 'This option is outdated.')">&nbsp;⚠️</span>
+			<ChevronDown v-if="canEditCell()" class="dropdown-arrow" :size="16" />
+			<div v-if="localLoading" class="icon-loading-small" />
 		</div>
-		<div v-else
-			ref="editingContainer"
-			class="edit-mode"
-			tabindex="0"
-			@keydown.enter.stop="saveChanges"
-			@keydown.escape.stop="cancelEdit">
-			<NcSelect v-model="editValue"
-				:options="getAllNonDeletedOptions"
-				:aria-label-combobox="t('tablespro', 'Options')"
-				:disabled="localLoading || !canEditCell()"
-				style="width: 100%;">
-				<template #option="{ label, color }">
-					<span
-						class="select-option-badge"
-						:style="{
-							backgroundColor: color || DEFAULT_OPTION_COLOR,
-							color: getContrastColor(color || DEFAULT_OPTION_COLOR)
-						}">
-						{{ label }}
-					</span>
-				</template>
-				<template #selected-option="{ label, color }">
-					<span
-						class="select-option-badge"
-						:style="{
-							backgroundColor: color || DEFAULT_OPTION_COLOR,
-							color: getContrastColor(color || DEFAULT_OPTION_COLOR)
-						}">
-						{{ label }}
-					</span>
-				</template>
-			</NcSelect>
-			<div v-if="localLoading" class="loading-indicator">
-				<div class="icon-loading-small icon-loading-inline" />
-			</div>
+
+		<!-- Dropdown menu -->
+		<div v-if="showDropdown"
+			v-click-outside="closeDropdown"
+			class="options-dropdown"
+			:style="dropdownStyle">
+			<button
+				v-for="option in getAllNonDeletedOptions"
+				:key="option.id"
+				class="option-item"
+				:class="{ active: value === option.id }"
+				:style="{
+					backgroundColor: option.color || DEFAULT_OPTION_COLOR,
+					color: getContrastColor(option.color || DEFAULT_OPTION_COLOR)
+				}"
+				@click.stop="selectOption(option)">
+				{{ option.label }}
+				<Check v-if="value === option.id" :size="16" />
+			</button>
 		</div>
 	</div>
 </template>
 
 <script>
-import { NcSelect } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import cellEditMixin from '../mixins/cellEditMixin.js'
 import { DEFAULT_OPTION_COLOR, getContrastColor } from '../../../constants.ts'
+import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 
 export default {
 	name: 'TableCellSelection',
 
 	components: {
-		NcSelect,
+		ChevronDown,
+		Check,
+	},
+
+	directives: {
+		'click-outside': {
+			bind(el, binding) {
+				el._clickOutside = (event) => {
+					if (!(el === event.target || el.contains(event.target))) {
+						binding.value(event)
+					}
+				}
+				setTimeout(() => {
+					document.addEventListener('click', el._clickOutside)
+				}, 0)
+			},
+			unbind(el) {
+				document.removeEventListener('click', el._clickOutside)
+			},
+		},
 	},
 
 	mixins: [cellEditMixin],
@@ -90,7 +97,8 @@ export default {
 
 	data() {
 		return {
-			isInitialEditClick: false,
+			showDropdown: false,
+			dropdownPosition: { top: 0, left: 0 },
 			DEFAULT_OPTION_COLOR,
 		}
 	},
@@ -111,21 +119,11 @@ export default {
 		getContrastTextColor() {
 			return getContrastColor(this.getOptionColor)
 		},
-	},
-
-	watch: {
-		isEditing(isEditing) {
-			if (isEditing) {
-				this.initEditValue()
-				// Add click outside listener after the current event loop
-				// to avoid the same click that triggered editing from closing the editor
-				this.$nextTick(() => {
-					document.addEventListener('click', this.handleClickOutside)
-				})
-			} else {
-				// Remove click outside listener
-				document.removeEventListener('click', this.handleClickOutside)
-				this.isInitialEditClick = false
+		dropdownStyle() {
+			return {
+				position: 'fixed',
+				top: `${this.dropdownPosition.top}px`,
+				left: `${this.dropdownPosition.left}px`,
 			}
 		},
 	},
@@ -134,11 +132,27 @@ export default {
 		t,
 		getContrastColor,
 
-		handleStartEditing(event) {
-			this.isInitialEditClick = true
-			this.startEditing()
-			// Stop the event from propagating to avoid immediate click outside
-			event.stopPropagation()
+		toggleDropdown() {
+			if (!this.canEditCell()) return
+
+			if (this.showDropdown) {
+				this.showDropdown = false
+				return
+			}
+
+			const cell = this.$refs.cellRef
+			if (cell) {
+				const rect = cell.getBoundingClientRect()
+				this.dropdownPosition = {
+					top: rect.bottom + 4,
+					left: rect.left,
+				}
+			}
+			this.showDropdown = true
+		},
+
+		closeDropdown() {
+			this.showDropdown = false
 		},
 
 		isDeleted() {
@@ -149,41 +163,15 @@ export default {
 			return this.getOptions.find(e => e.id === id) || null
 		},
 
-		initEditValue() {
-			if (this.value !== null) {
-				this.editValue = this.getOptionObject(parseInt(this.value))
-			} else {
-				this.editValue = null
-			}
-		},
-		async saveChanges() {
-			if (this.localLoading) {
-				return
-			}
+		async selectOption(option) {
+			if (this.localLoading) return
 
-			const newValue = this.editValue?.id
+			this.showDropdown = false
 
-			const success = await this.updateCellValue(newValue)
+			if (option.id === this.value) return
 
-			if (!success) {
-				this.cancelEdit()
-			}
-
+			await this.updateCellValue(option.id)
 			this.localLoading = false
-			this.isEditing = false
-		},
-
-		handleClickOutside(event) {
-			// Ignore the initial click that started editing
-			if (this.isInitialEditClick) {
-				this.isInitialEditClick = false
-				return
-			}
-
-			// Check if the click is outside the editing container
-			if (this.$refs.editingContainer && !this.$refs.editingContainer.contains(event.target)) {
-				this.saveChanges()
-			}
 		},
 	},
 }
@@ -192,33 +180,32 @@ export default {
 <style lang="scss" scoped>
 .cell-selection {
 	width: 100%;
+	margin: -2px -6px;
+	padding: 4px 8px;
+	cursor: pointer;
+	position: relative;
 
-	.non-edit-mode {
-		cursor: pointer;
+	.cell-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
 		min-height: 20px;
 	}
-}
 
-:deep(.vs__dropdown-toggle) {
-    border: var(--vs-border-width) var(--vs-border-style) var(--vs-border-color);
-    border-radius: var(--vs-border-radius);
-}
+	.dropdown-arrow {
+		position: absolute;
+		right: 4px;
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
 
-.edit-mode {
-	.icon-loading-inline {
-		margin-inline-start: 4px;
+	&:hover .dropdown-arrow {
+		opacity: 0.7;
 	}
 }
 
-span {
-	cursor: help;
-}
-
-.status-badge,
-.select-option-badge {
-	display: inline-block;
-	padding: 4px 12px;
-	border-radius: 12px;
+.status-label {
 	font-size: 13px;
 	font-weight: 500;
 	white-space: nowrap;
@@ -226,5 +213,42 @@ span {
 
 .empty-value {
 	color: var(--color-text-maxcontrast);
+}
+
+.options-dropdown {
+	min-width: 150px;
+	background: var(--color-main-background);
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+	z-index: 10000;
+	padding: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+
+	.option-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		width: 100%;
+		padding: 8px 12px;
+		border: none;
+		cursor: pointer;
+		border-radius: 6px;
+		text-align: left;
+		font-size: 13px;
+		font-weight: 500;
+		transition: filter 0.15s ease;
+
+		&:hover {
+			filter: brightness(0.95);
+		}
+
+		&.active {
+			filter: brightness(0.9);
+		}
+	}
 }
 </style>

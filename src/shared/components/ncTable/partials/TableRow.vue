@@ -229,8 +229,15 @@ tr.selected {
 	padding: calc(var(--default-grid-baseline) * 3);
 }
 
+:deep(.checkbox-radio-switch) {
+	min-height: unset !important;
+	height: 20px !important;
+}
+
 :deep(.checkbox-radio-switch__icon) {
 	margin: 0;
+	width: 18px !important;
+	height: 18px !important;
 }
 
 td.fixed-width {

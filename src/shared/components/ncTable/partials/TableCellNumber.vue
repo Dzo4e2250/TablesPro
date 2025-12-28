@@ -4,8 +4,30 @@
 -->
 <template>
 	<div class="cell-number" :style="{ opacity: !canEditCell() ? 0.6 : 1 }">
-		<div v-if="!isEditing" class="number-display" @click="startEditing">
-			{{ column.numberPrefix }}{{ getValue }}{{ column.numberSuffix }}
+		<div v-if="!isEditing" class="number-display-wrapper">
+			<button
+				v-if="canEditCell() && !localLoading"
+				class="stepper-btn stepper-minus"
+				:disabled="isAtMin"
+				:title="t('tablespro', 'Decrease')"
+				@click.stop="decrement">
+				<Minus :size="14" />
+			</button>
+			<div class="number-display" @click="startEditing">
+				<template v-if="getValue !== null">
+					{{ column.numberPrefix }}{{ getValue }}{{ column.numberSuffix }}
+				</template>
+				<span v-else class="empty-placeholder">—</span>
+			</div>
+			<button
+				v-if="canEditCell() && !localLoading"
+				class="stepper-btn stepper-plus"
+				:disabled="isAtMax"
+				:title="t('tablespro', 'Increase')"
+				@click.stop="increment">
+				<Plus :size="14" />
+			</button>
+			<div v-if="localLoading" class="icon-loading-small" />
 		</div>
 		<div v-else class="inline-editing-container">
 			<div v-if="column.numberPrefix" class="number-prefix">
@@ -24,9 +46,16 @@
 
 <script>
 import cellEditMixin from '../mixins/cellEditMixin.js'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import Minus from 'vue-material-design-icons/Minus.vue'
 
 export default {
 	name: 'TableCellNumber',
+
+	components: {
+		Plus,
+		Minus,
+	},
 
 	mixins: [cellEditMixin],
 
@@ -62,9 +91,39 @@ export default {
 				return null
 			}
 		},
+		isAtMin() {
+			if (this.getMin === null) return false
+			return this.value !== null && this.value <= this.getMin
+		},
+		isAtMax() {
+			if (this.getMax === null) return false
+			return this.value !== null && this.value >= this.getMax
+		},
 	},
 
 	methods: {
+		async increment() {
+			if (this.localLoading) return
+			const currentValue = this.value ?? 0
+			let newValue = currentValue + 1
+			if (this.getMax !== null && newValue > this.getMax) {
+				newValue = this.getMax
+			}
+			await this.updateCellValue(newValue)
+			this.localLoading = false
+		},
+
+		async decrement() {
+			if (this.localLoading) return
+			const currentValue = this.value ?? 0
+			let newValue = currentValue - 1
+			if (this.getMin !== null && newValue < this.getMin) {
+				newValue = this.getMin
+			}
+			await this.updateCellValue(newValue)
+			this.localLoading = false
+		},
+
 		async saveChanges() {
 			// Prevent multiple executions of saveChanges
 			if (this.localLoading) {
@@ -104,16 +163,50 @@ export default {
 .cell-number {
 	width: 100%;
 	text-align: end;
+}
 
-	div {
-		min-height: 20px;
-	}
+.number-display-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2px;
 }
 
 .number-display {
-	width: 100%;
-	min-height: 20px;
 	cursor: pointer;
+	flex-grow: 1;
+	text-align: end;
+}
+
+.stepper-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: var(--border-radius-small);
+	background: transparent;
+	color: var(--color-text-maxcontrast);
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+	&:hover:not(:disabled) {
+		background-color: var(--color-primary-element-light);
+		color: var(--color-primary-element);
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.3 !important;
+	}
+}
+
+.number-display-wrapper:hover .stepper-btn {
+	opacity: 1;
 }
 
 .inline-editing-container {
@@ -129,5 +222,10 @@ export default {
 .number-prefix,
 .number-suffix {
 	padding: 0 4px;
+}
+
+.empty-placeholder {
+	color: var(--color-text-maxcontrast);
+	opacity: 0.5;
 }
 </style>

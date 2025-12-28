@@ -91,11 +91,15 @@ export default {
 
 .row.first-row {
 	position: sticky;
-	inset-inline-start: 0;
+	left: 0;
 	top: 0;
 	z-index: 15;
 	background-color: var(--color-main-background);
 	align-items: center;
+	/* Ensure title stays fixed on horizontal scroll */
+	width: max-content;
+	max-width: calc(100vw - var(--app-navigation-width, 300px) - 50px);
+	padding-right: 16px;
 }
 
 .user-bubble {
