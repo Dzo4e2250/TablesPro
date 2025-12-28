@@ -22,19 +22,43 @@
 				:element-id="elementId"
 				:is-view="isView" />
 		</td>
-		<td v-if="config.showActions" :class="{sticky: config.showActions}">
-			<NcButton v-if="config.canEditRows || config.canDeleteRows" type="primary" :aria-label="t('tablespro', 'Edit row')" data-cy="editRowBtn" @click="$emit('edit-row', row.id)">
+		<td v-if="config.showActions" :class="{sticky: config.showActions}" class="row-actions">
+			<NcButton v-if="config.canEditRows || config.canDeleteRows"
+				type="primary"
+				:aria-label="t('tablespro', 'Edit row')"
+				data-cy="editRowBtn"
+				@click="$emit('edit-row', row.id)">
 				<template #icon>
 					<Fullscreen :size="20" />
 				</template>
 			</NcButton>
+			<NcActions v-if="config.canEditRows || config.canDeleteRows">
+				<NcActionButton v-if="config.canEditRows"
+					:close-after-click="true"
+					@click="$emit('duplicate-row', row)">
+					<template #icon>
+						<ContentCopy :size="20" />
+					</template>
+					{{ t('tablespro', 'Duplicate row') }}
+				</NcActionButton>
+				<NcActionButton v-if="config.canDeleteRows"
+					:close-after-click="true"
+					@click="$emit('delete-row', row.id)">
+					<template #icon>
+						<Delete :size="20" />
+					</template>
+					{{ t('tablespro', 'Delete row') }}
+				</NcActionButton>
+			</NcActions>
 		</td>
 	</tr>
 </template>
 
 <script>
-import { NcCheckboxRadioSwitch, NcButton } from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcButton, NcActions, NcActionButton } from '@nextcloud/vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
 import TableCellHtml from './TableCellHtml.vue'
 import TableCellProgress from './TableCellProgress.vue'
 import TableCellLink from './TableCellLink.vue'
@@ -49,6 +73,7 @@ import TableCellTextRich from './TableCellEditor.vue'
 import TableCellUsergroup from './TableCellUsergroup.vue'
 import { ColumnTypes, getColumnWidthStyle } from './../mixins/columnHandler.js'
 import { translate as t } from '@nextcloud/l10n'
+import { emit } from '@nextcloud/event-bus'
 import {
 	TYPE_META_ID, TYPE_META_CREATED_BY, TYPE_META_CREATED_AT, TYPE_META_UPDATED_BY, TYPE_META_UPDATED_AT,
 } from '../../../../shared/constants.ts'
@@ -64,7 +89,11 @@ export default {
 		TableCellProgress,
 		TableCellHtml,
 		NcButton,
+		NcActions,
+		NcActionButton,
 		Fullscreen,
+		ContentCopy,
+		Delete,
 		NcCheckboxRadioSwitch,
 		TableCellDateTime,
 		TableCellTextLine,
@@ -243,6 +272,12 @@ tr.selected {
 td.fixed-width {
 	overflow: hidden;
 	white-space: normal;
+}
+
+td.row-actions {
+	display: flex;
+	gap: 4px;
+	align-items: center;
 }
 
 </style>

@@ -24,6 +24,8 @@
 		@delete-column="deleteColumn"
 		@create-row="createRow"
 		@edit-row="editRow"
+		@duplicate-row="duplicateRow"
+		@delete-row="deleteRow"
 		@delete-selected-rows="deleteSelectedRows">
 		<template #actions>
 			<slot name="actions" />
@@ -36,6 +38,7 @@
 import NcTable from '../../../shared/components/ncTable/NcTable.vue'
 import { emit } from '@nextcloud/event-bus'
 import permissionsMixin from '../../../shared/components/ncTable/mixins/permissionsMixin.js'
+import { useDataStore } from '../../../store/data.js'
 
 export default {
 	name: 'TableView',
@@ -132,6 +135,19 @@ export default {
 		},
 		deleteSelectedRows(rows) {
 			emit('tables:row:delete', { rows, isView: this.isView, elementId: this.element.id })
+		},
+		async duplicateRow(row) {
+			const dataStore = useDataStore()
+			const tableId = this.isView ? this.element.tableId : this.element.id
+			await dataStore.duplicateRow({
+				row,
+				isView: this.isView,
+				elementId: this.element.id,
+				tableId,
+			})
+		},
+		deleteRow(rowId) {
+			emit('tables:row:delete', { rows: [rowId], isView: this.isView, elementId: this.element.id })
 		},
 
 		toggleShare() {

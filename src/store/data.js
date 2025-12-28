@@ -258,6 +258,19 @@ export const useDataStore = defineStore('data', {
 			return true
 		},
 
+		async duplicateRow({ row, isView, elementId, tableId }) {
+			// Extract data from the row, excluding meta columns (negative IDs)
+			const data = row.data
+				.filter(item => item.columnId > 0)
+				.map(item => ({
+					columnId: item.columnId,
+					value: item.value,
+				}))
+
+			const viewId = isView ? elementId : null
+			return await this.insertNewRow({ viewId, tableId, data })
+		},
+
 		async checkRowInView({ rowId, viewId }) {
 			try {
 				const res = await axios.get(generateUrl('/apps/tablespro/view/{viewId}/row/{rowId}/present', { viewId, rowId }))

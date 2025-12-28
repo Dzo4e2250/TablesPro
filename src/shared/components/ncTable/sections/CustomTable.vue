@@ -46,7 +46,9 @@
 					:element-id="elementId"
 					:is-view="isView"
 					@update-row-selection="updateRowSelection"
-					@edit-row="rowId => $emit('edit-row', rowId)" />
+					@edit-row="rowId => $emit('edit-row', rowId)"
+					@duplicate-row="row => $emit('duplicate-row', row)"
+					@delete-row="rowId => $emit('delete-row', rowId)" />
 			</transition-group>
 
 			<!-- GROUPED VIEW -->
@@ -78,7 +80,9 @@
 						:element-id="elementId"
 						:is-view="isView"
 						@update-row-selection="updateRowSelection"
-						@edit-row="rowId => $emit('edit-row', rowId)" />
+						@edit-row="rowId => $emit('edit-row', rowId)"
+						@duplicate-row="row => $emit('duplicate-row', row)"
+						@delete-row="rowId => $emit('delete-row', rowId)" />
 
 					<!-- Add Item Button -->
 					<AddItemRow
