@@ -148,12 +148,20 @@
 				</template>
 			</NcActionButton>
 		</template>
-		<ul>
-			<NavigationViewItem v-for="view in getViews"
-				:key="'view'+view.id"
-				:view="view"
-				:show-share-sender="false" />
-		</ul>
+		<Container
+			tag="ul"
+			group-name="views"
+			:get-child-payload="getViewPayload"
+			:should-accept-drop="() => canManageElement(table)"
+			drag-class="view-ghost"
+			drop-class="view-ghost-drop"
+			@drop="onViewDrop">
+			<Draggable v-for="view in getViews" :key="'view'+view.id">
+				<NavigationViewItem
+					:view="view"
+					:show-share-sender="false" />
+			</Draggable>
+		</Container>
 	</NcAppNavigationItem>
 </template>
 
@@ -179,6 +187,7 @@ import PlaylistPlus from 'vue-material-design-icons/PlaylistPlus.vue'
 import IconRename from 'vue-material-design-icons/RenameOutline.vue'
 import ActivityIcon from 'vue-material-design-icons/LightningBolt.vue'
 import { generateUrl } from '@nextcloud/router'
+import { Container, Draggable } from 'vue-smooth-dnd'
 
 export default {
 
@@ -200,6 +209,8 @@ export default {
 		PlaylistPlus,
 		DeleteOutline,
 		ActivityIcon,
+		Container,
+		Draggable,
 	},
 
 	filters: {
@@ -240,7 +251,9 @@ export default {
 			return getCurrentUser().uid
 		},
 		getViews() {
-			return this.views.filter(v => v.tableId === this.table.id && v.title.toLowerCase().includes(this.filterString.toLowerCase()))
+			return this.views
+				.filter(v => v.tableId === this.table.id && v.title.toLowerCase().includes(this.filterString.toLowerCase()))
+				.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
 		},
 		hasViews() {
 			return this.getViews.length > 0
@@ -259,13 +272,33 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions(useTablesStore, ['favoriteTable', 'removeFavoriteTable', 'updateTable']),
+		...mapActions(useTablesStore, ['favoriteTable', 'removeFavoriteTable', 'updateTable', 'updateViewOrder']),
 		emit,
 		deleteTable() {
 			emit('tables:table:delete', this.table)
 		},
 		createView() {
 			emit('tables:view:create', { tableId: this.table.id })
+		},
+		getViewPayload(index) {
+			return this.getViews[index]
+		},
+		async onViewDrop(dropResult) {
+			const { removedIndex, addedIndex } = dropResult
+			if (removedIndex === null || addedIndex === null || removedIndex === addedIndex) {
+				return
+			}
+
+			// Reorder the views array
+			const views = [...this.getViews]
+			const [removed] = views.splice(removedIndex, 1)
+			views.splice(addedIndex, 0, removed)
+
+			// Get the new order of view IDs
+			const viewIds = views.map(v => v.id)
+
+			// Update the order on the server
+			await this.updateViewOrder({ tableId: this.table.id, viewIds })
 		},
 
 		exportFile() {
@@ -367,6 +400,29 @@ export default {
 
 	.app-navigation-entry__counter-wrapper .counter-bubble__counter {
 		display: inline;
+	}
+}
+
+// Drag and drop styles for views
+.view-ghost {
+	opacity: 0.7;
+	background-color: var(--color-primary-element-light);
+	border-radius: var(--border-radius);
+}
+
+.view-ghost-drop {
+	opacity: 0.5;
+}
+
+:deep(.smooth-dnd-container) {
+	min-height: 0;
+}
+
+:deep(.smooth-dnd-draggable-wrapper) {
+	cursor: grab;
+
+	&:active {
+		cursor: grabbing;
 	}
 }
 

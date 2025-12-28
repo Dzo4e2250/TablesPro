@@ -74,6 +74,11 @@ class ViewMapper extends QBMapper {
 		if ($tableId !== null) {
 			$qb->where($qb->expr()->eq('v.table_id', $qb->createNamedParameter($tableId, IQueryBuilder::PARAM_INT)));
 		}
+
+		// Sort by order, then by id as fallback
+		$qb->orderBy('v.order', 'ASC')
+			->addOrderBy('v.id', 'ASC');
+
 		return $this->findEntities($qb);
 	}
 

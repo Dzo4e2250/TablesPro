@@ -246,6 +246,25 @@ export const useTablesStore = defineStore('store', {
 			return true
 		},
 
+		async updateViewOrder({ tableId, viewIds }) {
+			try {
+				const res = await axios.put(generateUrl('/apps/tablespro/view/table/' + tableId + '/order'), { viewIds })
+				// Update the views in the store with the new order
+				const views = this.views
+				res.data.forEach(updatedView => {
+					const index = views.findIndex(v => v.id === updatedView.id)
+					if (index !== -1) {
+						views[index] = updatedView
+					}
+				})
+				this.setViews([...views])
+				return true
+			} catch (e) {
+				displayError(e, t('tablespro', 'Could not update view order.'))
+				return false
+			}
+		},
+
 		async reloadViewsOfTable({ tableId }) {
 			let res = null
 			try {

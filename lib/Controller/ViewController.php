@@ -100,6 +100,19 @@ class ViewController extends Controller {
 	}
 
 	/**
+	 * Update the order of views within a table
+	 * @param int $tableId The table ID
+	 * @param array $viewIds Array of view IDs in the desired order
+	 */
+	#[NoAdminRequired]
+	#[RequirePermission(permission: Application::PERMISSION_MANAGE, type: Application::NODE_TYPE_TABLE, idParam: 'tableId')]
+	public function updateOrder(int $tableId, array $viewIds): DataResponse {
+		return $this->handleError(function () use ($tableId, $viewIds) {
+			return $this->service->updateViewOrder($tableId, $viewIds, $this->userId);
+		});
+	}
+
+	/**
 	 * @param int $tableId
 	 * @param bool $skipTableEnhancement
 	 * @return Table

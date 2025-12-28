@@ -79,6 +79,7 @@ return [
 		['name' => 'view#create', 'url' => '/view', 'verb' => 'POST'],
 		['name' => 'view#update', 'url' => '/view/{id}', 'verb' => 'PUT'],
 		['name' => 'view#destroy', 'url' => '/view/{id}', 'verb' => 'DELETE'],
+		['name' => 'view#updateOrder', 'url' => '/view/table/{tableId}/order', 'verb' => 'PUT'],
 
 		// rows
 		['name' => 'row#index', 'url' => '/row/table/{tableId}', 'verb' => 'GET'],

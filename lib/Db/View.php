@@ -65,6 +65,8 @@ use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
  * @method setGroupingColumnId(?int $groupingColumnId)
  * @method getCardTitleColumnId(): ?int
  * @method setCardTitleColumnId(?int $cardTitleColumnId)
+ * @method getOrder(): int
+ * @method setOrder(int $order)
  */
 class View extends EntitySuper implements JsonSerializable {
 	protected ?string $title = null;
@@ -81,6 +83,7 @@ class View extends EntitySuper implements JsonSerializable {
 	protected string $viewType = 'table'; // table, board
 	protected ?int $groupingColumnId = null; // for board view
 	protected ?int $cardTitleColumnId = null; // for board view
+	protected int $order = 0; // for view ordering within table
 
 	// virtual properties
 	protected ?bool $isShared = null;
@@ -98,6 +101,7 @@ class View extends EntitySuper implements JsonSerializable {
 		$this->addType('tableId', 'integer');
 		$this->addType('groupingColumnId', 'integer');
 		$this->addType('cardTitleColumnId', 'integer');
+		$this->addType('order', 'integer');
 	}
 
 	/**
@@ -219,6 +223,7 @@ class View extends EntitySuper implements JsonSerializable {
 			'viewType' => $this->viewType ?: 'table',
 			'groupingColumnId' => $this->groupingColumnId,
 			'cardTitleColumnId' => $this->cardTitleColumnId,
+			'order' => $this->order ?? 0,
 		];
 		$serialisedJson['filter'] = $this->getFilterArray();
 

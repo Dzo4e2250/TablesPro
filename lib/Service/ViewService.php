@@ -228,6 +228,52 @@ class ViewService extends SuperService {
 		return $newItem;
 	}
 
+	/**
+	 * Update the order of views within a table
+	 * @param int $tableId The table ID
+	 * @param array $viewIds Array of view IDs in the desired order
+	 * @param string|null $userId
+	 * @return array Updated views
+	 * @throws InternalError
+	 * @throws PermissionError
+	 */
+	public function updateViewOrder(int $tableId, array $viewIds, ?string $userId = null): array {
+		$userId = $this->permissionsService->preCheckUserId($userId);
+
+		try {
+			// Get all views for this table to verify they exist and user has permission
+			$allViews = $this->mapper->findAll($tableId);
+			$viewMap = [];
+			foreach ($allViews as $view) {
+				$viewMap[$view->getId()] = $view;
+			}
+
+			// Verify all provided view IDs belong to this table
+			foreach ($viewIds as $viewId) {
+				if (!isset($viewMap[$viewId])) {
+					throw new InternalError('View with ID ' . $viewId . ' not found in table ' . $tableId);
+				}
+			}
+
+			// Update the order for each view
+			foreach ($viewIds as $order => $viewId) {
+				$view = $viewMap[$viewId];
+				$view->setOrder($order);
+				$this->mapper->update($view);
+			}
+
+			// Return updated views
+			$updatedViews = $this->mapper->findAll($tableId);
+			foreach ($updatedViews as $view) {
+				$this->enhanceView($view, $userId);
+			}
+			return $updatedViews;
+		} catch (\OCP\DB\Exception $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			throw new InternalError($e->getMessage());
+		}
+	}
+
 
 	/**
 	 * @param int $id
