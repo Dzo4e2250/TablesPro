@@ -132,6 +132,7 @@ export default {
 		NcAppSettingsSection,
 		NcEmojiPicker,
 		NcButton,
+		NcSelect,
 		FilterForm,
 		SelectedViewColumns,
 		SortForm,

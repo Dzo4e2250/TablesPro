@@ -45,6 +45,12 @@ class TableTemplateService {
 	public function getTemplateList(): array {
 		return [
 			[
+				'name' => 'kanban',
+				'title' => $this->l->t('Kanban Board'),
+				'icon' => '📋',
+				'description' => $this->l->t('Project board with columns for To Do, In Progress, and Done.')
+			],
+			[
 				'name' => 'todo',
 				'title' => $this->l->t('ToDo list'),
 				'icon' => '✅',
@@ -88,7 +94,9 @@ class TableTemplateService {
 	 * @throws PermissionError
 	 */
 	public function makeTemplate(Table $table, string $template): Table {
-		if ($template === 'todo') {
+		if ($template === 'kanban') {
+			$this->makeKanban($table);
+		} elseif ($template === 'todo') {
 			$this->makeTodo($table);
 		} elseif ($template === 'members') {
 			$this->makeMembers($table);
@@ -102,6 +110,109 @@ class TableTemplateService {
 			$this->makeStartupTable($table);
 		}
 		return $table;
+	}
+
+	/**
+	 * @psalm-suppress PossiblyNullReference
+	 * @param Table $table
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws InternalError
+	 * @throws MultipleObjectsReturnedException
+	 * @throws PermissionError
+	 */
+	private function makeKanban(Table $table): void {
+		$columns = [];
+
+		// Title column
+		$params = [
+			'title' => $this->l->t('Title'),
+			'type' => 'text',
+			'subtype' => 'line',
+			'mandatory' => true,
+		];
+		$columns['title'] = $this->createColumn($table->id, $params);
+
+		// Description column
+		$params = [
+			'title' => $this->l->t('Description'),
+			'type' => 'text',
+			'subtype' => $this->textRichColumnTypeName,
+		];
+		$columns['description'] = $this->createColumn($table->id, $params);
+
+		// Status column for Board view grouping
+		$params = [
+			'title' => $this->l->t('Status'),
+			'type' => 'selection',
+			'selectionOptions' => json_encode([
+				['id' => 1, 'label' => $this->l->t('To Do')],
+				['id' => 2, 'label' => $this->l->t('In Progress')],
+				['id' => 3, 'label' => $this->l->t('Done')],
+			]),
+			'selectionDefault' => '1',
+		];
+		$columns['status'] = $this->createColumn($table->id, $params);
+
+		// Priority column
+		$params = [
+			'title' => $this->l->t('Priority'),
+			'type' => 'selection',
+			'selectionOptions' => json_encode([
+				['id' => 1, 'label' => $this->l->t('Low')],
+				['id' => 2, 'label' => $this->l->t('Medium')],
+				['id' => 3, 'label' => $this->l->t('High')],
+			]),
+			'selectionDefault' => '2',
+		];
+		$columns['priority'] = $this->createColumn($table->id, $params);
+
+		// Due date column
+		$params = [
+			'title' => $this->l->t('Due date'),
+			'type' => 'datetime',
+			'subtype' => 'date',
+		];
+		$columns['dueDate'] = $this->createColumn($table->id, $params);
+
+		// Assignee column
+		$params = [
+			'title' => $this->l->t('Assignee'),
+			'type' => 'usergroup',
+		];
+		$columns['assignee'] = $this->createColumn($table->id, $params);
+
+		// Example rows
+		$this->createRow($table, [
+			$columns['title']->getId() => $this->l->t('Design homepage mockup'),
+			$columns['description']->getId() => $this->l->t('Create wireframes and visual design for the new homepage.'),
+			$columns['status']->getId() => 3, // Done
+			$columns['priority']->getId() => 3, // High
+		]);
+		$this->createRow($table, [
+			$columns['title']->getId() => $this->l->t('Implement user authentication'),
+			$columns['description']->getId() => $this->l->t('Set up login, registration, and password reset functionality.'),
+			$columns['status']->getId() => 2, // In Progress
+			$columns['priority']->getId() => 3, // High
+		]);
+		$this->createRow($table, [
+			$columns['title']->getId() => $this->l->t('Write documentation'),
+			$columns['description']->getId() => $this->l->t('Document the API endpoints and usage examples.'),
+			$columns['status']->getId() => 2, // In Progress
+			$columns['priority']->getId() => 2, // Medium
+		]);
+		$this->createRow($table, [
+			$columns['title']->getId() => $this->l->t('Set up CI/CD pipeline'),
+			$columns['description']->getId() => $this->l->t('Configure automated testing and deployment.'),
+			$columns['status']->getId() => 1, // To Do
+			$columns['priority']->getId() => 2, // Medium
+		]);
+		$this->createRow($table, [
+			$columns['title']->getId() => $this->l->t('Performance optimization'),
+			$columns['description']->getId() => $this->l->t('Analyze and improve application performance.'),
+			$columns['status']->getId() => 1, // To Do
+			$columns['priority']->getId() => 1, // Low
+		]);
 	}
 
 	/**
@@ -651,6 +762,19 @@ class TableTemplateService {
 		];
 		$columns['proofed'] = $this->createColumn($table->id, $params);
 
+		// Status column for Board/Kanban view
+		$params = [
+			'title' => $this->l->t('Status'),
+			'type' => 'selection',
+			'selectionOptions' => json_encode([
+				['id' => 1, 'label' => $this->l->t('To Do')],
+				['id' => 2, 'label' => $this->l->t('In Progress')],
+				['id' => 3, 'label' => $this->l->t('Done')],
+			]),
+			'selectionDefault' => '1',
+		];
+		$columns['status'] = $this->createColumn($table->id, $params);
+
 		// let's add some example rows
 		$this->createRow($table, [
 			/** @psalm-suppress PossiblyNullArgument */
@@ -664,6 +788,7 @@ class TableTemplateService {
 			$columns['comments']->getId() => $this->l->t('Wow, that was hard work, but now it\'s done.'),
 			$columns['progress']->getId() => 100,
 			$columns['proofed']->getId() => 'true',
+			$columns['status']->getId() => 3, // Done
 		]);
 		$this->createRow($table, [
 			// TRANSLATORS This is an example for a task
@@ -676,6 +801,7 @@ class TableTemplateService {
 			$columns['comments']->getId() => $this->l->t('That was nice in person again. We collected some action points, had a look at the documentation...'),
 			$columns['progress']->getId() => 80,
 			$columns['proofed']->getId() => 'true',
+			$columns['status']->getId() => 2, // In Progress
 		]);
 		$this->createRow($table, [
 			// TRANSLATORS This is an example for a task
@@ -688,12 +814,14 @@ class TableTemplateService {
 			$columns['comments']->getId() => $this->l->t('We have heard that %s could be a nice solution for it, should give it a try.', [$this->themingDefaults->getName()]),
 			$columns['progress']->getId() => 10,
 			$columns['proofed']->getId() => 'false',
+			$columns['status']->getId() => 2, // In Progress
 		]);
 		$this->createRow($table, [
 			// TRANSLATORS This is an example for a task
 			$columns['task']->getId() => $this->l->t('Add more actions'),
 			// TRANSLATORS This is an example description
 			$columns['description']->getId() => $this->l->t('I guess we need more actions in here...'),
+			$columns['status']->getId() => 1, // To Do
 		]);
 	}
 
