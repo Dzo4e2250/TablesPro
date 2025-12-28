@@ -8,6 +8,14 @@
 			<div class="board-view__title">
 				<span v-if="view.emoji" class="board-view__emoji">{{ view.emoji }}</span>
 				<h1>{{ view.title }}</h1>
+				<NcButton v-if="canEdit"
+					type="primary"
+					:aria-label="t('tablespro', 'Add card')"
+					@click="onAddCardFull">
+					<template #icon>
+						<PlusIcon :size="20" />
+					</template>
+				</NcButton>
 			</div>
 			<div class="board-view__actions">
 				<NcButton v-if="canManageView"
@@ -72,6 +80,7 @@
 <script>
 import { NcButton, NcEmptyContent } from '@nextcloud/vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ViewColumnIcon from 'vue-material-design-icons/ViewColumn.vue'
 import BoardStack from '../partials/board/BoardStack.vue'
 import { translate as t } from '@nextcloud/l10n'
@@ -87,6 +96,7 @@ export default {
 		NcButton,
 		NcEmptyContent,
 		CogIcon,
+		PlusIcon,
 		ViewColumnIcon,
 		BoardStack,
 	},
@@ -200,6 +210,16 @@ export default {
 			} catch (e) {
 				console.error('Failed to move card:', e)
 			}
+		},
+
+		onAddCardFull() {
+			// Open full create row modal
+			emit('tables:row:create', {
+				columns: this.columns,
+				isView: true,
+				elementId: this.view.id,
+				element: this.view,
+			})
 		},
 
 		async onQuickAddCard({ stackValue, title }) {

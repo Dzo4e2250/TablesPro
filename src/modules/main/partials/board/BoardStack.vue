@@ -45,9 +45,9 @@
 						@click="$emit('card-click', $event)"
 						@edit="$emit('card-edit', $event)" />
 				</Draggable>
-				<!-- Empty state inside container for better drop detection -->
-				<div v-if="cards.length === 0 && !isAddingCard" class="board-stack__empty-drop">
-					{{ t('tablespro', 'Drop cards here') }}
+				<!-- Drop zone - always visible for better drop detection -->
+				<div v-if="!isAddingCard" class="board-stack__empty-drop" :class="{ 'board-stack__empty-drop--has-cards': cards.length > 0 }">
+					{{ cards.length === 0 ? t('tablespro', 'Drop cards here') : '' }}
 				</div>
 			</Container>
 
@@ -306,9 +306,13 @@ $stack-gap: calc(var(--default-grid-baseline) * 3);
 	align-items: center;
 	justify-content: center;
 	flex: 1;
-	min-height: 100px;
+	min-height: 300px;
 	color: var(--color-text-maxcontrast);
 	font-size: 13px;
+
+	&--has-cards {
+		min-height: 150px;
+	}
 }
 
 .board-stack__add-form {
