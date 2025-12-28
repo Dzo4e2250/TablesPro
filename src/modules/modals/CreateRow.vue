@@ -87,7 +87,7 @@ export default {
 	},
 	computed: {
 		nonMetaColumns() {
-			return this.columns.filter(col => col.id >= 0)
+			return this.columns.filter(col => col.id > 0)
 		},
 		hasEmptyMandatoryRows() {
 			return this.checkMandatoryFields(this.row)
