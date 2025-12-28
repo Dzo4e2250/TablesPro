@@ -81,10 +81,10 @@
 			</div>
 
 			<div v-else-if="activeTabId === 'activity'">
-				<ActivityList filter="tables"
+				<ActivityList filter="tablespro"
 					:object-id="row.id"
 					object-type="tables_row"
-					type="tables" />
+					type="tablespro" />
 			</div>
 		</div>
 	</NcDialog>

@@ -4,10 +4,10 @@
 -->
 <template>
 	<ActivityList v-if="$parent.isActive"
-		filter="tables"
+		filter="tablespro"
 		:object-id="activeElement.id"
 		object-type="tables_table"
-		type="tables" />
+		type="tablespro" />
 </template>
 
 <script>
