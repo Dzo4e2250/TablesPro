@@ -108,11 +108,15 @@ export default {
 		},
 	},
 	watch: {
-		localViewSetting() {
-			this.$emit('update:viewSetting', this.localViewSetting)
+		localViewSetting: {
+			deep: true,
+			handler() {
+				this.$emit('update:viewSetting', this.localViewSetting)
+			},
 		},
 		viewSetting() {
 			this.localViewSetting = this.viewSetting
+			this.initColumnWidths()
 		},
 	},
 
@@ -133,17 +137,36 @@ export default {
 
 		initColumnWidths() {
 			const widths = {}
+			// Load from localStorage first
+			const storageKey = this.getStorageKey()
+			const stored = storageKey ? localStorage.getItem(storageKey) : null
+			const storedWidths = stored ? JSON.parse(stored) : {}
+
 			this.columns.forEach(col => {
-				// Priority: viewSetting > customSettings > default
-				const savedWidth = this.localViewSetting?.columnWidths?.[col.id]
-				const customWidth = col.customSettings?.width
-				if (savedWidth) {
-					widths[col.id] = savedWidth
-				} else if (customWidth) {
-					widths[col.id] = customWidth
+				// Priority: localStorage > viewSetting > customSettings > default
+				if (storedWidths[col.id]) {
+					widths[col.id] = storedWidths[col.id]
+				} else if (this.localViewSetting?.columnWidths?.[col.id]) {
+					widths[col.id] = this.localViewSetting.columnWidths[col.id]
+				} else if (col.customSettings?.width) {
+					widths[col.id] = col.customSettings.width
 				}
 			})
 			this.columnWidths = widths
+		},
+
+		getStorageKey() {
+			// Create a unique key based on the columns (table identifier)
+			if (!this.columns || this.columns.length === 0) return null
+			const tableId = this.columns[0]?.tableId || 'default'
+			return `tablespro-column-widths-${tableId}`
+		},
+
+		saveColumnWidthsToStorage() {
+			const storageKey = this.getStorageKey()
+			if (storageKey) {
+				localStorage.setItem(storageKey, JSON.stringify(this.columnWidths))
+			}
 		},
 
 		getColumnStyle(col) {
@@ -192,6 +215,9 @@ export default {
 				this.$set(this.localViewSetting, 'columnWidths', {})
 			}
 			this.$set(this.localViewSetting.columnWidths, this.resizeColumnId, this.columnWidths[this.resizeColumnId])
+
+			// Save to localStorage for persistence
+			this.saveColumnWidthsToStorage()
 
 			this.resizing = false
 			this.resizeColumnId = null

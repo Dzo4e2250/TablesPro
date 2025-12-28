@@ -570,7 +570,7 @@ export default {
 	position: relative;
 	border-collapse: collapse;
 	border-spacing: 0;
-	table-layout: auto;
+	table-layout: fixed;
 	width: 100%;
 	border: none;
 
