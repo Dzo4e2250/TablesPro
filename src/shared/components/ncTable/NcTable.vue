@@ -214,6 +214,7 @@ export default {
 				canHideColumns: this.canHideColumns,
 				canFilter: this.canFilter,
 				showActions: this.showActions,
+				canManage: this.canEditColumns || this.canCreateColumns,
 			}
 		},
 		parsedColumns() {

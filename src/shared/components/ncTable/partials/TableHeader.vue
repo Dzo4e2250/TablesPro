@@ -10,11 +10,22 @@
 				<div v-if="hasRightHiddenNeighbor(-1)" class="hidden-indicator-first" @click="unhide(-1)" />
 			</div>
 		</th>
-		<th v-for="col in visibleColumns" :key="col.id" :style="getColumnStyle(col)" class="resizable-column">
+		<th v-for="col in visibleColumns"
+			:key="col.id"
+			:ref="'col-' + col.id"
+			:style="getColumnStyle(col)"
+			class="resizable-column"
+			:class="{ 'drag-over': dragOverColumnId === col.id, 'dragging': draggedColumnId === col.id }"
+			@mouseenter="onColumnMouseEnter(col.id)"
+			@mouseleave="onColumnMouseLeave">
 			<div class="cell-wrapper">
 				<div class="cell-options-wrapper">
 					<div class="cell">
-						<div class="clickable" @click="updateOpenState(col.id)">
+						<DragIcon
+							class="drag-handle"
+							:size="16"
+							@mousedown.native.prevent="startColumnDrag($event, col)" />
+						<div class="clickable" @click.stop="updateOpenState(col.id)">
 							{{ col.title }}
 						</div>
 						<TableHeaderColumnOptions
@@ -48,6 +59,7 @@
 import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import TableHeaderColumnOptions from './TableHeaderColumnOptions.vue'
 import FilterLabel from './FilterLabel.vue'
+import DragIcon from 'vue-material-design-icons/Drag.vue'
 import { getFilterWithId } from '../mixins/filter.js'
 import { getColumnWidthStyle } from '../mixins/columnHandler.js'
 
@@ -57,6 +69,7 @@ export default {
 		FilterLabel,
 		NcCheckboxRadioSwitch,
 		TableHeaderColumnOptions,
+		DragIcon,
 	},
 
 	props: {
@@ -92,6 +105,11 @@ export default {
 			resizeStartX: 0,
 			resizeStartWidth: 0,
 			columnWidths: {},
+			// Column drag state
+			draggedColumnId: null,
+			dragOverColumnId: null,
+			hoveredColumnId: null,
+			isDragging: false,
 		}
 	},
 
@@ -129,6 +147,8 @@ export default {
 		// Clean up event listeners
 		document.removeEventListener('mousemove', this.onResize)
 		document.removeEventListener('mouseup', this.stopResize)
+		document.removeEventListener('mousemove', this.onColumnDragMove)
+		document.removeEventListener('mouseup', this.onColumnDragEnd)
 	},
 
 	methods: {
@@ -254,6 +274,68 @@ export default {
 		castToFilter(operatorId) {
 			return this.getFilterWithId(operatorId)
 		},
+
+		// Column drag & drop methods (mousedown-based for better compatibility)
+		onColumnMouseEnter(columnId) {
+			if (this.isDragging && this.draggedColumnId !== columnId) {
+				this.dragOverColumnId = columnId
+			}
+			this.hoveredColumnId = columnId
+		},
+
+		onColumnMouseLeave() {
+			if (!this.isDragging) {
+				this.hoveredColumnId = null
+			}
+		},
+
+		startColumnDrag(event, column) {
+			this.draggedColumnId = column.id
+			this.isDragging = true
+			document.body.classList.add('column-dragging')
+
+			// Add global listeners
+			document.addEventListener('mousemove', this.onColumnDragMove)
+			document.addEventListener('mouseup', this.onColumnDragEnd)
+		},
+
+		onColumnDragMove(event) {
+			if (!this.isDragging) return
+
+			// Find which column we're over
+			const elements = document.elementsFromPoint(event.clientX, event.clientY)
+			const th = elements.find(el => el.tagName === 'TH' && el.classList.contains('resizable-column'))
+
+			if (th) {
+				// Find the column id from ref
+				const colId = this.visibleColumns.find(col => {
+					const ref = this.$refs['col-' + col.id]
+					return ref && ref[0] === th
+				})?.id
+
+				if (colId && colId !== this.draggedColumnId) {
+					this.dragOverColumnId = colId
+				}
+			}
+		},
+
+		onColumnDragEnd() {
+			document.removeEventListener('mousemove', this.onColumnDragMove)
+			document.removeEventListener('mouseup', this.onColumnDragEnd)
+			document.body.classList.remove('column-dragging')
+
+			// If we have a valid drop target, emit reorder
+			if (this.dragOverColumnId && this.draggedColumnId !== this.dragOverColumnId) {
+				this.$emit('reorder-columns', {
+					sourceColumnId: this.draggedColumnId,
+					targetColumnId: this.dragOverColumnId,
+				})
+			}
+
+			this.draggedColumnId = null
+			this.dragOverColumnId = null
+			this.isDragging = false
+		},
 	},
 }
 </script>
@@ -345,6 +427,48 @@ th {
 
 :global(body.column-resizing *) {
 	cursor: col-resize !important;
+}
+
+// Column drag & drop styles
+.drag-handle {
+	cursor: grab;
+	color: var(--color-text-maxcontrast);
+	flex-shrink: 0;
+	margin-inline-end: 8px;
+	padding: 4px;
+	border-radius: var(--border-radius);
+	transition: all 0.15s ease;
+
+	&:hover {
+		color: var(--color-primary-element);
+		background-color: var(--color-background-hover);
+	}
+
+	&:active {
+		cursor: grabbing;
+		color: var(--color-primary-element);
+		background-color: var(--color-primary-element-light);
+	}
+}
+
+th.dragging {
+	opacity: 0.4;
+	background-color: var(--color-background-dark) !important;
+}
+
+th.drag-over {
+	background-color: var(--color-primary-element-light) !important;
+	box-shadow: inset 0 0 0 2px var(--color-primary-element);
+}
+
+// Global style for drag cursor
+:global(body.column-dragging) {
+	cursor: grabbing !important;
+	user-select: none !important;
+}
+
+:global(body.column-dragging *) {
+	cursor: grabbing !important;
 }
 
 </style>

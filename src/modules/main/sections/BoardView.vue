@@ -44,22 +44,27 @@
 		</div>
 
 		<div v-else class="board-view__board">
-			<div class="board-view__stacks">
-				<BoardStack
-					v-for="stack in stacks"
-					:key="stack.id"
-					:stack="stack"
-					:cards="getCardsForStack(stack.id)"
-					:columns="columns"
-					:title-column-id="view.cardTitleColumnId"
-					:grouping-column-id="view.groupingColumnId"
-					:can-edit="canEdit"
-					@card-click="onCardClick"
-					@card-edit="onCardEdit"
-					@card-drop="onCardDrop"
-					@quick-add-card="onQuickAddCard" />
+			<Container
+				class="board-view__stacks"
+				orientation="horizontal"
+				drag-handle-selector=".board-stack__header"
+				:drop-placeholder="stackDropPlaceholder"
+				@drop="onStackDrop">
+				<Draggable v-for="stack in orderedStacks" :key="stack.id">
+					<BoardStack
+						:stack="stack"
+						:cards="getCardsForStack(stack.id)"
+						:columns="columns"
+						:title-column-id="view.cardTitleColumnId"
+						:grouping-column-id="view.groupingColumnId"
+						:can-edit="canEdit"
+						@card-click="onCardClick"
+						@card-edit="onCardEdit"
+						@card-drop="onCardDrop"
+						@quick-add-card="onQuickAddCard" />
+				</Draggable>
 
-				<!-- Stack for items without a value -->
+				<!-- Stack for items without a value (not draggable) -->
 				<BoardStack
 					v-if="uncategorizedCards.length > 0"
 					:stack="uncategorizedStack"
@@ -68,16 +73,18 @@
 					:title-column-id="view.cardTitleColumnId"
 					:grouping-column-id="view.groupingColumnId"
 					:can-edit="canEdit"
+					class="board-stack--uncategorized"
 					@card-click="onCardClick"
 					@card-edit="onCardEdit"
 					@card-drop="onCardDrop"
 					@quick-add-card="onQuickAddCard" />
-			</div>
+			</Container>
 		</div>
 	</div>
 </template>
 
 <script>
+import { Container, Draggable } from 'vue-smooth-dnd'
 import { NcButton, NcEmptyContent } from '@nextcloud/vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
@@ -93,6 +100,8 @@ export default {
 	name: 'BoardView',
 
 	components: {
+		Container,
+		Draggable,
 		NcButton,
 		NcEmptyContent,
 		CogIcon,
@@ -116,6 +125,17 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+	},
+
+	data() {
+		return {
+			stackOrder: [],
+			stackDropPlaceholder: {
+				className: 'stack-drop-placeholder',
+				animationDuration: 200,
+				showOnTop: true,
+			},
+		}
 	},
 
 	computed: {
@@ -145,6 +165,23 @@ export default {
 			}))
 		},
 
+		orderedStacks() {
+			if (!this.stackOrder || this.stackOrder.length === 0) {
+				return this.stacks
+			}
+
+			// Sort stacks by stored order
+			const stacksCopy = [...this.stacks]
+			stacksCopy.sort((a, b) => {
+				const indexA = this.stackOrder.indexOf(a.id)
+				const indexB = this.stackOrder.indexOf(b.id)
+				if (indexA === -1) return 1
+				if (indexB === -1) return -1
+				return indexA - indexB
+			})
+			return stacksCopy
+		},
+
 		uncategorizedStack() {
 			return {
 				id: '__uncategorized__',
@@ -164,9 +201,54 @@ export default {
 		},
 	},
 
+	watch: {
+		'view.id': {
+			handler() {
+				this.loadStackOrder()
+			},
+			immediate: true,
+		},
+	},
+
+	mounted() {
+		this.loadStackOrder()
+	},
+
 	methods: {
 		t,
 		...mapActions(useDataStore, ['updateRow', 'insertNewRow']),
+
+		// Stack order methods
+		getStackOrderStorageKey() {
+			return `tablespro-stack-order-view-${this.view.id}`
+		},
+
+		loadStackOrder() {
+			const storageKey = this.getStackOrderStorageKey()
+			const stored = localStorage.getItem(storageKey)
+			this.stackOrder = stored ? JSON.parse(stored) : []
+		},
+
+		saveStackOrder() {
+			const storageKey = this.getStackOrderStorageKey()
+			localStorage.setItem(storageKey, JSON.stringify(this.stackOrder))
+		},
+
+		onStackDrop({ removedIndex, addedIndex }) {
+			if (removedIndex === null || addedIndex === null) return
+			if (removedIndex === addedIndex) return
+
+			// Get current order
+			const currentOrder = this.orderedStacks.map(s => s.id)
+
+			// Move the item
+			const [removed] = currentOrder.splice(removedIndex, 1)
+			currentOrder.splice(addedIndex, 0, removed)
+
+			// Update and save
+			this.stackOrder = currentOrder
+			this.saveStackOrder()
+		},
 
 		getCardsForStack(stackId) {
 			if (!this.groupingColumn) return []
@@ -334,5 +416,31 @@ $board-gap: calc(var(--default-grid-baseline) * 4);
 	gap: $board-gap;
 	padding: 0 $board-gap $board-gap;
 	height: 100%;
+
+	// vue-smooth-dnd styles
+	:deep(.smooth-dnd-container) {
+		display: flex;
+		gap: $board-gap;
+		height: 100%;
+	}
+
+	:deep(.smooth-dnd-draggable-wrapper) {
+		height: 100%;
+	}
+}
+
+// Stack drop placeholder
+:deep(.stack-drop-placeholder) {
+	background-color: var(--color-primary-element-light);
+	border: 2px dashed var(--color-primary-element);
+	border-radius: var(--border-radius-large);
+	min-width: 280px;
+	height: 100%;
+	margin: 0 calc($board-gap / 2);
+}
+
+// Uncategorized stack should not be draggable
+.board-stack--uncategorized {
+	pointer-events: auto;
 }
 </style>

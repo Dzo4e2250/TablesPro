@@ -6,7 +6,7 @@
 	<div class="container">
 		<table class="tables-list__table">
 			<thead class="tables-list__thead">
-				<TableHeader :columns="columns"
+				<TableHeader :columns="orderedColumns"
 					:selected-rows="selectedRows"
 					:rows="getSearchedAndFilteredAndSortedRows"
 					:view-setting.sync="localViewSetting"
@@ -16,7 +16,8 @@
 					@edit-column="col => $emit('edit-column', col)"
 					@delete-column="col => $emit('delete-column', col)"
 					@download-csv="data => $emit('download-csv', data)"
-					@select-all-rows="selectAllRows">
+					@select-all-rows="selectAllRows"
+					@reorder-columns="onReorderColumns">
 					<template #actions>
 						<GroupBySelector
 							v-if="hasGroupableColumns"
@@ -39,7 +40,7 @@
 					:key="row.id"
 					data-cy="customTableRow"
 					:row="row"
-					:columns="columns"
+					:columns="orderedColumns"
 					:selected="isRowSelected(row?.id)"
 					:view-setting.sync="localViewSetting"
 					:config="config"
@@ -61,7 +62,7 @@
 				<GroupHeader
 					:label="group.label"
 					:rows="group.rows"
-					:columns="columns"
+					:columns="orderedColumns"
 					:expanded="group.expanded"
 					:group-color="group.color"
 					@toggle="toggleGroup(group.value)" />
@@ -73,7 +74,7 @@
 						:key="row.id"
 						data-cy="customTableRow"
 						:row="row"
-						:columns="columns"
+						:columns="orderedColumns"
 						:selected="isRowSelected(row?.id)"
 						:view-setting.sync="localViewSetting"
 						:config="config"
@@ -91,7 +92,7 @@
 
 					<!-- Group Summary -->
 					<GroupSummary
-						:columns="columns"
+						:columns="orderedColumns"
 						:rows="group.rows"
 						:view-setting="localViewSetting" />
 				</template>
@@ -241,13 +242,31 @@ export default {
 			pageNumber: 1,
 			rowsPerPage: 100,
 			rowAnimation: false,
+			columnOrder: [], // Stored column order from localStorage
 		}
 	},
 
 	computed: {
 		...mapState(useTablesStore, ['appNavCollapsed']),
+		orderedColumns() {
+			if (!this.columnOrder || this.columnOrder.length === 0) {
+				return this.columns
+			}
+
+			// Sort columns by stored order
+			const columnsCopy = [...this.columns]
+			columnsCopy.sort((a, b) => {
+				const indexA = this.columnOrder.indexOf(a.id)
+				const indexB = this.columnOrder.indexOf(b.id)
+				// If column not in stored order, put at end
+				if (indexA === -1) return 1
+				if (indexB === -1) return -1
+				return indexA - indexB
+			})
+			return columnsCopy
+		},
 		visibleColumns() {
-			return this.columns.filter(col => !this.viewSetting?.hiddenColumns?.includes(col.id))
+			return this.orderedColumns.filter(col => !this.viewSetting?.hiddenColumns?.includes(col.id))
 		},
 		firstColumnIsText() {
 			const firstCol = this.visibleColumns[0]
@@ -423,6 +442,15 @@ export default {
 		viewSetting() {
 			this.localViewSetting = this.viewSetting
 		},
+		columns: {
+			handler() {
+				this.loadColumnOrder()
+			},
+			immediate: true,
+		},
+		elementId() {
+			this.loadColumnOrder()
+		},
 	},
 
 	updated() {
@@ -448,6 +476,47 @@ export default {
 		hasSummary(column) {
 			// Show summary for number columns and selection columns
 			return ['number', 'number-stars', 'number-progress', 'selection', 'selection-multi'].includes(column.type)
+		},
+		getColumnOrderStorageKey() {
+			// Create a unique key based on the table/view identifier
+			if (!this.columns || this.columns.length === 0) return null
+			const elementId = this.elementId || this.columns[0]?.tableId || 'default'
+			const prefix = this.isView ? 'view' : 'table'
+			return `tablespro-column-order-${prefix}-${elementId}`
+		},
+		loadColumnOrder() {
+			const storageKey = this.getColumnOrderStorageKey()
+			if (!storageKey) {
+				this.columnOrder = []
+				return
+			}
+			const stored = localStorage.getItem(storageKey)
+			this.columnOrder = stored ? JSON.parse(stored) : []
+		},
+		onReorderColumns({ sourceColumnId, targetColumnId }) {
+			// Get current column order
+			const currentOrder = this.orderedColumns.map(col => col.id)
+
+			// Find indices
+			const sourceIndex = currentOrder.indexOf(sourceColumnId)
+			const targetIndex = currentOrder.indexOf(targetColumnId)
+
+			if (sourceIndex === -1 || targetIndex === -1) return
+
+			// Remove source from current position
+			currentOrder.splice(sourceIndex, 1)
+
+			// Insert at target position
+			currentOrder.splice(targetIndex, 0, sourceColumnId)
+
+			// Update reactive data property
+			this.columnOrder = currentOrder
+
+			// Save to localStorage
+			const storageKey = this.getColumnOrderStorageKey()
+			if (storageKey) {
+				localStorage.setItem(storageKey, JSON.stringify(currentOrder))
+			}
 		},
 		getColumnStyle(col) {
 			// Check localStorage for resized columns
