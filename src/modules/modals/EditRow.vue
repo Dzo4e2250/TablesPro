@@ -34,43 +34,50 @@
 			</div>
 
 			<div v-if="activeTabId === 'edit'" class="row">
-				<div v-for="column in nonMetaColumns" :key="column.id">
-					<ColumnFormComponent
-						:column="column"
-						:value.sync="localRow[column.id]" />
-					<NcNoteCard v-if="isMandatory(column) && !isValueValidForColumn(localRow[column.id], column)"
-						type="error">
-						{{ t('tablespro', '"{columnTitle}" should not be empty', { columnTitle: column.title }) }}
-					</NcNoteCard>
-					<NcNoteCard v-if="localRow[column.id] && column.type === 'text-link' && !isValidUrlProtocol(localRow[column.id])"
-						type="error">
-						{{ t('tablespro', 'Invalid protocol. Allowed: {allowed}', {allowed: allowedProtocols.join(', ')}) }}
-					</NcNoteCard>
+				<!-- Loading state -->
+				<div v-if="!localRow" class="loading-container">
+					<div class="icon-loading" />
 				</div>
-				<div class="row">
-					<div class="fix-col-4 space-T" :class="{'justify-between': showDeleteButton, 'end': !showDeleteButton}">
-						<div v-if="showDeleteButton">
-							<NcButton v-if="!prepareDeleteRow" :aria-label="t('tablespro', 'Delete')" type="error" data-cy="editRowDeleteButton" @click="prepareDeleteRow = true">
-								{{ t('tablespro', 'Delete') }}
-							</NcButton>
-							<NcButton v-if="prepareDeleteRow"
-								data-cy="editRowDeleteConfirmButton"
-								:wide="true"
-								:aria-label="t('tablespro', 'I really want to delete this row!')"
-								type="error"
-								@click="actionDeleteRow">
-								{{ t('tablespro', 'I really want to delete this row!') }}
-							</NcButton>
-						</div>
-						<NcButton v-if="canUpdateData(element) && !localLoading" :aria-label="t('tablespro', 'Save')" type="primary"
-							data-cy="editRowSaveButton"
-							:disabled="hasEmptyMandatoryRows || hasInvalidUrlProtocol"
-							@click="actionConfirm">
-							{{ t('tablespro', 'Save') }}
-						</NcButton>
-						<div v-if="localLoading" class="icon-loading" style="margin-left: 20px;" />
+				<!-- Form content -->
+				<template v-else>
+					<div v-for="column in nonMetaColumns" :key="column.id">
+						<ColumnFormComponent
+							:column="column"
+							:value.sync="localRow[column.id]" />
+						<NcNoteCard v-if="isMandatory(column) && !isValueValidForColumn(localRow[column.id], column)"
+							type="error">
+							{{ t('tablespro', '"{columnTitle}" should not be empty', { columnTitle: column.title }) }}
+						</NcNoteCard>
+						<NcNoteCard v-if="localRow[column.id] && column.type === 'text-link' && !isValidUrlProtocol(localRow[column.id])"
+							type="error">
+							{{ t('tablespro', 'Invalid protocol. Allowed: {allowed}', {allowed: allowedProtocols.join(', ')}) }}
+						</NcNoteCard>
 					</div>
-				</div>
+					<div class="row">
+						<div class="fix-col-4 space-T" :class="{'justify-between': showDeleteButton, 'end': !showDeleteButton}">
+							<div v-if="showDeleteButton">
+								<NcButton v-if="!prepareDeleteRow" :aria-label="t('tablespro', 'Delete')" type="error" data-cy="editRowDeleteButton" @click="prepareDeleteRow = true">
+									{{ t('tablespro', 'Delete') }}
+								</NcButton>
+								<NcButton v-if="prepareDeleteRow"
+									data-cy="editRowDeleteConfirmButton"
+									:wide="true"
+									:aria-label="t('tablespro', 'I really want to delete this row!')"
+									type="error"
+									@click="actionDeleteRow">
+									{{ t('tablespro', 'I really want to delete this row!') }}
+								</NcButton>
+							</div>
+							<NcButton v-if="canUpdateData(element) && !localLoading" :aria-label="t('tablespro', 'Save')" type="primary"
+								data-cy="editRowSaveButton"
+								:disabled="hasEmptyMandatoryRows || hasInvalidUrlProtocol"
+								@click="actionConfirm">
+								{{ t('tablespro', 'Save') }}
+							</NcButton>
+							<div v-if="localLoading" class="icon-loading" style="margin-left: 20px;" />
+						</div>
+					</div>
+				</template>
 			</div>
 
 			<div v-else-if="activeTabId === 'activity'">
@@ -179,7 +186,7 @@ export default {
 		...mapActions(useTablesStore, ['setActiveRowId']),
 		t,
 		loadValues() {
-			if (this.row) {
+			if (this.row && this.row.data) {
 				const tmp = {}
 				this.row.data.forEach(item => {
 					tmp[item.columnId] = item.value
@@ -325,5 +332,12 @@ export default {
 	display: flex;
 	gap: 12px;
 	margin-bottom: 20px;
+}
+
+.loading-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 200px;
 }
 </style>
