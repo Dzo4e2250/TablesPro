@@ -15,7 +15,7 @@
 				type="tertiary"
 				class="board-stack__add-btn"
 				:aria-label="t('tablespro', 'Add card')"
-				@click="$emit('add-card', stack.id)">
+				@click="startAddCard">
 				<template #icon>
 					<PlusIcon :size="20" />
 				</template>
@@ -46,10 +46,23 @@
 						@edit="$emit('card-edit', $event)" />
 				</Draggable>
 				<!-- Empty state inside container for better drop detection -->
-				<div v-if="cards.length === 0" class="board-stack__empty-drop">
+				<div v-if="cards.length === 0 && !isAddingCard" class="board-stack__empty-drop">
 					{{ t('tablespro', 'Drop cards here') }}
 				</div>
 			</Container>
+
+			<!-- Inline add card form -->
+			<div v-if="isAddingCard" class="board-stack__add-form">
+				<input
+					ref="addCardInput"
+					v-model="newCardTitle"
+					type="text"
+					class="board-stack__add-input"
+					:placeholder="t('tablespro', 'Card title...')"
+					@keydown.enter="submitNewCard"
+					@keydown.escape="cancelAddCard"
+					@blur="onInputBlur">
+			</div>
 		</div>
 	</div>
 </template>
@@ -107,6 +120,8 @@ export default {
 				animationDuration: 200,
 				showOnTop: true,
 			},
+			isAddingCard: false,
+			newCardTitle: '',
 		}
 	},
 
@@ -139,6 +154,41 @@ export default {
 					removedIndex,
 				})
 			}
+		},
+
+		startAddCard() {
+			this.isAddingCard = true
+			this.newCardTitle = ''
+			this.$nextTick(() => {
+				this.$refs.addCardInput?.focus()
+			})
+		},
+
+		submitNewCard() {
+			const title = this.newCardTitle.trim()
+			if (title) {
+				this.$emit('quick-add-card', {
+					stackId: this.stack.id,
+					stackValue: this.stack.value,
+					title,
+				})
+			}
+			this.isAddingCard = false
+			this.newCardTitle = ''
+		},
+
+		cancelAddCard() {
+			this.isAddingCard = false
+			this.newCardTitle = ''
+		},
+
+		onInputBlur() {
+			// Small delay to allow Enter key to fire first
+			setTimeout(() => {
+				if (this.isAddingCard) {
+					this.submitNewCard()
+				}
+			}, 100)
 		},
 	},
 }
@@ -259,6 +309,25 @@ $stack-gap: calc(var(--default-grid-baseline) * 3);
 	min-height: 100px;
 	color: var(--color-text-maxcontrast);
 	font-size: 13px;
+}
+
+.board-stack__add-form {
+	padding: $stack-gap;
+	padding-top: 0;
+}
+
+.board-stack__add-input {
+	width: 100%;
+	padding: calc(var(--default-grid-baseline) * 2);
+	border: 2px solid var(--color-primary-element);
+	border-radius: var(--border-radius-large);
+	background-color: var(--color-main-background);
+	font-size: 14px;
+	outline: none;
+
+	&::placeholder {
+		color: var(--color-text-maxcontrast);
+	}
 }
 
 // Drag ghost styles

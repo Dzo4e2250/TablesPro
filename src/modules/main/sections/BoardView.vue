@@ -49,7 +49,7 @@
 					@card-click="onCardClick"
 					@card-edit="onCardEdit"
 					@card-drop="onCardDrop"
-					@add-card="onAddCard" />
+					@quick-add-card="onQuickAddCard" />
 
 				<!-- Stack for items without a value -->
 				<BoardStack
@@ -63,7 +63,7 @@
 					@card-click="onCardClick"
 					@card-edit="onCardEdit"
 					@card-drop="onCardDrop"
-					@add-card="onAddCard" />
+					@quick-add-card="onQuickAddCard" />
 			</div>
 		</div>
 	</div>
@@ -156,7 +156,7 @@ export default {
 
 	methods: {
 		t,
-		...mapActions(useDataStore, ['updateRow']),
+		...mapActions(useDataStore, ['updateRow', 'insertNewRow']),
 
 		getCardsForStack(stackId) {
 			if (!this.groupingColumn) return []
@@ -202,18 +202,45 @@ export default {
 			}
 		},
 
-		onAddCard(stackId) {
-			// Emit event to open create row modal with pre-filled grouping value
-			const stack = this.stacks.find(s => s.id === stackId) || this.uncategorizedStack
-			emit('tables:row:create', {
-				columns: this.columns,
-				isView: true,
-				elementId: this.view.id,
-				element: this.view,
-				prefill: {
-					[this.view.groupingColumnId]: stack.value,
-				},
-			})
+		async onQuickAddCard({ stackValue, title }) {
+			if (!this.canEdit) return
+
+			// Build row data with title and grouping column
+			const data = []
+
+			// Add grouping column value
+			if (this.view.groupingColumnId && stackValue !== null) {
+				data.push({
+					columnId: this.view.groupingColumnId,
+					value: stackValue,
+				})
+			}
+
+			// Add title to the title column (or first text column)
+			const titleColumnId = this.view.cardTitleColumnId || this.getFirstTextColumnId()
+			if (titleColumnId && title) {
+				data.push({
+					columnId: titleColumnId,
+					value: title,
+				})
+			}
+
+			try {
+				await this.insertNewRow({
+					viewId: this.view.id,
+					tableId: this.view.tableId,
+					data,
+				})
+			} catch (e) {
+				console.error('Failed to create card:', e)
+			}
+		},
+
+		getFirstTextColumnId() {
+			const textColumn = this.columns.find(c =>
+				c.type === 'text-line' || c.type === 'text-rich',
+			)
+			return textColumn?.id || null
 		},
 	},
 }
