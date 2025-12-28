@@ -53,6 +53,7 @@ class RowService extends SuperService {
 		private IEventDispatcher $eventDispatcher,
 		private ColumnsHelper $columnsHelper,
 		private ActivityManager $activityManager,
+		private ActivityService $activityService,
 	) {
 		parent::__construct($logger, $userId, $permissionsService);
 
@@ -228,6 +229,9 @@ class RowService extends SuperService {
 				subject: ActivityManager::SUBJECT_ROW_CREATE,
 				author: $this->userId,
 			);
+
+			// Log to card activity
+			$this->activityService->logRowCreate($tableId, $insertedRow->getId(), $this->userId);
 
 			return $this->filterRowResult($view, $insertedRow);
 		} catch (InternalError|Exception $e) {
@@ -640,6 +644,11 @@ class RowService extends SuperService {
 					'after' => $updatedRow->getData(),
 				]
 			);
+
+			// Log to card activity
+			$this->activityService->logRowUpdate($item->getTableId(), $id, $this->userId, [
+				'changes' => count($data),
+			]);
 		}
 
 		return $this->filterRowResult($view ?? null, $updatedRow);
@@ -716,6 +725,9 @@ class RowService extends SuperService {
 				subject: ActivityManager::SUBJECT_ROW_DELETE,
 				author: $this->userId,
 			);
+
+			// Log to card activity
+			$this->activityService->logRowDelete($item->getTableId(), $id, $this->userId);
 
 			return $this->filterRowResult($view ?? null, $deletedRow);
 		} catch (Exception $e) {
