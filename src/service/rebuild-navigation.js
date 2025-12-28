@@ -7,7 +7,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { emit } from '@nextcloud/event-bus'
 
 export default () => {
-	return axios.get(generateOcsUrl('apps/tables/navigation') + '?format=json')
+	return axios.get(generateOcsUrl('apps/tablespro/navigation') + '?format=json')
 		.then(({ data }) => {
 			if (data.ocs.meta.statuscode !== 200) {
 				return
