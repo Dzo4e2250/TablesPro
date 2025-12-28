@@ -175,7 +175,6 @@ export default {
 				return {
 					width: `${width}px`,
 					minWidth: `${width}px`,
-					maxWidth: `${width}px`,
 				}
 			}
 			return getColumnWidthStyle(col)

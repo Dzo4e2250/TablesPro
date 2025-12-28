@@ -434,13 +434,17 @@ export default {
 			return ['number', 'number-stars', 'number-progress', 'selection', 'selection-multi'].includes(column.type)
 		},
 		getColumnStyle(col) {
-			// Check viewSetting.columnWidths first (for resized columns)
-			const resizedWidth = this.localViewSetting?.columnWidths?.[col.id]
-			if (resizedWidth) {
-				return {
-					width: `${resizedWidth}px`,
-					minWidth: `${resizedWidth}px`,
-					maxWidth: `${resizedWidth}px`,
+			// Check localStorage for resized columns
+			const tableId = col.tableId || 'default'
+			const storageKey = `tablespro-column-widths-${tableId}`
+			const stored = localStorage.getItem(storageKey)
+			if (stored) {
+				const widths = JSON.parse(stored)
+				if (widths[col.id]) {
+					return {
+						width: `${widths[col.id]}px`,
+						minWidth: `${widths[col.id]}px`,
+					}
 				}
 			}
 			return getColumnWidthStyle(col)
@@ -570,7 +574,7 @@ export default {
 	position: relative;
 	border-collapse: collapse;
 	border-spacing: 0;
-	table-layout: fixed;
+	table-layout: auto;
 	width: 100%;
 	border: none;
 

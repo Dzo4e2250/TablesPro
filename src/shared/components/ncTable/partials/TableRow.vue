@@ -124,16 +124,19 @@ export default {
 		t,
 		getColumnWidthStyle,
 		getColumnStyle(col) {
-			// Check viewSetting.columnWidths first (for resized columns)
-			const resizedWidth = this.viewSetting?.columnWidths?.[col.id]
-			if (resizedWidth) {
-				return {
-					width: `${resizedWidth}px`,
-					minWidth: `${resizedWidth}px`,
-					maxWidth: `${resizedWidth}px`,
+			// Check localStorage for resized columns
+			const tableId = col.tableId || 'default'
+			const storageKey = `tablespro-column-widths-${tableId}`
+			const stored = localStorage.getItem(storageKey)
+			if (stored) {
+				const widths = JSON.parse(stored)
+				if (widths[col.id]) {
+					return {
+						width: `${widths[col.id]}px`,
+						minWidth: `${widths[col.id]}px`,
+					}
 				}
 			}
-			// Fall back to original function
 			return this.getColumnWidthStyle(col)
 		},
 		handleCellClick(column) {
