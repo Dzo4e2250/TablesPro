@@ -206,23 +206,26 @@ export default {
 			if (!this.canEdit) return
 
 			// Build row data with title and grouping column
-			const data = []
+			// API expects format: { columnId: value } as object, not array
+			const data = {}
 
-			// Add grouping column value
-			if (this.view.groupingColumnId && stackValue !== null) {
-				data.push({
-					columnId: this.view.groupingColumnId,
-					value: stackValue,
-				})
+			// Add grouping column value (must be a valid column ID > 0)
+			const groupingId = parseInt(this.view.groupingColumnId, 10)
+			if (groupingId && groupingId > 0 && stackValue !== null) {
+				data[groupingId] = stackValue
 			}
 
 			// Add title to the title column (or first text column)
-			const titleColumnId = this.view.cardTitleColumnId || this.getFirstTextColumnId()
-			if (titleColumnId && title) {
-				data.push({
-					columnId: titleColumnId,
-					value: title,
-				})
+			const cardTitleId = parseInt(this.view.cardTitleColumnId, 10)
+			const titleColumnId = (cardTitleId && cardTitleId > 0) ? cardTitleId : this.getFirstTextColumnId()
+			if (titleColumnId && titleColumnId > 0 && title) {
+				data[titleColumnId] = title
+			}
+
+			// Don't create if we have no valid data
+			if (Object.keys(data).length === 0) {
+				console.error('No valid columns to create card')
+				return
 			}
 
 			try {
@@ -237,8 +240,10 @@ export default {
 		},
 
 		getFirstTextColumnId() {
+			// Find first text column that's in the view (has valid id > 0)
+			const textTypes = ['text-line', 'text-long', 'text-rich']
 			const textColumn = this.columns.find(c =>
-				c.type === 'text-line' || c.type === 'text-rich',
+				c.id > 0 && textTypes.includes(c.type),
 			)
 			return textColumn?.id || null
 		},
