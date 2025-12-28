@@ -255,7 +255,7 @@
 <script>
 import { NcDialog, NcButton, NcAvatar, NcProgressBar, NcLoadingIcon } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
-import { showError, showSuccess, getFilePickerBuilder } from '@nextcloud/dialogs'
+import { showError, showSuccess, getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 import { CommentsApi, AttachmentsApi, ActivityApi } from '../../shared/api/cardFeatures.js'
 import ColumnFormComponent from '../main/partials/ColumnFormComponent.vue'
@@ -644,21 +644,52 @@ export default {
 
 		async openFilePicker() {
 			try {
-				const picker = getFilePickerBuilder(t('tablespro', 'Select a file'))
+				const picker = getFilePickerBuilder(t('tablespro', 'Select a file to attach'))
 					.setMultiSelect(false)
-					.setType(1) // Files only
+					.setType(FilePickerType.Custom)
+					.addButton({
+						label: t('tablespro', 'Attach'),
+						callback: async (nodes) => {
+							if (nodes && nodes.length > 0) {
+								const fileInfo = nodes[0]
+								await this.addAttachment(fileInfo)
+							}
+						},
+						type: 'primary',
+					})
 					.build()
-				const path = await picker.pick()
-				if (path) {
-					// We would need to resolve the file ID from path
-					// For now, show info message
-					showSuccess(t('tablespro', 'File selected: {path}', { path }))
-				}
+				await picker.pick()
 			} catch (e) {
-				if (e.message !== 'User cancelled') {
+				if (e.message !== 'User cancelled' && e.name !== 'AbortError') {
 					showError(t('tablespro', 'Failed to open file picker'))
 					console.error(e)
 				}
+			}
+		},
+
+		async addAttachment(fileInfo) {
+			if (!fileInfo) return
+
+			const tableId = this.row.tableId || this.element?.tableId
+			const fileId = fileInfo.fileid || fileInfo.id
+
+			if (!fileId) {
+				showError(t('tablespro', 'Could not get file ID'))
+				return
+			}
+
+			try {
+				const attachment = await AttachmentsApi.create(
+					this.row.id,
+					tableId,
+					fileId,
+					'file',
+				)
+				this.attachments.push(attachment)
+				showSuccess(t('tablespro', 'File attached successfully'))
+			} catch (e) {
+				showError(t('tablespro', 'Failed to attach file'))
+				console.error(e)
 			}
 		},
 
