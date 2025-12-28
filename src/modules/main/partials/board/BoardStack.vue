@@ -11,9 +11,15 @@
 					:style="{ backgroundColor: stack.color }" />
 				<h3 class="board-stack__title">{{ stack.title }}</h3>
 			</div>
-			<NcCounterBubble class="board-stack__count">
-				{{ cards.length }}
-			</NcCounterBubble>
+			<NcButton v-if="canEdit"
+				type="tertiary"
+				class="board-stack__add-btn"
+				:aria-label="t('tablespro', 'Add card')"
+				@click="$emit('add-card', stack.id)">
+				<template #icon>
+					<PlusIcon :size="20" />
+				</template>
+			</NcButton>
 		</div>
 
 		<div class="board-stack__cards">
@@ -45,23 +51,12 @@
 				</div>
 			</Container>
 		</div>
-
-		<div v-if="canEdit" class="board-stack__footer">
-			<NcButton type="tertiary"
-				:aria-label="t('tablespro', 'Add card')"
-				@click="$emit('add-card', stack.id)">
-				<template #icon>
-					<PlusIcon :size="20" />
-				</template>
-				{{ t('tablespro', 'Add card') }}
-			</NcButton>
-		</div>
 	</div>
 </template>
 
 <script>
 import { Container, Draggable } from 'vue-smooth-dnd'
-import { NcButton, NcCounterBubble } from '@nextcloud/vue'
+import { NcButton } from '@nextcloud/vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import BoardCard from './BoardCard.vue'
 import { translate as t } from '@nextcloud/l10n'
@@ -73,7 +68,6 @@ export default {
 		Container,
 		Draggable,
 		NcButton,
-		NcCounterBubble,
 		PlusIcon,
 		BoardCard,
 	},
@@ -215,15 +209,20 @@ $stack-gap: calc(var(--default-grid-baseline) * 3);
 
 .board-stack__title {
 	margin: 0;
-	font-size: 14px;
+	font-size: 21px;
 	font-weight: 600;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.board-stack__count {
+.board-stack__add-btn {
 	flex-shrink: 0;
+	color: var(--color-text-maxcontrast) !important;
+
+	&:hover {
+		color: var(--color-main-text) !important;
+	}
 }
 
 .board-stack__cards {
@@ -257,43 +256,9 @@ $stack-gap: calc(var(--default-grid-baseline) * 3);
 	align-items: center;
 	justify-content: center;
 	flex: 1;
-	min-height: 200px;
+	min-height: 100px;
 	color: var(--color-text-maxcontrast);
 	font-size: 13px;
-	border: 2px dashed var(--color-border);
-	border-radius: var(--border-radius-large);
-	margin: $stack-gap 0;
-	background-color: var(--color-background-hover);
-}
-
-.board-stack__footer {
-	flex-shrink: 0;
-	padding: $stack-gap;
-	padding-top: 0;
-	background-color: var(--color-main-background);
-	position: sticky;
-	bottom: 0;
-	z-index: 100;
-
-	// Smooth fade gradient like Deck
-	&::before {
-		content: '';
-		display: block;
-		position: absolute;
-		width: 100%;
-		height: $stack-gap;
-		top: 0;
-		left: 0;
-		z-index: 99;
-		background: linear-gradient(0deg, var(--color-main-background) 0%, transparent 100%);
-		transform: translateY(-100%);
-		pointer-events: none;
-	}
-
-	:deep(.button-vue) {
-		width: 100%;
-		justify-content: flex-start;
-	}
 }
 
 // Drag ghost styles

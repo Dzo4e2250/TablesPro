@@ -234,6 +234,7 @@ $board-gap: calc(var(--default-grid-baseline) * 4);
 	align-items: center;
 	justify-content: space-between;
 	padding: calc(var(--default-grid-baseline) * 3) calc(var(--default-grid-baseline) * 4);
+	padding-left: calc(var(--default-grid-baseline) * 4 + 44px); // Space for nav toggle button
 	border-bottom: 1px solid var(--color-border);
 	flex-shrink: 0;
 }
