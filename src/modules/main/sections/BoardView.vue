@@ -260,12 +260,14 @@ export default {
 		},
 
 		onCardClick(row) {
-			emit('tables:row:edit', {
+			// Open card detail modal for board view
+			emit('tables:card:detail', {
 				row,
 				columns: this.columns,
 				isView: true,
-				elementId: this.view.id,
 				element: this.view,
+				titleColumnId: this.view.cardTitleColumnId,
+				groupingColumnId: this.view.groupingColumnId,
 			})
 		},
 

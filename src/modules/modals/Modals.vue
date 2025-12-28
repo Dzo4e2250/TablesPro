@@ -41,6 +41,16 @@
 			:is-element-view="importToElement?.isView"
 			@close="importToElement = null" />
 
+		<CardDetailModal
+			:show-modal="cardDetail !== null"
+			:row="cardDetail?.row"
+			:columns="cardDetail?.columns"
+			:is-view="cardDetail?.isView"
+			:element="cardDetail?.element"
+			:title-column-id="cardDetail?.titleColumnId"
+			:grouping-column-id="cardDetail?.groupingColumnId"
+			@close="cardDetail = null" />
+
 		<ImportScheme
 			:show-modal="showImportScheme"
 			:title="importSchemeTitle"
@@ -73,6 +83,7 @@ import TransferTable from './TransferTable.vue'
 import CreateContext from './CreateContext.vue'
 import TransferContext from './TransferContext.vue'
 import DeleteContext from './DeleteContext.vue'
+import CardDetailModal from './CardDetailModal.vue'
 
 export default {
 	components: {
@@ -94,6 +105,7 @@ export default {
 		EditContext,
 		TransferContext,
 		DeleteContext,
+		CardDetailModal,
 	},
 
 	data() {
@@ -118,6 +130,7 @@ export default {
 			tableToTransfer: null,
 			contextToTransfer: null,
 			contextToDelete: null,
+			cardDetail: null,
 		}
 	},
 
@@ -162,6 +175,8 @@ export default {
 		subscribe('tables:context:transfer', context => { this.contextToTransfer = context })
 		subscribe('tables:context:delete', context => { this.contextToDelete = context })
 
+		// card detail (board view)
+		subscribe('tables:card:detail', cardInfo => { this.cardDetail = cardInfo })
 	},
 	unmounted() {
 		unsubscribe('tables:view:reload', () => { this.reload(true) })
