@@ -267,17 +267,19 @@ $board-gap: calc(var(--default-grid-baseline) * 4);
 }
 
 .board-view__board {
-	flex: 1;
+	flex: 1 1 auto;
+	display: flex;
 	overflow-x: auto;
 	overflow-y: hidden;
 	min-height: 0;
+	background-color: var(--color-main-background);
 }
 
 .board-view__stacks {
 	display: flex;
+	align-items: stretch;
 	gap: $board-gap;
-	padding: $board-gap;
+	padding: 0 $board-gap $board-gap;
 	height: 100%;
-	min-height: 400px;
 }
 </style>
