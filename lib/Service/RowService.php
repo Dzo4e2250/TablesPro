@@ -646,9 +646,7 @@ class RowService extends SuperService {
 			);
 
 			// Log to card activity
-			$this->activityService->logRowUpdate($item->getTableId(), $id, $this->userId, [
-				'changes' => count($data),
-			]);
+			$this->activityService->logRowUpdate($item->getTableId(), $id, $this->userId);
 		}
 
 		return $this->filterRowResult($view ?? null, $updatedRow);
