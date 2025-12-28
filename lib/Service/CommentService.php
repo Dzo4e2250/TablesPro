@@ -26,6 +26,7 @@ class CommentService {
 		private CommentMapper $mapper,
 		private IUserManager $userManager,
 		private PermissionsService $permissionsService,
+		private ActivityService $activityService,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -70,6 +71,10 @@ class CommentService {
 		}
 
 		$comment = $this->mapper->insert($comment);
+
+		// Log activity
+		$this->activityService->logCommentCreate($tableId, $rowId, $userId, $comment->getId());
+
 		return $this->enrichComment($comment);
 	}
 

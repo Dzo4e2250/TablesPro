@@ -28,6 +28,7 @@ class AttachmentService {
 		private AttachmentMapper $mapper,
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
+		private ActivityService $activityService,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -70,7 +71,14 @@ class AttachmentService {
 		$attachment->setCreatedAt(new DateTime());
 
 		$attachment = $this->mapper->insert($attachment);
-		return $this->enrichAttachment($attachment, $userId);
+		$enriched = $this->enrichAttachment($attachment, $userId);
+
+		// Log activity
+		$this->activityService->logAttachmentCreate($tableId, $rowId, $userId, $attachment->getId(), [
+			'fileName' => $enriched->jsonSerialize()['fileName'] ?? 'File',
+		]);
+
+		return $enriched;
 	}
 
 	/**
