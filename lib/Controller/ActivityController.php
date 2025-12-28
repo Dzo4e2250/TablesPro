@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace OCA\TablesPro\Controller;
 
 use OCA\TablesPro\Service\ActivityService;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
-class ActivityController extends OCSController {
+class ActivityController extends Controller {
 	private ?string $userId;
 
 	public function __construct(
@@ -37,16 +37,16 @@ class ActivityController extends OCSController {
 	 * @param int $rowId
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function indexForRow(int $rowId, ?int $limit = 50, ?int $offset = null): DataResponse {
+	public function indexForRow(int $rowId, ?int $limit = 50, ?int $offset = null): JSONResponse {
 		try {
 			$activities = $this->service->findAllForRow($rowId, $limit, $offset);
-			return new DataResponse($activities);
+			return new JSONResponse($activities);
 		} catch (\Exception $e) {
 			$this->logger->error('Error getting activity: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error getting activity'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error getting activity'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -56,16 +56,16 @@ class ActivityController extends OCSController {
 	 * @param int $tableId
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function indexForTable(int $tableId, ?int $limit = 50, ?int $offset = null): DataResponse {
+	public function indexForTable(int $tableId, ?int $limit = 50, ?int $offset = null): JSONResponse {
 		try {
 			$activities = $this->service->findAllForTable($tableId, $limit, $offset);
-			return new DataResponse($activities);
+			return new JSONResponse($activities);
 		} catch (\Exception $e) {
 			$this->logger->error('Error getting activity: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error getting activity'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error getting activity'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }

@@ -13,14 +13,14 @@ use OCA\TablesPro\Errors\NotFoundError;
 use OCA\TablesPro\Errors\PermissionError;
 use OCA\TablesPro\Service\CommentService;
 use OCA\TablesPro\Service\PermissionsService;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
-class CommentController extends OCSController {
+class CommentController extends Controller {
 	private ?string $userId;
 
 	public function __construct(
@@ -39,16 +39,16 @@ class CommentController extends OCSController {
 	 * Get all comments for a row
 	 *
 	 * @param int $rowId
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function index(int $rowId): DataResponse {
+	public function index(int $rowId): JSONResponse {
 		try {
 			$comments = $this->service->findAllForRow($rowId, $this->userId);
-			return new DataResponse($comments);
+			return new JSONResponse($comments);
 		} catch (\Exception $e) {
 			$this->logger->error('Error getting comments: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error getting comments'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error getting comments'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -56,18 +56,18 @@ class CommentController extends OCSController {
 	 * Get a single comment
 	 *
 	 * @param int $commentId
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function show(int $commentId): DataResponse {
+	public function show(int $commentId): JSONResponse {
 		try {
 			$comment = $this->service->find($commentId, $this->userId);
-			return new DataResponse($comment);
+			return new JSONResponse($comment);
 		} catch (NotFoundError $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
 			$this->logger->error('Error getting comment: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error getting comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error getting comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -78,16 +78,16 @@ class CommentController extends OCSController {
 	 * @param int $tableId
 	 * @param string $message
 	 * @param int|null $replyTo
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function create(int $rowId, int $tableId, string $message, ?int $replyTo = null): DataResponse {
+	public function create(int $rowId, int $tableId, string $message, ?int $replyTo = null): JSONResponse {
 		try {
 			$comment = $this->service->create($rowId, $tableId, $this->userId, $message, $replyTo);
-			return new DataResponse($comment, Http::STATUS_CREATED);
+			return new JSONResponse($comment, Http::STATUS_CREATED);
 		} catch (\Exception $e) {
 			$this->logger->error('Error creating comment: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error creating comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error creating comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -96,20 +96,20 @@ class CommentController extends OCSController {
 	 *
 	 * @param int $commentId
 	 * @param string $message
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function update(int $commentId, string $message): DataResponse {
+	public function update(int $commentId, string $message): JSONResponse {
 		try {
 			$comment = $this->service->update($commentId, $message, $this->userId);
-			return new DataResponse($comment);
+			return new JSONResponse($comment);
 		} catch (NotFoundError $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 		} catch (PermissionError $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_FORBIDDEN);
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->error('Error updating comment: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error updating comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error updating comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -117,20 +117,20 @@ class CommentController extends OCSController {
 	 * Delete a comment
 	 *
 	 * @param int $commentId
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function destroy(int $commentId): DataResponse {
+	public function destroy(int $commentId): JSONResponse {
 		try {
 			$this->service->delete($commentId, $this->userId);
-			return new DataResponse(null, Http::STATUS_NO_CONTENT);
+			return new JSONResponse(null, Http::STATUS_NO_CONTENT);
 		} catch (NotFoundError $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 		} catch (PermissionError $e) {
-			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_FORBIDDEN);
+			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_FORBIDDEN);
 		} catch (\Exception $e) {
 			$this->logger->error('Error deleting comment: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error deleting comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error deleting comment'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -138,16 +138,16 @@ class CommentController extends OCSController {
 	 * Get comment count for a row
 	 *
 	 * @param int $rowId
-	 * @return DataResponse
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function count(int $rowId): DataResponse {
+	public function count(int $rowId): JSONResponse {
 		try {
 			$count = $this->service->countForRow($rowId);
-			return new DataResponse(['count' => $count]);
+			return new JSONResponse(['count' => $count]);
 		} catch (\Exception $e) {
 			$this->logger->error('Error counting comments: ' . $e->getMessage());
-			return new DataResponse(['message' => 'Error counting comments'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse(['message' => 'Error counting comments'], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }
