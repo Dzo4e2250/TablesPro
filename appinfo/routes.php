@@ -112,6 +112,25 @@ return [
 
 		// search
 		['name' => 'search#all', 'url' => '/search/all', 'verb' => 'GET'],
+
+		// comments
+		['name' => 'comment#index', 'url' => '/row/{rowId}/comments', 'verb' => 'GET'],
+		['name' => 'comment#show', 'url' => '/comment/{commentId}', 'verb' => 'GET'],
+		['name' => 'comment#create', 'url' => '/comment', 'verb' => 'POST'],
+		['name' => 'comment#update', 'url' => '/comment/{commentId}', 'verb' => 'PUT'],
+		['name' => 'comment#destroy', 'url' => '/comment/{commentId}', 'verb' => 'DELETE'],
+		['name' => 'comment#count', 'url' => '/row/{rowId}/comments/count', 'verb' => 'GET'],
+
+		// attachments
+		['name' => 'attachment#index', 'url' => '/row/{rowId}/attachments', 'verb' => 'GET'],
+		['name' => 'attachment#show', 'url' => '/attachment/{attachmentId}', 'verb' => 'GET'],
+		['name' => 'attachment#create', 'url' => '/attachment', 'verb' => 'POST'],
+		['name' => 'attachment#destroy', 'url' => '/attachment/{attachmentId}', 'verb' => 'DELETE'],
+		['name' => 'attachment#count', 'url' => '/row/{rowId}/attachments/count', 'verb' => 'GET'],
+
+		// activity
+		['name' => 'activity#indexForRow', 'url' => '/row/{rowId}/activity', 'verb' => 'GET'],
+		['name' => 'activity#indexForTable', 'url' => '/table/{tableId}/activity', 'verb' => 'GET'],
 	],
 	'ocs' => [
 		['name' => 'navigation#getAppsNavigation', 'url' => '/navigation', 'verb' => 'GET'],

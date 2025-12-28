@@ -17,31 +17,73 @@
 			</NcButton>
 		</div>
 
+		<!-- Labels from selection columns -->
 		<div v-if="visibleLabels.length > 0" class="board-card__labels">
 			<span v-for="label in visibleLabels"
-				:key="label.columnId"
+				:key="label.columnId + '-' + label.value"
 				class="board-card__label"
 				:style="getLabelStyle(label)">
 				{{ label.value }}
 			</span>
 		</div>
 
+		<!-- Progress bar for number-progress columns -->
+		<div v-if="progressValue !== null" class="board-card__progress">
+			<div class="board-card__progress-bar" :style="{ width: progressValue + '%' }" />
+			<span class="board-card__progress-text">{{ progressValue }}%</span>
+		</div>
+
+		<!-- Badges section -->
 		<div v-if="hasBadges" class="board-card__badges">
-			<span v-if="hasDate" class="board-card__badge board-card__badge--date">
+			<!-- Due date -->
+			<span v-if="dueDate"
+				class="board-card__badge board-card__badge--date"
+				:class="{ 'board-card__badge--overdue': isOverdue, 'board-card__badge--due-soon': isDueSoon }">
 				<CalendarIcon :size="16" />
-				{{ formattedDate }}
+				{{ formattedDueDate }}
 			</span>
-			<span v-if="hasNumber" class="board-card__badge board-card__badge--number">
-				{{ numberValue }}
+
+			<!-- Assigned users -->
+			<div v-if="assignedUsers.length > 0" class="board-card__assignees">
+				<NcAvatar v-for="user in assignedUsers.slice(0, 3)"
+					:key="user.id"
+					:user="user.id"
+					:display-name="user.displayName"
+					:size="24"
+					:show-user-status="false" />
+				<span v-if="assignedUsers.length > 3" class="board-card__assignees-more">
+					+{{ assignedUsers.length - 3 }}
+				</span>
+			</div>
+
+			<!-- Checklist progress -->
+			<span v-if="checklistProgress" class="board-card__badge board-card__badge--checklist">
+				<CheckIcon :size="16" />
+				{{ checklistProgress.done }}/{{ checklistProgress.total }}
+			</span>
+
+			<!-- Comments count -->
+			<span v-if="commentsCount > 0" class="board-card__badge">
+				<CommentIcon :size="16" />
+				{{ commentsCount }}
+			</span>
+
+			<!-- Attachments count -->
+			<span v-if="attachmentsCount > 0" class="board-card__badge">
+				<AttachmentIcon :size="16" />
+				{{ attachmentsCount }}
 			</span>
 		</div>
 	</div>
 </template>
 
 <script>
-import { NcButton } from '@nextcloud/vue'
+import { NcButton, NcAvatar } from '@nextcloud/vue'
 import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import CheckIcon from 'vue-material-design-icons/CheckboxMarkedOutline.vue'
+import CommentIcon from 'vue-material-design-icons/CommentOutline.vue'
+import AttachmentIcon from 'vue-material-design-icons/Paperclip.vue'
 import { translate as t } from '@nextcloud/l10n'
 
 export default {
@@ -49,8 +91,12 @@ export default {
 
 	components: {
 		NcButton,
+		NcAvatar,
 		DotsHorizontal,
 		CalendarIcon,
+		CheckIcon,
+		CommentIcon,
+		AttachmentIcon,
 	},
 
 	props: {
@@ -140,51 +186,128 @@ export default {
 			return labels.slice(0, 4) // Limit to 4 labels
 		},
 
-		hasDate() {
-			return this.columns.some(c => {
-				if (c.type !== 'datetime' && c.type !== 'datetime-date') return false
-				const cell = this.row.data?.find(d => d.columnId === c.id)
-				return !!cell?.value
-			})
-		},
-
-		formattedDate() {
+		// Due date from datetime columns
+		dueDate() {
 			const dateColumn = this.columns.find(c =>
-				(c.type === 'datetime' || c.type === 'datetime-date'),
+				c.type === 'datetime' || c.type === 'datetime-date',
 			)
-			if (!dateColumn) return ''
+			if (!dateColumn) return null
 
 			const cell = this.row.data?.find(d => d.columnId === dateColumn.id)
-			if (!cell?.value) return ''
+			if (!cell?.value) return null
 
 			try {
-				const date = new Date(cell.value)
-				return date.toLocaleDateString()
+				return new Date(cell.value)
 			} catch {
-				return cell.value
+				return null
 			}
 		},
 
-		hasNumber() {
-			return this.columns.some(c => {
-				if (c.type !== 'number') return false
-				const cell = this.row.data?.find(d => d.columnId === c.id)
-				return cell?.value !== null && cell?.value !== undefined
-			})
+		isOverdue() {
+			if (!this.dueDate) return false
+			const now = new Date()
+			now.setHours(0, 0, 0, 0)
+			return this.dueDate < now
 		},
 
-		numberValue() {
-			const numberColumn = this.columns.find(c => c.type === 'number')
-			if (!numberColumn) return ''
+		isDueSoon() {
+			if (!this.dueDate || this.isOverdue) return false
+			const now = new Date()
+			const tomorrow = new Date(now)
+			tomorrow.setDate(tomorrow.getDate() + 2)
+			return this.dueDate <= tomorrow
+		},
 
-			const cell = this.row.data?.find(d => d.columnId === numberColumn.id)
-			if (cell?.value === null || cell?.value === undefined) return ''
+		formattedDueDate() {
+			if (!this.dueDate) return ''
 
-			return cell.value
+			const now = new Date()
+			const diffDays = Math.ceil((this.dueDate - now) / (1000 * 60 * 60 * 24))
+
+			if (diffDays === 0) return t('tablespro', 'Today')
+			if (diffDays === 1) return t('tablespro', 'Tomorrow')
+			if (diffDays === -1) return t('tablespro', 'Yesterday')
+			if (diffDays < -1) return t('tablespro', '{days} days ago', { days: Math.abs(diffDays) })
+			if (diffDays < 7) return t('tablespro', 'In {days} days', { days: diffDays })
+
+			return this.dueDate.toLocaleDateString()
+		},
+
+		// Progress from number-progress columns
+		progressValue() {
+			const progressColumn = this.columns.find(c => c.type === 'number-progress')
+			if (!progressColumn) return null
+
+			const cell = this.row.data?.find(d => d.columnId === progressColumn.id)
+			if (cell?.value === null || cell?.value === undefined) return null
+
+			return Math.min(100, Math.max(0, Number(cell.value)))
+		},
+
+		// Assigned users from usergroup columns
+		assignedUsers() {
+			const users = []
+			const usergroupColumns = this.columns.filter(c => c.type === 'usergroup')
+
+			for (const column of usergroupColumns) {
+				const cell = this.row.data?.find(d => d.columnId === column.id)
+				if (cell?.value) {
+					const values = Array.isArray(cell.value) ? cell.value : [cell.value]
+					for (const val of values) {
+						if (val && typeof val === 'object' && val.id) {
+							users.push({
+								id: val.id,
+								displayName: val.displayName || val.id,
+								type: val.type || 'user',
+							})
+						} else if (val && typeof val === 'string') {
+							users.push({
+								id: val,
+								displayName: val,
+								type: 'user',
+							})
+						}
+					}
+				}
+			}
+
+			return users
+		},
+
+		// Checklist from text-rich columns (markdown checkboxes)
+		checklistProgress() {
+			const richTextColumn = this.columns.find(c => c.type === 'text-rich')
+			if (!richTextColumn) return null
+
+			const cell = this.row.data?.find(d => d.columnId === richTextColumn.id)
+			if (!cell?.value) return null
+
+			const content = String(cell.value)
+			const checkboxPattern = /\[([ xX])\]/g
+			const matches = [...content.matchAll(checkboxPattern)]
+
+			if (matches.length === 0) return null
+
+			const done = matches.filter(m => m[1].toLowerCase() === 'x').length
+			return { done, total: matches.length }
+		},
+
+		// Comments count (placeholder - requires backend)
+		commentsCount() {
+			return this.row.commentsCount || 0
+		},
+
+		// Attachments count (placeholder - requires backend)
+		attachmentsCount() {
+			return this.row.attachmentsCount || 0
 		},
 
 		hasBadges() {
-			return this.hasDate || this.hasNumber
+			return this.dueDate
+				|| this.assignedUsers.length > 0
+				|| this.checklistProgress
+				|| this.commentsCount > 0
+				|| this.attachmentsCount > 0
 		},
 	},
 
@@ -292,9 +415,38 @@ export default {
 	white-space: nowrap;
 }
 
+// Progress bar
+.board-card__progress {
+	margin-top: calc(var(--default-grid-baseline) * 2);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	background-color: var(--color-background-dark);
+	border-radius: var(--border-radius-pill);
+	height: 6px;
+	position: relative;
+	overflow: hidden;
+}
+
+.board-card__progress-bar {
+	height: 100%;
+	background-color: var(--color-primary-element);
+	border-radius: var(--border-radius-pill);
+	transition: width 0.3s ease;
+}
+
+.board-card__progress-text {
+	position: absolute;
+	right: -30px;
+	font-size: 10px;
+	color: var(--color-text-maxcontrast);
+}
+
+// Badges
 .board-card__badges {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 2);
 	margin-top: calc(var(--default-grid-baseline) * 2);
 	color: var(--color-text-maxcontrast);
@@ -305,13 +457,48 @@ export default {
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
+	padding: 2px 6px;
+	border-radius: var(--border-radius);
+	background-color: var(--color-background-dark);
 
 	&--date {
 		color: var(--color-text-maxcontrast);
 	}
 
-	&--number {
-		font-weight: 500;
+	&--overdue {
+		background-color: var(--color-error);
+		color: white;
 	}
+
+	&--due-soon {
+		background-color: var(--color-warning);
+		color: var(--color-warning-text);
+	}
+
+	&--checklist {
+		color: var(--color-success);
+	}
+}
+
+// Assigned users
+.board-card__assignees {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+
+	:deep(.avatardiv) {
+		margin-left: -8px;
+		border: 2px solid var(--color-main-background);
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+.board-card__assignees-more {
+	margin-left: 4px;
+	font-size: 11px;
+	color: var(--color-text-maxcontrast);
 }
 </style>
