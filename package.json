@@ -1,7 +1,7 @@
 {
   "name": "tablespro",
   "description": "Manage data within tables.",
-  "version": "2.0.0-alpha.1",
+  "version": "1.1.0",
   "author": "Florian Steffens <florian.steffens@nextcloud.com",
   "bugs": {
     "url": "https://github.com/nextcloud/tables/issues"
@@ -53,7 +53,8 @@
     "vue-infinite-loading": "^2.4.5",
     "vue-material-design-icons": "^5.3.1",
     "vue-papa-parse": "^3.1.0",
-    "vue-router": "^3.6.5"
+    "vue-router": "^3.6.5",
+    "vue-smooth-dnd": "^0.8.1"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
@@ -72,9 +73,9 @@
     "@vue/tsconfig": "^0.5.1",
     "cypress": "^13.6.4",
     "cypress-downloadfile": "^1.2.4",
+    "cypress-vite": "^1.8.0",
     "openapi-typescript": "^7.10.1",
     "typescript": "^5.3.3",
-    "cypress-vite": "^1.8.0",
     "vite": "^7.2.6"
   },
   "optionalDependencies": {

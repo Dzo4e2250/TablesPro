@@ -59,6 +59,12 @@ use OCA\TablesPro\Service\ValueObject\ViewColumnInformation;
  * @method setOwnerDisplayName(string $ownerDisplayName)
  * @method getOwnership(): ?string
  * @method setOwnership(string $ownership)
+ * @method getViewType(): string
+ * @method setViewType(string $viewType)
+ * @method getGroupingColumnId(): ?int
+ * @method setGroupingColumnId(?int $groupingColumnId)
+ * @method getCardTitleColumnId(): ?int
+ * @method setCardTitleColumnId(?int $cardTitleColumnId)
  */
 class View extends EntitySuper implements JsonSerializable {
 	protected ?string $title = null;
@@ -72,6 +78,9 @@ class View extends EntitySuper implements JsonSerializable {
 	protected ?string $columns = null; // json
 	protected ?string $sort = null; // json
 	protected ?string $filter = null; // json
+	protected string $viewType = 'table'; // table, board
+	protected ?int $groupingColumnId = null; // for board view
+	protected ?int $cardTitleColumnId = null; // for board view
 
 	// virtual properties
 	protected ?bool $isShared = null;
@@ -87,6 +96,8 @@ class View extends EntitySuper implements JsonSerializable {
 	public function __construct() {
 		$this->addType('id', 'integer');
 		$this->addType('tableId', 'integer');
+		$this->addType('groupingColumnId', 'integer');
+		$this->addType('cardTitleColumnId', 'integer');
 	}
 
 	/**
@@ -205,6 +216,9 @@ class View extends EntitySuper implements JsonSerializable {
 			'hasShares' => (bool)$this->hasShares,
 			'rowsCount' => $this->rowsCount ?: 0,
 			'ownerDisplayName' => $this->ownerDisplayName,
+			'viewType' => $this->viewType ?: 'table',
+			'groupingColumnId' => $this->groupingColumnId,
+			'cardTitleColumnId' => $this->cardTitleColumnId,
 		];
 		$serialisedJson['filter'] = $this->getFilterArray();
 

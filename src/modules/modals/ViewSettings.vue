@@ -36,6 +36,40 @@
 				</div>
 			</div>
 		</NcAppSettingsSection>
+		<!--view type-->
+		<NcAppSettingsSection v-if="columns != null && canManageTable(view)" id="view-type" :name="t('tablespro', 'View type')">
+			<div class="row">
+				<div class="col-4">
+					<NcSelect v-model="viewType"
+						:options="viewTypeOptions"
+						:placeholder="t('tablespro', 'Select view type')"
+						label="label"
+						track-by="id" />
+				</div>
+			</div>
+
+			<div v-if="viewType && viewType.id === 'board'" class="row space-T">
+				<div class="col-4">
+					<label>{{ t('tablespro', 'Group cards by') }}</label>
+					<NcSelect v-model="groupingColumn"
+						:options="selectionColumns"
+						:placeholder="t('tablespro', 'Select column')"
+						label="title"
+						track-by="id" />
+				</div>
+			</div>
+
+			<div v-if="viewType && viewType.id === 'board'" class="row space-T">
+				<div class="col-4">
+					<label>{{ t('tablespro', 'Card title column') }}</label>
+					<NcSelect v-model="cardTitleColumn"
+						:options="textColumns"
+						:placeholder="t('tablespro', 'Select column (optional)')"
+						label="title"
+						track-by="id" />
+				</div>
+			</div>
+		</NcAppSettingsSection>
 		<!--columns & order-->
 		<NcAppSettingsSection v-if="columns != null" id="columns-and-order" :name="t('tablespro', 'Columns')">
 			<SelectedViewColumns
@@ -78,7 +112,7 @@
 </template>
 
 <script>
-import { NcAppSettingsDialog, NcAppSettingsSection, NcEmojiPicker, NcButton } from '@nextcloud/vue'
+import { NcAppSettingsDialog, NcAppSettingsSection, NcEmojiPicker, NcButton, NcSelect } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/style.css'
 import FilterForm from '../main/partials/editViewPartials/filter/FilterForm.vue'
@@ -140,6 +174,9 @@ export default {
 			startDragIndex: null,
 			mutableView: null,
 			generatedView: null,
+			viewType: null,
+			groupingColumn: null,
+			cardTitleColumn: null,
 		}
 	},
 	computed: {
@@ -162,6 +199,20 @@ export default {
 		},
 		createNewViewText() {
 			return t('tablespro', 'Save as new view')
+		},
+		viewTypeOptions() {
+			return [
+				{ id: 'table', label: t('tablespro', 'Table') },
+				{ id: 'board', label: t('tablespro', 'Board (Kanban)') },
+			]
+		},
+		selectionColumns() {
+			if (!this.columns) return []
+			return this.columns.filter(col => col.type === 'selection')
+		},
+		textColumns() {
+			if (!this.columns) return []
+			return this.columns.filter(col => col.type === 'text-line' || col.type === 'text-rich')
 		},
 		generateViewConfigData() {
 			if (!this.viewSetting) return this.view
@@ -253,6 +304,13 @@ export default {
 					return orderA - orderB
 				})
 			}
+			// Initialize board view column selections after columns are loaded
+			if (this.mutableView.groupingColumnId) {
+				this.groupingColumn = this.columns.find(col => col.id === this.mutableView.groupingColumnId) || null
+			}
+			if (this.mutableView.cardTitleColumnId) {
+				this.cardTitleColumn = this.columns.find(col => col.id === this.mutableView.cardTitleColumnId) || null
+			}
 		},
 		async saveView() {
 			if (this.title === '') {
@@ -317,6 +375,9 @@ export default {
 					description: this.description,
 					emoji: this.icon,
 					columnSettings: JSON.stringify(newColumnSettings),
+					viewType: this.viewType?.id || 'table',
+					groupingColumnId: this.groupingColumn?.id || null,
+					cardTitleColumnId: this.cardTitleColumn?.id || null,
 				},
 			}
 			// Update sorting rules if they don't contain hidden rules (= rules regarding rows the user can not see) that were not overwritten
@@ -349,6 +410,11 @@ export default {
 			this.allColumns = []
 			this.localLoading = false
 			this.columns = null
+			// Board view settings
+			const currentViewType = this.mutableView.viewType || 'table'
+			this.viewType = this.viewTypeOptions.find(opt => opt.id === currentViewType) || this.viewTypeOptions[0]
+			this.groupingColumn = null
+			this.cardTitleColumn = null
 		},
 		loadEmoji() {
 			const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '🫠', '😉', '😊', '😇']

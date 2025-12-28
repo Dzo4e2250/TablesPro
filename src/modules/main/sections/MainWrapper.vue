@@ -7,7 +7,14 @@
 		<div v-if="localLoading || !element" class="icon-loading" />
 
 		<div v-else>
-			<CustomView v-if="isView"
+			<!-- Board view for views with viewType === 'board' -->
+			<BoardView v-if="isView && element.viewType === 'board'"
+				:view="element"
+				:columns="columns"
+				:rows="rows"
+				@edit-view="openViewSettings" />
+			<!-- Standard table view for views -->
+			<CustomView v-else-if="isView"
 				:view="element"
 				:columns="columns"
 				:rows="rows"
@@ -17,6 +24,7 @@
 				@download-csv="downloadCSV"
 				@toggle-share="toggleShare"
 				@show-integration="showIntegration" />
+			<!-- Table display for tables -->
 			<CustomTable v-else
 				:table="element"
 				:columns="columns"
@@ -37,6 +45,7 @@ import { mapState, mapActions, storeToRefs } from 'pinia'
 import { emit } from '@nextcloud/event-bus'
 import CustomView from './View.vue'
 import CustomTable from './Table.vue'
+import BoardView from './BoardView.vue'
 import permissionsMixin from '../../../shared/components/ncTable/mixins/permissionsMixin.js'
 import exportTableMixin from '../../../shared/components/ncTable/mixins/exportTableMixin.js'
 import { useTablesStore } from '../../../store/store.js'
@@ -49,6 +58,7 @@ export default {
 	components: {
 		CustomView,
 		CustomTable,
+		BoardView,
 	},
 
 	mixins: [permissionsMixin, exportTableMixin],
@@ -111,6 +121,9 @@ export default {
 		},
 		showIntegration() {
 			emit('tables:sidebar:integration', { open: true, tab: 'integration' })
+		},
+		openViewSettings() {
+			emit('tables:view:edit', { view: this.element })
 		},
 		openImportModal() {
 			emit('tables:modal:import', { element: this.element, isView: this.isView })
