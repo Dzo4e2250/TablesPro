@@ -124,6 +124,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		rowLabels: {
+			type: Array,
+			default: () => [],
+		},
 	},
 
 	computed: {
@@ -155,6 +159,17 @@ export default {
 
 		visibleLabels() {
 			const labels = []
+
+			// First add custom labels (from rowLabels prop)
+			for (const label of this.rowLabels) {
+				labels.push({
+					columnId: 'custom-' + label.id,
+					value: label.title,
+					color: label.color,
+				})
+			}
+
+			// Then add selection column values as labels
 			const excludeTypes = ['text-line', 'text-rich', 'text-link']
 
 			for (const column of this.columns) {
@@ -183,7 +198,7 @@ export default {
 				}
 			}
 
-			return labels.slice(0, 4) // Limit to 4 labels
+			return labels.slice(0, 6) // Limit to 6 labels
 		},
 
 		// Due date from datetime columns

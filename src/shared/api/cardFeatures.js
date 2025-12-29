@@ -175,3 +175,121 @@ export const ActivityApi = {
 		return res.data
 	},
 }
+
+/**
+ * Labels API
+ */
+export const LabelsApi = {
+	/**
+	 * Get all labels for a table
+	 * @param {number} tableId
+	 * @returns {Promise<Array>}
+	 */
+	async getForTable(tableId) {
+		const res = await axios.get(generateUrl(`/apps/tablespro/table/${tableId}/labels`))
+		return res.data
+	},
+
+	/**
+	 * Get a single label
+	 * @param {number} labelId
+	 * @returns {Promise<Object>}
+	 */
+	async get(labelId) {
+		const res = await axios.get(generateUrl(`/apps/tablespro/label/${labelId}`))
+		return res.data
+	},
+
+	/**
+	 * Create a new label
+	 * @param {number} tableId
+	 * @param {string} title
+	 * @param {string} color
+	 * @returns {Promise<Object>}
+	 */
+	async create(tableId, title, color = '#0082c9') {
+		const res = await axios.post(generateUrl('/apps/tablespro/label'), {
+			tableId,
+			title,
+			color,
+		})
+		return res.data
+	},
+
+	/**
+	 * Update a label
+	 * @param {number} labelId
+	 * @param {string} title
+	 * @param {string} color
+	 * @returns {Promise<Object>}
+	 */
+	async update(labelId, title, color) {
+		const res = await axios.put(generateUrl(`/apps/tablespro/label/${labelId}`), {
+			title,
+			color,
+		})
+		return res.data
+	},
+
+	/**
+	 * Delete a label
+	 * @param {number} labelId
+	 * @returns {Promise<void>}
+	 */
+	async delete(labelId) {
+		await axios.delete(generateUrl(`/apps/tablespro/label/${labelId}`))
+	},
+
+	/**
+	 * Get labels for a row
+	 * @param {number} rowId
+	 * @returns {Promise<Array>}
+	 */
+	async getForRow(rowId) {
+		const res = await axios.get(generateUrl(`/apps/tablespro/row/${rowId}/labels`))
+		return res.data
+	},
+
+	/**
+	 * Assign a label to a row
+	 * @param {number} rowId
+	 * @param {number} labelId
+	 * @param {number} tableId
+	 * @returns {Promise<Object>}
+	 */
+	async assignToRow(rowId, labelId, tableId) {
+		const res = await axios.post(generateUrl(`/apps/tablespro/row/${rowId}/label`), {
+			labelId,
+			tableId,
+		})
+		return res.data
+	},
+
+	/**
+	 * Remove a label from a row
+	 * @param {number} rowId
+	 * @param {number} labelId
+	 * @param {number} tableId
+	 * @returns {Promise<void>}
+	 */
+	async removeFromRow(rowId, labelId, tableId) {
+		await axios.delete(generateUrl(`/apps/tablespro/row/${rowId}/label/${labelId}`), {
+			params: { tableId },
+		})
+	},
+
+	/**
+	 * Set all labels for a row (replaces existing)
+	 * @param {number} rowId
+	 * @param {number} tableId
+	 * @param {Array<number>} labelIds
+	 * @returns {Promise<Array>}
+	 */
+	async setForRow(rowId, tableId, labelIds) {
+		const res = await axios.put(generateUrl(`/apps/tablespro/row/${rowId}/labels`), {
+			tableId,
+			labelIds,
+		})
+		return res.data
+	},
+}

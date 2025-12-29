@@ -131,6 +131,17 @@ return [
 		// activity
 		['name' => 'activity#indexForRow', 'url' => '/row/{rowId}/activity', 'verb' => 'GET'],
 		['name' => 'activity#indexForTable', 'url' => '/table/{tableId}/activity', 'verb' => 'GET'],
+
+		// labels
+		['name' => 'label#index', 'url' => '/table/{tableId}/labels', 'verb' => 'GET'],
+		['name' => 'label#show', 'url' => '/label/{labelId}', 'verb' => 'GET'],
+		['name' => 'label#create', 'url' => '/label', 'verb' => 'POST'],
+		['name' => 'label#update', 'url' => '/label/{labelId}', 'verb' => 'PUT'],
+		['name' => 'label#destroy', 'url' => '/label/{labelId}', 'verb' => 'DELETE'],
+		['name' => 'label#getRowLabels', 'url' => '/row/{rowId}/labels', 'verb' => 'GET'],
+		['name' => 'label#assignLabel', 'url' => '/row/{rowId}/label', 'verb' => 'POST'],
+		['name' => 'label#removeLabel', 'url' => '/row/{rowId}/label/{labelId}', 'verb' => 'DELETE'],
+		['name' => 'label#setRowLabels', 'url' => '/row/{rowId}/labels', 'verb' => 'PUT'],
 	],
 	'ocs' => [
 		['name' => 'navigation#getAppsNavigation', 'url' => '/navigation', 'verb' => 'GET'],

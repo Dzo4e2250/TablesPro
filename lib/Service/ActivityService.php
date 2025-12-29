@@ -123,6 +123,27 @@ class ActivityService {
 	}
 
 	/**
+	 * Log a label creation
+	 */
+	public function logLabelCreate(int $tableId, ?int $rowId, string $userId, int $labelId): void {
+		$this->log($tableId, $rowId, $userId, Activity::ACTION_CREATE, Activity::SUBJECT_LABEL, $labelId);
+	}
+
+	/**
+	 * Log a label assignment to a row
+	 */
+	public function logLabelAssign(int $tableId, int $rowId, string $userId, int $labelId): void {
+		$this->log($tableId, $rowId, $userId, Activity::ACTION_LABEL_ASSIGN, Activity::SUBJECT_LABEL, $labelId);
+	}
+
+	/**
+	 * Log a label removal from a row
+	 */
+	public function logLabelRemove(int $tableId, int $rowId, string $userId, int $labelId): void {
+		$this->log($tableId, $rowId, $userId, Activity::ACTION_LABEL_REMOVE, Activity::SUBJECT_LABEL, $labelId);
+	}
+
+	/**
 	 * Generic log method
 	 */
 	private function log(

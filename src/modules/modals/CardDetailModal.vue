@@ -115,6 +115,87 @@
 					</div>
 				</div>
 
+				<!-- Labels Tab -->
+				<div v-else-if="activeTab === 'labels'" class="tab-labels">
+					<div v-if="loadingLabels" class="loading">
+						<NcLoadingIcon :size="32" />
+					</div>
+					<template v-else>
+						<!-- Assigned labels section -->
+						<div class="labels-section">
+							<h4>{{ t('tablespro', 'Assigned labels') }}</h4>
+							<div v-if="rowLabels.length === 0" class="empty-labels">
+								{{ t('tablespro', 'No labels assigned') }}
+							</div>
+							<div v-else class="labels-list">
+								<div v-for="label in rowLabels"
+									:key="label.id"
+									class="label-item label-item--assigned"
+									:style="{ backgroundColor: label.color, color: getContrastColor(label.color) }">
+									<span>{{ label.title }}</span>
+									<NcButton v-if="canEdit"
+										type="tertiary"
+										:aria-label="t('tablespro', 'Remove label')"
+										@click="toggleLabel(label)">
+										<template #icon>
+											<DeleteIcon :size="16" :style="{ color: getContrastColor(label.color) }" />
+										</template>
+									</NcButton>
+								</div>
+							</div>
+						</div>
+
+						<!-- Available labels section -->
+						<div v-if="canEdit" class="labels-section">
+							<h4>{{ t('tablespro', 'Available labels') }}</h4>
+							<div v-if="availableLabels.length === 0 && !showNewLabelForm" class="empty-labels">
+								{{ t('tablespro', 'No more labels available') }}
+							</div>
+							<div v-else class="labels-list">
+								<div v-for="label in availableLabels"
+									:key="label.id"
+									class="label-item label-item--available"
+									@click="toggleLabel(label)">
+									<span class="label-color" :style="{ backgroundColor: label.color }" />
+									<span class="label-title">{{ label.title }}</span>
+									<NcButton type="tertiary"
+										:aria-label="t('tablespro', 'Delete label')"
+										@click.stop="deleteLabel(label.id)">
+										<template #icon>
+											<DeleteIcon :size="16" />
+										</template>
+									</NcButton>
+								</div>
+							</div>
+						</div>
+
+						<!-- Create new label -->
+						<div v-if="canEdit" class="new-label-section">
+							<NcButton v-if="!showNewLabelForm" @click="showNewLabelForm = true">
+								<template #icon><PlusIcon :size="20" /></template>
+								{{ t('tablespro', 'Create new label') }}
+							</NcButton>
+							<div v-else class="new-label-form">
+								<input v-model="newLabelTitle"
+									type="text"
+									:placeholder="t('tablespro', 'Label name')"
+									@keydown.enter="createLabel" />
+								<input v-model="newLabelColor"
+									type="color"
+									class="color-picker" />
+								<div class="new-label-actions">
+									<NcButton type="primary" :disabled="!newLabelTitle.trim()" @click="createLabel">
+										{{ t('tablespro', 'Create') }}
+									</NcButton>
+									<NcButton @click="showNewLabelForm = false; newLabelTitle = ''">
+										{{ t('tablespro', 'Cancel') }}
+									</NcButton>
+								</div>
+							</div>
+						</div>
+					</template>
+				</div>
+
 				<!-- Comments Tab -->
 				<div v-else-if="activeTab === 'comments'" class="tab-comments">
 					<div class="comments-list">
@@ -257,7 +338,7 @@ import { NcDialog, NcButton, NcAvatar, NcProgressBar, NcLoadingIcon } from '@nex
 import { translate as t } from '@nextcloud/l10n'
 import { showError, showSuccess, getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
-import { CommentsApi, AttachmentsApi, ActivityApi } from '../../shared/api/cardFeatures.js'
+import { CommentsApi, AttachmentsApi, ActivityApi, LabelsApi } from '../../shared/api/cardFeatures.js'
 import ColumnFormComponent from '../main/partials/ColumnFormComponent.vue'
 import permissionsMixin from '../../shared/components/ncTable/mixins/permissionsMixin.js'
 import { mapActions } from 'pinia'
@@ -277,6 +358,7 @@ import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FormatListBulletedIcon from 'vue-material-design-icons/FormatListBulleted.vue'
+import LabelIcon from 'vue-material-design-icons/Label.vue'
 
 export default {
 	name: 'CardDetailModal',
@@ -300,6 +382,7 @@ export default {
 		PencilIcon,
 		DeleteIcon,
 		PlusIcon,
+		LabelIcon,
 	},
 
 	mixins: [permissionsMixin],
@@ -343,12 +426,18 @@ export default {
 			comments: [],
 			attachments: [],
 			activities: [],
+			rowLabels: [],
+			tableLabels: [],
 			loadingComments: false,
 			loadingAttachments: false,
 			loadingActivity: false,
+			loadingLabels: false,
 			newComment: '',
 			editingCommentId: null,
 			editingCommentText: '',
+			newLabelTitle: '',
+			newLabelColor: '#0082c9',
+			showNewLabelForm: false,
 			currentUserId: getCurrentUser()?.uid,
 		}
 	},
@@ -357,6 +446,7 @@ export default {
 		tabs() {
 			return [
 				{ id: 'details', label: t('tablespro', 'Details'), icon: FormatListBulletedIcon, count: 0 },
+				{ id: 'labels', label: t('tablespro', 'Labels'), icon: LabelIcon, count: this.rowLabels.length },
 				{ id: 'comments', label: t('tablespro', 'Comments'), icon: CommentIcon, count: this.comments.length },
 				{ id: 'attachments', label: t('tablespro', 'Attachments'), icon: AttachmentIcon, count: this.attachments.length },
 				{ id: 'activity', label: t('tablespro', 'Activity'), icon: ActivityIcon, count: 0 },
@@ -378,6 +468,11 @@ export default {
 				}
 			}
 			return `#${this.row?.id}`
+		},
+
+		availableLabels() {
+			const assignedIds = this.rowLabels.map(l => l.id)
+			return this.tableLabels.filter(l => !assignedIds.includes(l.id))
 		},
 
 		nonMetaColumns() {
@@ -534,6 +629,7 @@ export default {
 			this.loadComments()
 			this.loadAttachments()
 			this.loadActivity()
+			this.loadLabels()
 		},
 
 		initLocalRow() {
@@ -586,6 +682,80 @@ export default {
 				this.activities = []
 			}
 			this.loadingActivity = false
+		},
+
+		async loadLabels() {
+			if (!this.row?.id) return
+			const tableId = this.row.tableId || this.element?.tableId
+			if (!tableId) return
+
+			this.loadingLabels = true
+			try {
+				// Load all labels for the table and labels assigned to this row
+				const [allLabels, rowLabels] = await Promise.all([
+					LabelsApi.getForTable(tableId),
+					LabelsApi.getForRow(this.row.id),
+				])
+				this.tableLabels = allLabels
+				this.rowLabels = rowLabels
+			} catch (e) {
+				console.error('Failed to load labels:', e)
+				this.tableLabels = []
+				this.rowLabels = []
+			}
+			this.loadingLabels = false
+		},
+
+		async toggleLabel(label) {
+			const tableId = this.row.tableId || this.element?.tableId
+			const isAssigned = this.rowLabels.some(l => l.id === label.id)
+
+			try {
+				if (isAssigned) {
+					await LabelsApi.removeFromRow(this.row.id, label.id, tableId)
+					this.rowLabels = this.rowLabels.filter(l => l.id !== label.id)
+				} else {
+					await LabelsApi.assignToRow(this.row.id, label.id, tableId)
+					this.rowLabels.push(label)
+				}
+			} catch (e) {
+				showError(t('tablespro', 'Failed to update label'))
+				console.error(e)
+			}
+		},
+
+		async createLabel() {
+			if (!this.newLabelTitle.trim()) return
+
+			const tableId = this.row.tableId || this.element?.tableId
+			try {
+				const label = await LabelsApi.create(tableId, this.newLabelTitle.trim(), this.newLabelColor)
+				this.tableLabels.push(label)
+				this.newLabelTitle = ''
+				this.newLabelColor = '#0082c9'
+				this.showNewLabelForm = false
+				showSuccess(t('tablespro', 'Label created'))
+			} catch (e) {
+				showError(t('tablespro', 'Failed to create label'))
+				console.error(e)
+			}
+		},
+
+		async deleteLabel(labelId) {
+			if (!confirm(t('tablespro', 'Are you sure you want to delete this label?'))) return
+			try {
+				await LabelsApi.delete(labelId)
+				this.tableLabels = this.tableLabels.filter(l => l.id !== labelId)
+				this.rowLabels = this.rowLabels.filter(l => l.id !== labelId)
+				showSuccess(t('tablespro', 'Label deleted'))
+			} catch (e) {
+				showError(t('tablespro', 'Failed to delete label'))
+				console.error(e)
+			}
+		},
+
+		isLabelAssigned(labelId) {
+			return this.rowLabels.some(l => l.id === labelId)
 		},
 
 		async addComment() {
@@ -784,6 +954,8 @@ export default {
 				comment: t('tablespro', 'added a comment'),
 				attachment: t('tablespro', 'added an attachment'),
 				move: t('tablespro', 'moved this card'),
+				label_assign: t('tablespro', 'added a label'),
+				label_remove: t('tablespro', 'removed a label'),
 			}
 			return actionTexts[activity.action] || activity.action
 		},
@@ -1075,6 +1247,105 @@ export default {
 
 .add-attachment {
 	margin-top: 16px;
+}
+
+// Labels tab
+.tab-labels {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.labels-section {
+	h4 {
+		margin: 0 0 12px;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--color-text-maxcontrast);
+	}
+}
+
+.empty-labels {
+	color: var(--color-text-maxcontrast);
+	font-style: italic;
+	padding: 8px 0;
+}
+
+.labels-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.label-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px;
+	border-radius: var(--border-radius-pill);
+	font-size: 13px;
+	font-weight: 500;
+
+	&--assigned {
+		cursor: default;
+	}
+
+	&--available {
+		cursor: pointer;
+		background-color: var(--color-background-dark);
+		transition: background-color 0.15s ease;
+
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
+	}
+}
+
+.label-color {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.label-title {
+	flex: 1;
+}
+
+.new-label-section {
+	padding-top: 16px;
+	border-top: 1px solid var(--color-border);
+}
+
+.new-label-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+
+	input[type="text"] {
+		flex: 1;
+		min-width: 150px;
+		padding: 8px 12px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius);
+	}
+
+	.color-picker {
+		width: 40px;
+		height: 36px;
+		padding: 0;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius);
+		cursor: pointer;
+	}
+}
+
+.new-label-actions {
+	display: flex;
+	gap: 8px;
+	width: 100%;
+	margin-top: 8px;
 }
 
 // Activity tab

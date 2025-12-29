@@ -44,6 +44,8 @@ class Activity extends EntitySuper implements JsonSerializable {
 	public const ACTION_COMMENT = 'comment';
 	public const ACTION_ATTACHMENT = 'attachment';
 	public const ACTION_MOVE = 'move';
+	public const ACTION_LABEL_ASSIGN = 'label_assign';
+	public const ACTION_LABEL_REMOVE = 'label_remove';
 
 	// Subject type constants
 	public const SUBJECT_ROW = 'row';
@@ -52,6 +54,7 @@ class Activity extends EntitySuper implements JsonSerializable {
 	public const SUBJECT_VIEW = 'view';
 	public const SUBJECT_COMMENT = 'comment';
 	public const SUBJECT_ATTACHMENT = 'attachment';
+	public const SUBJECT_LABEL = 'label';
 
 	protected ?int $tableId = null;
 	protected ?int $rowId = null;
