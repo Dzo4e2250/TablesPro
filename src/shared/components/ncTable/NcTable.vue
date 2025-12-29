@@ -52,7 +52,7 @@ deselect-all-rows        -> unselect all rows, e.g. after deleting selected rows
 		</div>
 		<div class="custom-table row">
 			<CustomTable v-if="config.canReadRows || (config.canCreateRows && rows.length > 0)" :columns="parsedColumns"
-				:rows="rows" :is-view="isView" :element-id="elementId" :view-setting.sync="localViewSetting"
+				:rows="rows" :is-view="isView" :element-id="elementId" :element="element" :view-setting.sync="localViewSetting"
 				:config="config" @create-row="$emit('create-row')"
 				@edit-row="rowId => $emit('edit-row', rowId)"
 				@duplicate-row="row => $emit('duplicate-row', row)"
@@ -129,6 +129,10 @@ export default {
 		isView: {
 			type: Boolean,
 			default: true,
+		},
+		element: {
+			type: Object,
+			default: null,
 		},
 		downloadTitle: {
 			type: String,

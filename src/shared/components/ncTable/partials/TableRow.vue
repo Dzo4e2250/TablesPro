@@ -23,6 +23,22 @@
 				:is-view="isView" />
 		</td>
 		<td v-if="config.showActions" :class="{sticky: config.showActions}" class="row-actions">
+			<NcButton type="tertiary"
+				:aria-label="t('tablespro', 'Comments')"
+				class="row-action-icon"
+				@click="openCardDetail">
+				<template #icon>
+					<CommentOutline :size="18" />
+				</template>
+			</NcButton>
+			<NcButton type="tertiary"
+				:aria-label="t('tablespro', 'Attachments')"
+				class="row-action-icon"
+				@click="openCardDetail">
+				<template #icon>
+					<Paperclip :size="18" />
+				</template>
+			</NcButton>
 			<NcButton v-if="config.canEditRows || config.canDeleteRows"
 				type="primary"
 				:aria-label="t('tablespro', 'Edit row')"
@@ -59,6 +75,8 @@ import { NcCheckboxRadioSwitch, NcButton, NcActions, NcActionButton } from '@nex
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
+import CommentOutline from 'vue-material-design-icons/CommentOutline.vue'
+import Paperclip from 'vue-material-design-icons/Paperclip.vue'
 import TableCellHtml from './TableCellHtml.vue'
 import TableCellProgress from './TableCellProgress.vue'
 import TableCellLink from './TableCellLink.vue'
@@ -94,6 +112,8 @@ export default {
 		Fullscreen,
 		ContentCopy,
 		Delete,
+		CommentOutline,
+		Paperclip,
 		NcCheckboxRadioSwitch,
 		TableCellDateTime,
 		TableCellTextLine,
@@ -133,6 +153,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		element: {
+			type: Object,
+			default: null,
+		},
 	},
 	computed: {
 		getSelection: {
@@ -152,6 +176,16 @@ export default {
 	methods: {
 		t,
 		getColumnWidthStyle,
+		openCardDetail() {
+			emit('tables:card:detail', {
+				row: this.row,
+				columns: this.columns,
+				isView: this.isView,
+				element: this.element,
+				titleColumnId: null,
+				groupingColumnId: null,
+			})
+		},
 		getColumnStyle(col) {
 			// Check localStorage for resized columns
 			const tableId = col.tableId || 'default'
@@ -278,6 +312,18 @@ td.row-actions {
 	display: flex;
 	gap: 4px;
 	align-items: center;
+}
+
+.row-action-icon {
+	min-width: 32px !important;
+	min-height: 32px !important;
+	padding: 0 !important;
+	opacity: 0.6;
+	transition: opacity 0.2s;
+
+	&:hover {
+		opacity: 1;
+	}
 }
 
 </style>

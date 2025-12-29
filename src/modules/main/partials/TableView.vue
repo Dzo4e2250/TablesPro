@@ -7,6 +7,7 @@
 		:rows="rows"
 		:columns="columns"
 		:element-id="element.id"
+		:element="element"
 		:is-view="isView"
 		:download-title="element.title"
 		:view-setting.sync="localViewSetting"

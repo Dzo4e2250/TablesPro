@@ -46,6 +46,7 @@
 					:config="config"
 					:element-id="elementId"
 					:is-view="isView"
+					:element="element"
 					@update-row-selection="updateRowSelection"
 					@edit-row="rowId => $emit('edit-row', rowId)"
 					@duplicate-row="row => $emit('duplicate-row', row)"
@@ -80,6 +81,7 @@
 						:config="config"
 						:element-id="elementId"
 						:is-view="isView"
+						:element="element"
 						@update-row-selection="updateRowSelection"
 						@edit-row="rowId => $emit('edit-row', rowId)"
 						@duplicate-row="row => $emit('duplicate-row', row)"
@@ -217,6 +219,10 @@ export default {
 		isView: {
 			type: Boolean,
 			default: true,
+		},
+		element: {
+			type: Object,
+			default: null,
 		},
 		viewSetting: {
 			type: Object,
